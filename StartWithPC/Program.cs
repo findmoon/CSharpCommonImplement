@@ -16,7 +16,7 @@ namespace StartWithPC
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new StartWithPC());
+            Application.Run(new StartWithPCForm());
         }
     }
 }

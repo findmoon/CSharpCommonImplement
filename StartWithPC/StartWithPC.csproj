@@ -45,16 +45,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="StartWithPC.cs">
+    <Compile Include="StartWithPCForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StartWithPC.Designer.cs">
-      <DependentUpon>StartWithPC.cs</DependentUpon>
+    <Compile Include="StartWithPCForm.Designer.cs">
+      <DependentUpon>StartWithPCForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="StartWithPC.resx">
-      <DependentUpon>StartWithPC.cs</DependentUpon>
+    <EmbeddedResource Include="StartWithPCForm.resx">
+      <DependentUpon>StartWithPCForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

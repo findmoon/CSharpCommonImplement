@@ -1,0 +1,144 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace CMControls
+{
+    [Obsolete("似乎绘制出来的Border在圆角拐角处更流畅")]
+    public class CustomPanelNo : System.Windows.Forms.Panel
+    {
+        private System.Windows.Forms.Panel panel;
+
+        private Color borderColor = Color.MediumSlateBlue;
+        private Color borderFocusColor = Color.HotPink;
+        private int borderSize = 2;
+        private bool underlinedStyle = false;
+        private bool isFocused = false;
+
+        private int borderRadius = 0;
+
+
+        public Color BorderColor
+        {
+            get { return borderColor; }
+            set
+            {
+                borderColor = value;
+                this.Invalidate();
+            }
+        }
+
+        public Color BorderFocusColor
+        {
+            get { return borderFocusColor; }
+            set { borderFocusColor = value; }
+        }
+
+        public int BorderSize
+        {
+            get { return borderSize; }
+            set
+            {
+                borderSize = value;
+                this.Invalidate();
+
+            }
+        }
+
+        public bool UnderlinedStyle
+        {
+            get { return underlinedStyle; }
+            set
+            {
+                underlinedStyle = value;
+                this.Invalidate();
+            }
+        }
+
+        public override Color ForeColor
+        {
+            get { return base.ForeColor; }
+            set
+            {
+                base.ForeColor = value;
+                panel.ForeColor = value;
+            }
+        }
+
+
+        public int BorderRadius
+        {
+            get { return borderRadius; }
+            set
+            {
+                if (value >= 0)
+                {
+                    borderRadius = value;
+                    this.Invalidate();//Redraw control
+                }
+            }
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+
+            Graphics graph = e.Graphics;
+            //-Fields
+            var rectBorderSmooth = this.ClientRectangle;
+
+            var rectBorder = Rectangle.Inflate(rectBorderSmooth, -borderSize, -borderSize);
+            int smoothSize = borderSize > 0 ? borderSize : 1;
+
+            using (GraphicsPath pathBorderSmooth = rectBorderSmooth.GetRoundedRectPath(borderRadius))
+            using (GraphicsPath pathBorder = rectBorder.GetRoundedRectPath(borderRadius - borderSize))
+            using (Pen penBorderSmooth = new Pen(Color.Transparent, smoothSize))
+            using (Pen penBorder = new Pen(borderColor, borderSize))
+            {
+                //-Drawing
+                //this.Region = new Region(pathBorderSmooth);//Set the rounded region of UserControl 
+                //if (borderRadius > 15) SetTextBoxRoundedRegion();//Set the rounded region of TextBox component
+                graph.SmoothingMode = SmoothingMode.AntiAlias;
+                //penBorder.Alignment = System.Drawing.Drawing2D.PenAlignment.Center;
+                //if (isFocused) penBorder.Color = borderFocusColor;
+
+                if (underlinedStyle) //Line Style
+                {
+                    //Draw border smoothing
+                    //graph.DrawPath(penBorderSmooth, pathBorderSmooth);
+                    //Draw border
+                    graph.SmoothingMode = SmoothingMode.None;
+                    graph.DrawLine(penBorder, 0, this.Height - 1, this.Width, this.Height - 1);
+                }
+                else //Normal Style
+                {
+                    //Draw border smoothing
+                    graph.DrawPath(penBorderSmooth, pathBorderSmooth);
+                    //Draw border
+                    graph.DrawPath(penBorder, pathBorder);
+                    //////graph.DrawPath(penBorder, pathBorderSmooth); 测试
+                    //graph.FillPath(new SolidBrush(borderColor), pathBorder);
+                    //graph.DrawFillRoundRectAndCusp(rectBorder,borderRadius,BackColor,borderPen: penBorder);
+                }
+            }
+
+        }
+        private void SetTextBoxRoundedRegion()
+        {
+            GraphicsPath pathTxt;
+
+
+            pathTxt = panel.ClientRectangle.GetRoundedRectPath(borderSize * 2);
+            panel.Region = new Region(pathTxt);
+
+            pathTxt.Dispose();
+        }
+
+    }
+}
