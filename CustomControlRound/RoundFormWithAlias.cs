@@ -11,9 +11,13 @@ using System.Windows.Forms;
 
 namespace CustomControlRound
 {
-    public partial class RoundForm : Form
+    /// <summary>
+    /// 带锯齿的圆角窗体
+    /// </summary>
+    [Obsolete("创建新的Region实现圆角，会有锯齿")]
+    public partial class RoundFormWithAlias : Form
     {        
-        public RoundForm()
+        public RoundFormWithAlias()
         {
             InitializeComponent();
             FormBorderStyle = FormBorderStyle.None;

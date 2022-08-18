@@ -21,15 +21,15 @@ namespace CustomControlRound
             var customPanle =new CustomPanelTest();
             customPanle.Show();
 
-            var roundForm = new RoundForm();
+            var roundForm = new RoundFormWithAlias();
             roundForm.Show();
             var gdiAPIRound = new GDIAPIRound();
             gdiAPIRound.Show();
             
-            var roundFormSmooth = new RoundFormSmooth();
+            var roundFormSmooth = new RoundFormSmoothTransparencyFormNo();
             roundFormSmooth.Show();
             roundFormSmooth.BringToFront();
-            var roundedForm = new RoundedForm();
+            var roundedForm = new RoundedFormTest();
             roundedForm.Show();
             roundedForm.BringToFront();
 

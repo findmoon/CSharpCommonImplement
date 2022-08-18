@@ -51,8 +51,7 @@ namespace CustomForm
         }
 
 
-        #region 通过重写 WndProc 方法实现拖拽调整窗体大小、拖拽移动窗体
-
+        #region 通过重写 WndProc 方法实现拖拽调整窗体大小
         const int HTLEFT = 10;
         const int HTRIGHT = 11;
         const int HTTOP = 12;
@@ -66,7 +65,7 @@ namespace CustomForm
         {
             base.WndProc(ref m);
 
-            #region 实现鼠标点击移动窗体
+            #region 实现鼠标点击边缘调整窗体大小
             if (m.Msg == 0x84)
             {
                 // 拖拽调整窗体大小
@@ -194,8 +193,7 @@ namespace CustomForm
             MinimizePicb.Image = Properties.Resources.Minimize_16_16_Black;
             MinimizePicb.BackColor = SystemColors.GradientActiveCaption;
         }
-
-        #endregion
+        #region 加载时处理标题栏icon、最大化显示任务栏
         private void CustomTitleBar_Load(object sender, EventArgs e)
         {
             if (TitleIconPicb.Image == null)
@@ -203,6 +201,9 @@ namespace CustomForm
                 TitlePanelTitle.Left -= TitleIconPicb.Width - 3;
             }
             MaximizedBounds = Screen.GetWorkingArea(this); // 设置最大化时显示为窗体所在工作区(不包含任务栏)  Screen.PrimaryScreen.WorkingArea
-        }
+        } 
+        #endregion
+        #endregion
+
     }
 }

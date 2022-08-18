@@ -126,6 +126,7 @@ namespace CMControls
                 if (value <= 0) return;
                 pulses = new RectangleF[value];
                 pulseColors = new Color[value];
+                // 初始分配各个脉冲圆圈的位置和颜色深度
                 ArrangePulses();
             }
         }
@@ -292,8 +293,7 @@ namespace CMControls
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
         protected override void OnResize(EventArgs e)
         {
-            base.OnResize(e);
-            if (pulses == null || pulses.Length == 0) return;
+            base.OnResize(e);            
             ArrangePulses();
         }
 
@@ -307,8 +307,12 @@ namespace CMControls
             base.OnPaintBackground(e);
             // Set Graphics interpolation and smoothing
             Graphics g = e.Graphics;
+            ////抗锯齿 尽可能高质量绘制
+            g.TextRenderingHint = TextRenderingHint.AntiAlias;
+            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            g.SmoothingMode = SmoothingMode.AntiAlias; // SmoothingMode.HighQuality 
+            g.CompositingQuality = CompositingQuality.HighQuality;
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.SmoothingMode = SmoothingMode.AntiAlias;
 
             // Draw pulses
             DrawPulses(g);
@@ -539,20 +543,23 @@ namespace CMControls
         #region -- Private methods --
 
         /// <summary>
-        /// Arranges the pulses.
+        /// Arranges the pulses. 初始化Plus脉冲效果各个圆不同的位置和状态，防止最初都是同一个位置和颜色深度的绘制
         /// </summary>
         private void ArrangePulses()
         {
             centerRect = new RectangleF(pulseSize, pulseSize, Width - 2 * pulseSize, Height - 2 * pulseSize);
+
+            if (pulses == null || pulses.Length == 0) return;
             for (var i = 1; i <= pulses.Length; i++)
             {
+                var currPulsesSize = pulseSize * i / (float)pulses.Length;
                 pulses[i - 1] = new RectangleF(
-                    pulseSize * i / (float)pulses.Length,
-                    pulseSize * i / (float)pulses.Length,
-                    Width - 2 * pulseSize * i / pulses.Length,
-                    Height - 2 * pulseSize * i / pulses.Length
+                    currPulsesSize,
+                    currPulsesSize,
+                    Width - 2 * currPulsesSize,
+                    Height - 2 * currPulsesSize
                     );
-                pulseColors[i - 1] = Color.FromArgb((int)(Math.Min(pulses[i - 1].X * 255 / pulseSize, 255)), Color.White);
+                pulseColors[i - 1] = Color.FromArgb((int)(Math.Min(pulses[i - 1].X * 255 / pulseSize, 255)), PulseColor);
             }
         }
 

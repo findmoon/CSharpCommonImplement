@@ -34,7 +34,7 @@ namespace System.Drawing.Drawing2D
             g.PixelOffsetMode = PixelOffsetMode.HighQuality;
             g.SmoothingMode = SmoothingMode.AntiAlias; // SmoothingMode.HighQuality 
             g.CompositingQuality = CompositingQuality.HighQuality;
-            g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            g.InterpolationMode = InterpolationMode.HighQualityBilinear; // HighQualityBicubic最高质量
             //rectangle = new Rectangle(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
             g.FillPath(brush, rectangle.GetRoundedRectPath(radius, roundMode)); // 填充路径，而不是DrawPath
         }
@@ -346,12 +346,16 @@ namespace System.Drawing.Drawing2D
         /// <returns>绘制的主体矩形区域</returns>
         public static Rectangle DrawFillRoundRectAndCusp(this Graphics g, Rectangle rectangle, int _radius, Brush bgbrush, bool cusp = false, RectangleAlign rectAlign = RectangleAlign.RightTop, Pen borderPen = null, bool onlyDrawLine = false,RoundMode roundMode = RoundMode.All)
         {
+            if (g == null)
+                throw new ArgumentNullException("graphics is null");
+            if (bgbrush == null)
+                throw new ArgumentNullException("bgbrush is null");
             ////抗锯齿 尽可能高质量绘制
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
             g.PixelOffsetMode = PixelOffsetMode.HighQuality;
             g.SmoothingMode = SmoothingMode.AntiAlias; // SmoothingMode.HighQuality 
             g.CompositingQuality = CompositingQuality.HighQuality;
-            g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            g.InterpolationMode = InterpolationMode.HighQualityBilinear; // HighQualityBicubic最高质量
 
             var rect = rectangle;
             //画尖角 对应的变更rect区域

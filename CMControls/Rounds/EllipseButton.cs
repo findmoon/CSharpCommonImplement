@@ -56,7 +56,7 @@ namespace CMControls.Rounds
                     g.PixelOffsetMode = PixelOffsetMode.HighQuality;
                     g.SmoothingMode = SmoothingMode.AntiAlias; // SmoothingMode.HighQuality 
                     g.CompositingQuality = CompositingQuality.HighQuality;
-                    g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+                    g.InterpolationMode = InterpolationMode.HighQualityBilinear; 
                     g.FillPath(new SolidBrush(EllipseBackColor), path);
                 g.DrawText(ClientRectangle, Text, ForeColor, Font);                
             }

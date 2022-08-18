@@ -27,7 +27,6 @@ namespace CustomForm
         }
 
         #region 通过重写 WndProc 方法实现拖拽调整窗体大小、拖拽移动窗体
-
         const int HTLEFT = 10;
         const int HTRIGHT = 11;
         const int HTTOP = 12;
@@ -41,7 +40,7 @@ namespace CustomForm
         {
             base.WndProc(ref m);
 
-            #region 实现鼠标点击移动窗体
+            #region 实现鼠标拖拽调整窗体大【前面代码】、拖拽移动窗体【后面部分】
             if (m.Msg == 0x84)
             {
                 // 拖拽调整窗体大小

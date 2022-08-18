@@ -1,4 +1,5 @@
-﻿   using System;
+﻿using CMControls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,9 +14,13 @@ using System.Windows.Forms;
 
 namespace CustomControlRound
 {
-    public partial class RoundFormSmooth : Form
+    /// <summary>
+    /// 设置窗体Form透明，在`OnPaint`中绘制，无论执行或不执行SetBitmap()设置透明通道，在圆角边缘处都会有白边出现。
+    /// </summary>
+    [Obsolete("窗体Form透明,OnPaint绘制圆角会有白边")]
+    public partial class RoundFormSmoothTransparencyFormNo : Form
     {
-        public RoundFormSmooth()
+        public RoundFormSmoothTransparencyFormNo()
         {
             InitializeComponent();
 
@@ -77,15 +82,15 @@ namespace CustomControlRound
             base.OnPaint(e);
             using (Graphics graphics = e.Graphics)
             {
-                //Rectangle gradientRectangle = new Rectangle(0, 0, this.Width, this.Height);
-                Rectangle gradientRectangle = new Rectangle(0, 0, this.Width - 1, this.Height - 1); // 推荐 圆角曲线和直线的连接更丝滑
+                Rectangle gradientRectangle = new Rectangle(0, 0, this.Width, this.Height);
+                //Rectangle gradientRectangle = new Rectangle(0, 0, this.Width - 1, this.Height - 1); // 推荐 圆角曲线和直线的连接更丝滑 似乎每太差别
 
                 using (Brush b = new LinearGradientBrush(gradientRectangle, Color.DarkSlateBlue, Color.MediumPurple, 0.0f))
                 {
                     graphics.FillRoundRectangle(gradientRectangle, b, 25);
                 }
-                //Bitmap myBitmap = new Bitmap(this.Width, this.Height);
-                //SetBitmap(myBitmap);
+                Bitmap myBitmap = new Bitmap(this.Width, this.Height);
+                SetBitmap(myBitmap);
             }
         }
 
@@ -105,42 +110,45 @@ namespace CustomControlRound
         /// <exception cref="ApplicationException">像素格式必须为Format32bppArgb</exception>
         public void SetBitmap(Bitmap bitmap, byte opacity)
         {
-            if (bitmap.PixelFormat != PixelFormat.Format32bppArgb)
-                throw new ApplicationException("The bitmap must be 32bpp with alpha-channel.");
+            PerPixelAlphaBlend.SetBitmap(bitmap, opacity, Left, Top, Handle);
+            #region 原始 混合了窗体的Left, Top, Handle属性的代码
+            //if (bitmap.PixelFormat != PixelFormat.Format32bppArgb)
+            //    throw new ApplicationException("The bitmap must be 32bpp with alpha-channel.");
 
 
-            IntPtr screenDc = Win32.GetDC(IntPtr.Zero);
-            IntPtr memDc = Win32.CreateCompatibleDC(screenDc);
-            IntPtr hBitmap = IntPtr.Zero;
-            IntPtr oldBitmap = IntPtr.Zero;
+            //IntPtr screenDc = Win32.GetDC(IntPtr.Zero);
+            //IntPtr memDc = Win32.CreateCompatibleDC(screenDc);
+            //IntPtr hBitmap = IntPtr.Zero;
+            //IntPtr oldBitmap = IntPtr.Zero;
 
-            try
-            {
-                hBitmap = bitmap.GetHbitmap(Color.FromArgb(0));
-                oldBitmap = Win32.SelectObject(memDc, hBitmap);
+            //try
+            //{
+            //    hBitmap = bitmap.GetHbitmap(Color.FromArgb(0));
+            //    oldBitmap = Win32.SelectObject(memDc, hBitmap);
 
-                Win32.Size size = new Win32.Size(bitmap.Width, bitmap.Height);
-                Win32.Point pointSource = new Win32.Point(0, 0);
-                Win32.Point topPos = new Win32.Point(Left, Top);
-                Win32.BLENDFUNCTION blend = new Win32.BLENDFUNCTION();
-                blend.BlendOp = Win32.AC_SRC_OVER;
-                blend.BlendFlags = 0;
-                blend.SourceConstantAlpha = opacity;
-                blend.AlphaFormat = Win32.AC_SRC_ALPHA;
+            //    Win32.Size size = new Win32.Size(bitmap.Width, bitmap.Height);
+            //    Win32.Point pointSource = new Win32.Point(0, 0);
+            //    Win32.Point topPos = new Win32.Point(Left, Top);
+            //    Win32.BLENDFUNCTION blend = new Win32.BLENDFUNCTION();
+            //    blend.BlendOp = Win32.AC_SRC_OVER;
+            //    blend.BlendFlags = 0;
+            //    blend.SourceConstantAlpha = opacity;
+            //    blend.AlphaFormat = Win32.AC_SRC_ALPHA;
 
-                Win32.UpdateLayeredWindow(Handle, screenDc, ref topPos, ref size, memDc, ref pointSource, 0, ref blend, Win32.ULW_ALPHA);
-            }
-            finally
-            {
-                Win32.ReleaseDC(IntPtr.Zero, screenDc);
-                if (hBitmap != IntPtr.Zero)
-                {
-                    Win32.SelectObject(memDc, oldBitmap);
-                    Win32.DeleteObject(hBitmap);
-                }
+            //    Win32.UpdateLayeredWindow(Handle, screenDc, ref topPos, ref size, memDc, ref pointSource, 0, ref blend, Win32.ULW_ALPHA);
+            //}
+            //finally
+            //{
+            //    Win32.ReleaseDC(IntPtr.Zero, screenDc);
+            //    if (hBitmap != IntPtr.Zero)
+            //    {
+            //        Win32.SelectObject(memDc, oldBitmap);
+            //        Win32.DeleteObject(hBitmap);
+            //    }
 
-                Win32.DeleteDC(memDc);
-            }
+            //    Win32.DeleteDC(memDc);
+            //} 
+            #endregion
         }
 
 
