@@ -47,6 +47,8 @@ namespace CustomForm
             
             var customTitleBar = new CustomTitleBar();
             customTitleBar.Show();
+            var customTitleBar2 = new CRoundPanelRoundModelForTitle();
+            customTitleBar2.Show();
 
             var customRoundTitleBar =new CustomRoundTitleBar();
             customRoundTitleBar.Show();

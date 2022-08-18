@@ -12,9 +12,9 @@ using System.Windows.Forms;
 
 namespace CustomForm
 {
-    public partial class CustomTitleBar : Form
+    public partial class CRoundPanelRoundModelForTitle : Form
     {
-        public CustomTitleBar()
+        public CRoundPanelRoundModelForTitle()
         {
             InitializeComponent();
 
@@ -29,7 +29,7 @@ namespace CustomForm
             #endregion
 
             #region 自定义标题栏 标题、icon、最大、最小、还原、关闭按钮和图标
-            TitlePanelTitle.ForeColor = Color.WhiteSmoke; // 标题文字颜色
+            TitlePanelTitle.ForeColor = Color.WhiteSmoke;
 
             MinimizePicb.MouseEnter += MinimizePicb_MouseEnter;
             MinimizePicb.MouseLeave += MinimizePicb_MouseLeave;
@@ -51,12 +51,39 @@ namespace CustomForm
             TitlePanelTitle.DoubleClick += MaximizeNormalPicb_Click; ;
             #endregion
 
-            #region 背景绘制，不是必须
             Paint += CustomTitleBar_Paint;
-            Resize += CustomTitleBar_Resize; 
-            #endregion
+            Resize += CustomTitleBar_Resize;
         }
 
+
+        #region 绘制渐变色的背景 不是必须，可指定一个单一的背景色
+        /// <summary>
+        /// Resize中强制重绘，防止大小变化，渐变没有正确及时显示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CustomTitleBar_Resize(object sender, EventArgs e)
+        {
+            base.Invalidate();
+        }
+
+        private void CustomTitleBar_Paint(object sender, PaintEventArgs e)
+        {
+            if (ClientRectangle.Width == 0 || ClientRectangle.Height == 0)
+            {
+                return;
+            }
+            using (Graphics graphics = e.Graphics)
+            {
+                var rect = ClientRectangle;
+                //var rect = new Rectangle(0, TitlePnl.Height, Width, Height - TitlePnl.Height);
+                using (Brush b = new LinearGradientBrush(rect, Color.RoyalBlue, Color.Purple, 52))
+                {
+                    graphics.FillRectangle(b, rect);
+                };
+            }
+        } 
+        #endregion
 
         #region 通过重写 WndProc 方法实现拖拽调整窗体大小
         const int HTLEFT = 10;
@@ -212,35 +239,5 @@ namespace CustomForm
         #endregion
         #endregion
 
-
-
-        #region 绘制渐变色的背景 不是必须，可指定一个单一的背景色
-        /// <summary>
-        /// Resize中强制重绘，防止大小变化，渐变没有正确及时显示
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CustomTitleBar_Resize(object sender, EventArgs e)
-        {
-            base.Invalidate();
-        }
-
-        private void CustomTitleBar_Paint(object sender, PaintEventArgs e)
-        {
-            if (ClientRectangle.Width == 0 || ClientRectangle.Height == 0)
-            {
-                return;
-            }
-            using (Graphics graphics = e.Graphics)
-            {
-                var rect = ClientRectangle;
-                //var rect = new Rectangle(0, TitlePnl.Height, Width, Height - TitlePnl.Height);
-                using (Brush b = new LinearGradientBrush(rect, Color.RoyalBlue, Color.Purple, 52))
-                {
-                    graphics.FillRectangle(b, rect);
-                };
-            }
-        }
-        #endregion
     }
 }

@@ -52,6 +52,12 @@
     <Compile Include="CustomRoundTitleBar.Designer.cs">
       <DependentUpon>CustomRoundTitleBar.cs</DependentUpon>
     </Compile>
+    <Compile Include="CRoundPanelRoundModelForTitle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CRoundPanelRoundModelForTitle.Designer.cs">
+      <DependentUpon>CRoundPanelRoundModelForTitle.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomTitleBar.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +115,9 @@
     </Compile>
     <EmbeddedResource Include="CustomRoundTitleBar.resx">
       <DependentUpon>CustomRoundTitleBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CRoundPanelRoundModelForTitle.resx">
+      <DependentUpon>CRoundPanelRoundModelForTitle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CustomTitleBar.resx">
       <DependentUpon>CustomTitleBar.cs</DependentUpon>
