@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
 /// <summary>
-/// 仅仅实现绘制的背景颜色值变化，和透明没有任何关系
+/// 背景透明，同样背景下面的其他控件可被点击使用
 /// </summary>
 public class TranspCtrl : Control
 {
@@ -44,6 +44,7 @@ public class TranspCtrl : Control
             {
                 Parent.Invalidate(this.Bounds, true);
             }
+            Invalidate();
         }
     }
 
@@ -87,10 +88,10 @@ public class TranspCtrl : Control
                     }
                     else
                     {
-                        dragBckColor = frmColor;
+                        dragBckColor = BackColor;
                     }
 
-                    alpha = 255;
+                    //alpha = 255;
                     bckColor = new SolidBrush(Color.FromArgb(alpha, dragBckColor));
                 }
                 else

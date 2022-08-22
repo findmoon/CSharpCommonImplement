@@ -28,49 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonPro1 = new CMControls.ButtonPro();
-            this.buttonPro2 = new CMControls.ButtonPro();
             this.ZIPFileGrp = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.buttonPro5 = new CMControls.ButtonPro();
+            this.buttonPro6 = new CMControls.ButtonPro();
             this.buttonPro3 = new CMControls.ButtonPro();
             this.buttonPro4 = new CMControls.ButtonPro();
+            this.buttonPro1 = new CMControls.ButtonPro();
+            this.buttonPro2 = new CMControls.ButtonPro();
             this.ZIPFileGrp.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // buttonPro1
-            // 
-            this.buttonPro1.BackColor = System.Drawing.Color.Transparent;
-            this.buttonPro1.FlatAppearance.BorderSize = 0;
-            this.buttonPro1.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
-            this.buttonPro1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.buttonPro1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.buttonPro1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonPro1.ForeColor = System.Drawing.Color.White;
-            this.buttonPro1.Location = new System.Drawing.Point(18, 28);
-            this.buttonPro1.Name = "buttonPro1";
-            this.buttonPro1.Size = new System.Drawing.Size(232, 57);
-            this.buttonPro1.TabIndex = 0;
-            this.buttonPro1.Text = "压缩解压缩当前目录下的test文件夹";
-            this.buttonPro1.UseVisualStyleBackColor = false;
-            this.buttonPro1.Click += new System.EventHandler(this.buttonPro1_Click);
-            // 
-            // buttonPro2
-            // 
-            this.buttonPro2.BackColor = System.Drawing.Color.Transparent;
-            this.buttonPro2.FlatAppearance.BorderSize = 0;
-            this.buttonPro2.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
-            this.buttonPro2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.buttonPro2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.buttonPro2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonPro2.ForeColor = System.Drawing.Color.White;
-            this.buttonPro2.Location = new System.Drawing.Point(302, 28);
-            this.buttonPro2.Name = "buttonPro2";
-            this.buttonPro2.Size = new System.Drawing.Size(140, 57);
-            this.buttonPro2.TabIndex = 1;
-            this.buttonPro2.Text = "向ZIP中添加文件";
-            this.buttonPro2.UseVisualStyleBackColor = false;
-            this.buttonPro2.Click += new System.EventHandler(this.buttonPro2_Click);
             // 
             // ZIPFileGrp
             // 
@@ -93,6 +63,51 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "GZipStream";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.buttonPro5);
+            this.groupBox2.Controls.Add(this.buttonPro6);
+            this.groupBox2.Location = new System.Drawing.Point(1, 238);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(450, 100);
+            this.groupBox2.TabIndex = 4;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "DeflateStream";
+            // 
+            // buttonPro5
+            // 
+            this.buttonPro5.BackColor = System.Drawing.Color.Transparent;
+            this.buttonPro5.FlatAppearance.BorderSize = 0;
+            this.buttonPro5.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.buttonPro5.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.buttonPro5.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.buttonPro5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonPro5.ForeColor = System.Drawing.Color.White;
+            this.buttonPro5.Location = new System.Drawing.Point(18, 28);
+            this.buttonPro5.Name = "buttonPro5";
+            this.buttonPro5.Size = new System.Drawing.Size(130, 57);
+            this.buttonPro5.TabIndex = 0;
+            this.buttonPro5.Text = "压缩解压字节数据";
+            this.buttonPro5.UseVisualStyleBackColor = false;
+            this.buttonPro5.Click += new System.EventHandler(this.buttonPro5_Click);
+            // 
+            // buttonPro6
+            // 
+            this.buttonPro6.BackColor = System.Drawing.Color.Transparent;
+            this.buttonPro6.FlatAppearance.BorderSize = 0;
+            this.buttonPro6.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.buttonPro6.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.buttonPro6.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.buttonPro6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonPro6.ForeColor = System.Drawing.Color.White;
+            this.buttonPro6.Location = new System.Drawing.Point(170, 28);
+            this.buttonPro6.Name = "buttonPro6";
+            this.buttonPro6.Size = new System.Drawing.Size(140, 57);
+            this.buttonPro6.TabIndex = 1;
+            this.buttonPro6.Text = "解压缩文件";
+            this.buttonPro6.UseVisualStyleBackColor = false;
+            this.buttonPro6.Click += new System.EventHandler(this.buttonPro6_Click);
             // 
             // buttonPro3
             // 
@@ -128,17 +143,53 @@
             this.buttonPro4.UseVisualStyleBackColor = false;
             this.buttonPro4.Click += new System.EventHandler(this.buttonPro4_Click);
             // 
+            // buttonPro1
+            // 
+            this.buttonPro1.BackColor = System.Drawing.Color.Transparent;
+            this.buttonPro1.FlatAppearance.BorderSize = 0;
+            this.buttonPro1.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.buttonPro1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.buttonPro1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.buttonPro1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonPro1.ForeColor = System.Drawing.Color.White;
+            this.buttonPro1.Location = new System.Drawing.Point(18, 28);
+            this.buttonPro1.Name = "buttonPro1";
+            this.buttonPro1.Size = new System.Drawing.Size(232, 57);
+            this.buttonPro1.TabIndex = 0;
+            this.buttonPro1.Text = "压缩解压缩当前目录下的test文件夹";
+            this.buttonPro1.UseVisualStyleBackColor = false;
+            this.buttonPro1.Click += new System.EventHandler(this.buttonPro1_Click);
+            // 
+            // buttonPro2
+            // 
+            this.buttonPro2.BackColor = System.Drawing.Color.Transparent;
+            this.buttonPro2.FlatAppearance.BorderSize = 0;
+            this.buttonPro2.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.buttonPro2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.buttonPro2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.buttonPro2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonPro2.ForeColor = System.Drawing.Color.White;
+            this.buttonPro2.Location = new System.Drawing.Point(302, 28);
+            this.buttonPro2.Name = "buttonPro2";
+            this.buttonPro2.Size = new System.Drawing.Size(140, 57);
+            this.buttonPro2.TabIndex = 1;
+            this.buttonPro2.Text = "向ZIP中添加文件";
+            this.buttonPro2.UseVisualStyleBackColor = false;
+            this.buttonPro2.Click += new System.EventHandler(this.buttonPro2_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.ZIPFileGrp);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ZIPFileGrp.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -151,6 +202,9 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private CMControls.ButtonPro buttonPro3;
         private CMControls.ButtonPro buttonPro4;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private CMControls.ButtonPro buttonPro5;
+        private CMControls.ButtonPro buttonPro6;
     }
 }
 

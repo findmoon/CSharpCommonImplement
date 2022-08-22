@@ -96,6 +96,7 @@ namespace System.IO.Compression
 
         /// <summary>
         /// 向zip压缩档中添加文件或文件夹。暂未实现，基本思路是：遍历读取要添加的文件，同时在压缩档对象ZipArchive创建对应文件项，通过读取原文件流，写入新创建的ZipArchiveEntry。
+        /// 更正确的处理应该是，使用 ZipFileExtensions 的 ZipArchive 扩展方法CreateEntryFromFile()，直接从文件创建
         /// </summary>
         /// <param name="sourceDirOrFileName"></param>
         /// <param name="destinationZipFileName"></param>

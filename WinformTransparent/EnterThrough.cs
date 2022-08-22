@@ -10,25 +10,22 @@ using System.Windows.Forms;
 
 namespace WinformTransparent
 {
-    public partial class UseExtendedPanel : Form
+    public partial class EnterThrough : Form
     {
-        public UseExtendedPanel()
+        public EnterThrough()
         {
             InitializeComponent();
 
-            extendedPanel1.BackColor = Color.Red;
+            TopLevel=true;
+            TopMost=true;
 
-     
+            BackColor = Color.Empty; 
+            TransparencyKey = BackColor;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("1");
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("3");
+            MessageBox.Show("你好");
         }
     }
 }

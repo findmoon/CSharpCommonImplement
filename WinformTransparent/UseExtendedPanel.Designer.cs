@@ -35,14 +35,15 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.transparentPanel1 = new WinformTransparent.Controls.TransparentPanel();
+            this.label4 = new System.Windows.Forms.Label();
             this.extendedPanel1 = new ExtendedPanel();
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.transparentPanel1 = new WinformTransparent.Controls.TransparentPanel();
-            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
-            this.extendedPanel1.SuspendLayout();
             this.transparentPanel1.SuspendLayout();
+            this.extendedPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // nameTxt
@@ -72,12 +73,13 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(267, 213);
+            this.button1.Location = new System.Drawing.Point(186, 286);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(144, 51);
             this.button1.TabIndex = 4;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // radioButton1
             // 
@@ -111,18 +113,46 @@
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(125, 152);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 9;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // transparentPanel1
+            // 
+            this.transparentPanel1.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.transparentPanel1.Controls.Add(this.label4);
+            this.transparentPanel1.Location = new System.Drawing.Point(125, 264);
+            this.transparentPanel1.Name = "transparentPanel1";
+            this.transparentPanel1.Size = new System.Drawing.Size(449, 83);
+            this.transparentPanel1.TabIndex = 8;
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(167, 16);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(270, 45);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "我是Panel上的内容";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // extendedPanel1
             // 
             this.extendedPanel1.Controls.Add(this.button2);
             this.extendedPanel1.Controls.Add(this.label1);
-            this.extendedPanel1.Location = new System.Drawing.Point(20, -1);
+            this.extendedPanel1.Location = new System.Drawing.Point(37, 0);
             this.extendedPanel1.Name = "extendedPanel1";
             this.extendedPanel1.Size = new System.Drawing.Size(768, 208);
             this.extendedPanel1.TabIndex = 0;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(289, 130);
+            this.button2.Location = new System.Drawing.Point(541, 125);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(144, 51);
             this.button2.TabIndex = 8;
@@ -131,35 +161,19 @@
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(211, 36);
+            this.label1.Location = new System.Drawing.Point(202, 35);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(322, 66);
             this.label1.TabIndex = 0;
-            this.label1.Text = "我是Panel上的内容";
+            this.label1.Text = "我是可透明的ExtendedPanel上的内容";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // transparentPanel1
-            // 
-            this.transparentPanel1.Controls.Add(this.label4);
-            this.transparentPanel1.Location = new System.Drawing.Point(147, 225);
-            this.transparentPanel1.Name = "transparentPanel1";
-            this.transparentPanel1.Size = new System.Drawing.Size(438, 104);
-            this.transparentPanel1.TabIndex = 8;
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(32, 14);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(270, 45);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "我是Panel上的内容";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // UseExtendedPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.transparentPanel1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button1);
@@ -171,8 +185,8 @@
             this.Text = "UseExtendedPanel";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.extendedPanel1.ResumeLayout(false);
             this.transparentPanel1.ResumeLayout(false);
+            this.extendedPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -192,5 +206,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private Controls.TransparentPanel transparentPanel1;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button button3;
     }
 }

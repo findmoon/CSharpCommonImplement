@@ -222,6 +222,7 @@ namespace System.Drawing.Drawing2D
             //return gp; 
             #endregion
         }
+        #region 不同圆角模式圆角位置的绘制
         /// <summary>
         /// 左下角的圆弧
         /// </summary>
@@ -258,6 +259,79 @@ namespace System.Drawing.Drawing2D
             arcRect.X = rect.Left;
             arcRect.Y = rect.Top;
             path.AddArc(arcRect, 180, 90);
+        }
+        #endregion
+        /// <summary>
+        /// 获取圆角矩形，可分别指定四个圆角不同的半径
+        /// </summary>
+        /// <param name="bounds"></param>
+        /// <param name="radius1"></param>
+        /// <param name="radius2"></param>
+        /// <param name="radius3"></param>
+        /// <param name="radius4"></param>
+        /// <returns></returns>
+        public static GraphicsPath GetRoundedRectPath(this Rectangle bounds, int radius1, int radius2, int radius3, int radius4)
+        {
+            int diameter1 = radius1 * 2;
+            int diameter2 = radius2 * 2;
+            int diameter3 = radius3 * 2;
+            int diameter4 = radius4 * 2;
+
+            Rectangle arc1 = new Rectangle(bounds.Location, new Size(diameter1, diameter1));
+            Rectangle arc2 = new Rectangle(bounds.Location, new Size(diameter2, diameter2));
+            Rectangle arc3 = new Rectangle(bounds.Location, new Size(diameter3, diameter3));
+            Rectangle arc4 = new Rectangle(bounds.Location, new Size(diameter4, diameter4));
+            GraphicsPath path = new GraphicsPath();
+
+            // top left arc  
+            if (radius1 == 0)
+            {
+                path.AddLine(arc1.Location, arc1.Location);
+            }
+            else
+            {
+                path.AddArc(arc1, 180, 90);
+            }
+
+            // top right arc  
+            arc2.X = bounds.Right - diameter2;
+            if (radius2 == 0)
+            {
+                path.AddLine(arc2.Location, arc2.Location);
+            }
+            else
+            {
+                path.AddArc(arc2, 270, 90);
+            }
+
+            // bottom right arc  
+
+            arc3.X = bounds.Right - diameter3;
+            arc3.Y = bounds.Bottom - diameter3;
+            if (radius3 == 0)
+            {
+                path.AddLine(arc3.Location, arc3.Location);
+            }
+            else
+            {
+                path.AddArc(arc3, 0, 90);
+            }
+
+            // bottom left arc 
+            arc4.X = bounds.Right - diameter4;
+            arc4.Y = bounds.Bottom - diameter4;
+            arc4.X = bounds.Left;
+            if (radius4 == 0)
+            {
+                path.AddLine(arc4.Location, arc4.Location);
+            }
+            else
+            {
+                path.AddArc(arc4, 90, 90);
+            }
+
+            path.CloseFigure();
+            return path;
         }
 
         /// <summary> 

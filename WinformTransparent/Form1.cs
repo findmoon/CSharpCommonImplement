@@ -59,6 +59,11 @@ namespace WinformTransparent
 
 
             transparentTextBox1.Text = "我是背景透明的TextBox";
+
+            var loadImg = new LoadImgTransparentBtn();
+            loadImg.Show();
+            var et = new EnterThrough();
+            et.Show();
         }
         ///// <summary>
         ///// override OnPaintBackground方法，并且内容空实现，会导致背景黑或全控件色，但不会透明
@@ -106,6 +111,12 @@ namespace WinformTransparent
         {
             var random = new Random();
             button7.ToTransparent(Color.FromArgb(random.Next(0, 1), random.Next(0, 256), random.Next(0, 256), random.Next(0, 256)));
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            EnterThrough2 enterThrough2=new EnterThrough2();
+            enterThrough2.Show();
         }
     }
 }

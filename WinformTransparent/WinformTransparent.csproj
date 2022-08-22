@@ -68,6 +68,18 @@
     <Compile Include="Controls\TranspCtrl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="EnterThrough.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EnterThrough.Designer.cs">
+      <DependentUpon>EnterThrough.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EnterThrough2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EnterThrough2.Designer.cs">
+      <DependentUpon>EnterThrough2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,6 +114,12 @@
     </Compile>
     <EmbeddedResource Include="CodeSetBtnBackColorImg.resx">
       <DependentUpon>CodeSetBtnBackColorImg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EnterThrough.resx">
+      <DependentUpon>EnterThrough.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EnterThrough2.resx">
+      <DependentUpon>EnterThrough2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

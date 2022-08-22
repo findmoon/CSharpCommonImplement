@@ -116,5 +116,26 @@ namespace ZipUnZip
 
             MessageBox.Show("成功");
         }
+
+        private async void buttonPro5_Click(object sender, EventArgs e)
+        {
+            var text = File.ReadAllText(@"C:\Users\win7hostsver\Downloads\圆角.txt");
+            var comBytes =await DeflateHelper.CompressStringAsync(text);
+
+            var unGzipText =await DeflateHelper.DecompressStringAsync(comBytes);
+
+            MessageBox.Show(unGzipText);
+        }
+
+        private async void buttonPro6_Click(object sender, EventArgs e)
+        {
+            var file = @"C:\Users\win7hostsver\Downloads\圆角.txt";
+            var destFile = @"C:\Users\win7hostsver\Downloads\deflate压缩文件.df";
+            await DeflateHelper.CompressFileAsync(file, destFile);
+
+            await DeflateHelper.DeCompressFileAsync(destFile,Path.Combine(Path.GetDirectoryName(file), "deflate解压缩文件.txt"));
+
+            MessageBox.Show("成功");
+        }
     }
 }

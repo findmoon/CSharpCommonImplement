@@ -50,20 +50,28 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(526, 217);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Font = new System.Drawing.Font("SimSun", 11F, System.Drawing.FontStyle.Bold);
+            this.button1.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.button1.Location = new System.Drawing.Point(538, 219);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(66, 101);
             this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
+            this.button1.Text = "下一张";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 217);
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.button2.Font = new System.Drawing.Font("SimSun", 11F, System.Drawing.FontStyle.Bold);
+            this.button2.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.button2.Location = new System.Drawing.Point(0, 219);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(66, 101);
             this.button2.TabIndex = 2;
-            this.button2.Text = "button2";
+            this.button2.Text = "上一张";
             this.button2.UseVisualStyleBackColor = true;
             // 
             // menuStrip1

@@ -43,6 +43,7 @@
             this.transparentTextBox1 = new WinformTransparent.Controls.TransparentTextBox();
             this.transparentLabel1 = new WinformTransparent.TransparentLabel();
             this.invisible_Button1 = new WinformTransparent.Invisible_Button();
+            this.button8 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,13 +58,13 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Location = new System.Drawing.Point(617, 333);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(121, 123);
+            this.button1.Size = new System.Drawing.Size(121, 136);
             this.button1.TabIndex = 3;
             this.button1.UseVisualStyleBackColor = false;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 326);
+            this.button2.Location = new System.Drawing.Point(12, 304);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(102, 49);
             this.button2.TabIndex = 5;
@@ -92,7 +93,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(12, 381);
+            this.button3.Location = new System.Drawing.Point(12, 359);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(102, 49);
             this.button3.TabIndex = 8;
@@ -111,7 +112,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(12, 436);
+            this.button4.Location = new System.Drawing.Point(12, 414);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(102, 49);
             this.button4.TabIndex = 10;
@@ -187,13 +188,24 @@
             this.invisible_Button1.Size = new System.Drawing.Size(189, 90);
             this.invisible_Button1.TabIndex = 7;
             // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(12, 478);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(102, 49);
+            this.button8.TabIndex = 17;
+            this.button8.Text = "测试另一种镂空窗体";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::WinformTransparent.Properties.Resources.Snipaste_20220712_091629;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ClientSize = new System.Drawing.Size(778, 487);
+            this.ClientSize = new System.Drawing.Size(778, 549);
+            this.Controls.Add(this.button8);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.transparentTextBox1);
@@ -232,6 +244,7 @@
         private Controls.TransparentTextBox transparentTextBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
     }
 }
 
