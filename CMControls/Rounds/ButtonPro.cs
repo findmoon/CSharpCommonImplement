@@ -9,7 +9,7 @@ namespace CMControls
 {
     public class ButtonPro : Button
     {
-        private int roundRadius;//半径 
+        private int roundRadius;//圆角半径 
 
         private bool showCusp = false;//显示尖角
         private RectangleAlign cuspAlign = RectangleAlign.RightTop;//三角尖角位置
@@ -24,7 +24,7 @@ namespace CMControls
         // 鼠标相对控件的状态位置，对应上面不同颜色
         private MouseControlState mouseControlState = MouseControlState.Normal;
 
-        private bool regionNewModel = false; // 创建新Region的模式，使用"绘制范围"创建新的Region，实现控件区域贴合绘制范围，实现"正确的透明"，但相对会有些的锯齿
+        private bool regionNewModel = false; // 创建新Region的模式，使用"绘制范围"创建新的Region，实现控件区域贴合绘制范围，实现图形外的部分"正确的透明"，但相对会有些锯齿
 
         private Color beginBGColor= Color.FromArgb(90, 143, 0);//渐变开始色
         private Color endBGColor= Color.FromArgb(41, 67, 0);//渐变结束色

@@ -39,6 +39,17 @@ namespace NotificationLocalToastWPF
             {
                 myImage.Save("my.Image.png", System.Drawing.Imaging.ImageFormat.Png);
             }
+
+            // dragMoveBtn.MouseMove 按钮拖动调用 DragMove() 无效
+
+            // 直接拖动窗体
+            dragMoveImg.MouseMove += (sender, e) =>
+            {
+                if (e.LeftButton== MouseButtonState.Pressed)
+                {
+                    DragMove();
+                }
+            };
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

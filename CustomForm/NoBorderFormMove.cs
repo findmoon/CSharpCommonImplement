@@ -24,14 +24,14 @@ namespace CustomForm
             #endregion
 
             #region 方法1： 鼠标按下、移动和抬起事件中，Left、Top直接变化
-            MouseDown += WindowMove_LeftTop_MouseDown;
-            MouseMove += WindowMove_LeftTop_MouseMove;
-            MouseUp += WindowMove_LeftTop_MouseUp;
+            //MouseDown += WindowMove_LeftTop_MouseDown;
+            //MouseMove += WindowMove_LeftTop_MouseMove;
+            //MouseUp += WindowMove_LeftTop_MouseUp;
 
-            // 子控件拖动
-            roundPanel1.MouseDown += WindowMove_LeftTop_MouseDown;
-            roundPanel1.MouseMove += WindowMove_LeftTop_MouseMove;
-            roundPanel1.MouseUp += WindowMove_LeftTop_MouseUp;
+            //// 子控件拖动
+            //roundPanel1.MouseDown += WindowMove_LeftTop_MouseDown;
+            //roundPanel1.MouseMove += WindowMove_LeftTop_MouseMove;
+            //roundPanel1.MouseUp += WindowMove_LeftTop_MouseUp;
             #endregion
 
             #region 方法2：鼠标按下、移动和抬起事件中，计算移动后的Location
@@ -49,17 +49,17 @@ namespace CustomForm
             //MouseMove += FrmMain_MouseMove;
             //MouseUp += FrmMain_MouseUp;
 
-            //roundPanel1.MouseDown += WindowMove_Location_MouseDown;
-            //roundPanel1.MouseMove += WindowMove_Location_MouseMove;
-            //roundPanel1.MouseUp += WindowMove_Location_MouseUp;
+            //roundPanel1.MouseDown += FrmMain_MouseDown;
+            //roundPanel1.MouseMove += FrmMain_MouseMove;
+            //roundPanel1.MouseUp += FrmMain_MouseUp;
             #endregion
 
             #region 方法4
-            //MouseDown += WindowMove4_MouseDown;
-            //MouseMove += WindowMove4_MouseMove;
+            MouseDown += WindowMove_MouseDown;
+            MouseMove += WindowMove_MouseMove;
 
-            //roundPanel1.MouseDown += WindowMove4_MouseDown;
-            //roundPanel1.MouseMove += WindowMove4_MouseMove;
+            roundPanel1.MouseDown += WindowMove_MouseDown;
+            roundPanel1.MouseMove += WindowMove_MouseMove;
             #endregion
         }
 
@@ -169,7 +169,7 @@ namespace CustomForm
         #region 方法2：窗体移动，通过计算Location位置
         // 鼠标按下
         private bool isMouse = false; // 鼠标是否按下
-        // 原点位置
+        // 移动开始前的原始位置
         private int originX = 0;
         private int originY = 0;
         // 鼠标按下位置
@@ -244,18 +244,18 @@ namespace CustomForm
         }
         #endregion
 
-        #region 方法4，2、3、4原理一致，只是使用的方法不一样
-        Point mPoint;
+        #region 方法4，2、3、4原理一致，都是计算相对位置，只是使用的方法不一样
+        Point offsetPoint;
         /// <summary>
         /// 鼠标按下
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void WindowMove4_MouseDown(object sender, MouseEventArgs e)
+        private void WindowMove_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                mPoint = new Point(e.X, e.Y); // 鼠标相对于(窗体)左上角位置
+                offsetPoint = new Point(e.X, e.Y); // 鼠标相对于(窗体)左上角位置
             }
         }
 
@@ -264,11 +264,11 @@ namespace CustomForm
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void WindowMove4_MouseMove(object sender, MouseEventArgs e)
+        private void WindowMove_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                this.Location = new Point(this.Location.X + e.X - mPoint.X, this.Location.Y + e.Y - mPoint.Y);
+                this.Location = new Point(this.Location.X + e.X - offsetPoint.X, this.Location.Y + e.Y - offsetPoint.Y);
             }
         }
         #endregion

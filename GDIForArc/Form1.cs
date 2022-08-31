@@ -169,6 +169,11 @@ namespace GDIForArc
             g.DrawArc(pn, arcRectScale, 90, 90);
             g.DrawLine(pn, innerRoundRect.Left, innerRoundRect.Bottom - radiusScale + 1, innerRoundRect.Left, innerRoundRect.Y + radiusScale);
             #endregion
+
+            #region MyRegion
+            var inflateRect = Rectangle.Inflate(roundRect, -8, -8);
+            // inflateRect.Inflate(-8, -8); // 实例方法，长宽缩小或放大指定的量，改变的实例本身
+            #endregion
         }
     }
 }

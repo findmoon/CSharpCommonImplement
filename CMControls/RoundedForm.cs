@@ -18,7 +18,7 @@ namespace CMControls
         private Color bgStartColor = Color.DarkSlateBlue;
         private Color bgEndColor = Color.MediumPurple;
         private float linearGradient;
-
+        private int roundRadius;//圆角半径 
         #endregion
         #region 属性
         [Category("高级"), DefaultValue(true), Description("窗体是否固定大小，为true时，无法拖动边角调整窗体大小，默认true")]
@@ -50,13 +50,29 @@ namespace CMControls
                 Validate();
             }
         }
-
+        /// <summary>
+        /// 圆角半径属性
+        /// </summary>
+        [CategoryAttribute("高级"), DefaultValue(35), Description("圆角半径的大小")]
+        public int RoundRadius
+        {
+            set
+            {
+                roundRadius = value;
+                this.Invalidate();
+            }
+            get
+            {
+                return roundRadius;
+            }
+        }
         #endregion
         //private Timer drawTimer = new Timer();
         #region 构造函数
         public RoundedForm()
         {
             this.FormBorderStyle = FormBorderStyle.None;
+            roundRadius = 35;
 
             #region 初始位置无效，Location设置在Load事件处理中有效
             // 居中无效
@@ -129,7 +145,7 @@ namespace CMControls
                     Rectangle gradientRectangle = ClientRectangle;
                     using (Brush b = new LinearGradientBrush(gradientRectangle, BgStartColor, BgEndColor, LinearGradient))
                     {
-                        graphics.FillRoundRectangle(gradientRectangle, b, 35);
+                        graphics.FillRoundRectangle(gradientRectangle, b, RoundRadius);
 
                         foreach (Control ctrl in this.Controls)
                         {
@@ -191,7 +207,7 @@ namespace CMControls
 
                 using (Brush b = new LinearGradientBrush(gradientRectangle, BgStartColor, BgEndColor, LinearGradient))
                 {
-                    graphics.FillRoundRectangle(gradientRectangle, b, 35);
+                    graphics.FillRoundRectangle(gradientRectangle, b, RoundRadius);
                 };
             }
         }

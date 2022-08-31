@@ -9,7 +9,8 @@
     <Grid>
         <Button Content="发送通知" HorizontalAlignment="Left" Margin="201,137,0,0" VerticalAlignment="Top" Width="88" Height="30" Click="Button_Click"/>
         <Image HorizontalAlignment="Left"  Margin="78,234,0,0" VerticalAlignment="Top" Width="200" Source="pack://application:,,,/Resources/CSharp.png" ToolTip="加载本地Resources资源，资源文件属性必须为Resource，否则无法加载到"  />
-        <Image HorizontalAlignment="Left"  Margin="342,234,0,0" VerticalAlignment="Top" Width="200" Source="Resources/CSharp.png"/>
+        <Image Name="dragMoveImg" HorizontalAlignment="Left"  Margin="342,234,0,0" VerticalAlignment="Top" Width="200" Source="Resources/CSharp.png"/>
         <Image HorizontalAlignment="Left"  Margin="595,234,0,0" VerticalAlignment="Top" Width="120" Source="pack://siteoforigin:,,,/CSharpNew.png"/>
+        <Button Name="dragMoveBtn" Content="拖拽移动窗体" HorizontalAlignment="Left" Margin="373,86,0,0" VerticalAlignment="Top" Width="116" Height="66" />
     </Grid>
 </Window>
