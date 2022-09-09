@@ -197,7 +197,7 @@ namespace CustomForm
 
 
 
-        #region 拖拽调整窗体大小。有些啰嗦了
+        #region 拖拽调整窗体大小。有些啰嗦了 参见上面的改进
         //enum MouseDirection
         //{
         //    None,
