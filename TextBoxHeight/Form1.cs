@@ -12,6 +12,8 @@ namespace TextBoxHeight
 {
     public partial class Form1 : Form
     {
+        private readonly ErrorProvider errProvider;
+
         public Form1()
         {
             InitializeComponent();
@@ -27,7 +29,41 @@ namespace TextBoxHeight
             //textBox1.Height = 28;
             //textBox1.KeyDown += TextBox1_KeyDown;
 
+            textBox1.TextChanged += TextBox1_TextChanged;
 
+
+            errProvider = new ErrorProvider();
+        }
+
+        private void TextBox1_TextChanged(object sender, EventArgs e)
+        {
+            var txtBox= sender as TextBox;
+
+            // 取消错误提示
+            errProvider.SetError(txtBox, "");
+            // 不为空时
+            if (!string.IsNullOrWhiteSpace(txtBox.Text))
+            {
+                // "0123456789" 也可以改为其他需要禁止输入的内容文字
+                var canNotInput = "0123456789";
+                if (canNotInput.Contains(txtBox.Text[txtBox.Text.Length - 1]))
+                {
+                    // 删除最后一个字符【两种方式】
+                    // txtBox.Text = txtBox.Text.Remove(txtBox.Text.Length - 1);
+                    txtBox.Text = txtBox.Text.Substring(0, txtBox.Text.Length - 1);
+
+                    // 重新赋值后光标会出现在最前面
+                    //txtBox.Focus(); // 通常需要设置文本框获取焦点在使用下面的Select到末尾，但是上面赋值已经有了光标，所以不需要
+                    // 设置光标位置到文本末尾
+                    txtBox.Select(txtBox.TextLength, 0);
+                    // 滚动控件到光标处
+                    txtBox.ScrollToCaret();
+
+                    // 给定一个错误提示
+                    //errProvider.BlinkStyle= ErrorBlinkStyle.AlwaysBlink;
+                    errProvider.SetError(txtBox, $"不行允许输入此中的字符：{canNotInput}");
+                }
+            }
         }
 
         private void TextBox1_KeyDown(object sender, KeyEventArgs e)

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,6 +26,33 @@ namespace HEXAndDECInterConvert
 
             hexFromTxt.TextChanged += HexFromTxt_TextChanged;
             decFromTxt.TextChanged += DecFromTxt_TextChanged;
+
+            // 16进制表示
+            var hexadecimal = 0xaf2;
+            Console.WriteLine(hexadecimal); // 2802
+
+            //// 没有8进制表示
+            //var octal = 0O752;
+            //Console.WriteLine(octal); //  752
+
+            // 2进制表示
+            var binary = 0B1011110000;
+            Console.WriteLine(binary);  // 752
+
+            // 10进制
+            var decimal_ = 910;
+            Console.WriteLine(decimal_); // 910
+
+
+            var decimal_2 = 15;
+            Console.WriteLine($"{decimal_2}的16进制表示{Convert.ToString(decimal_2, 16)}");
+            Console.WriteLine($"{decimal_2}的8进制表示{Convert.ToString(decimal_2, 8)}");
+            Console.WriteLine($"{decimal_2}的2进制表示{Convert.ToString(decimal_2, 2)}");
+            // 15的16进制表示f
+            // 15的8进制表示17
+            // 15的2进制表示1111
+
+            Console.WriteLine(decimal_2.ToString("X")); // ToString 无法转换为其他进制
         }
 
         private void DecFromTxt_TextChanged(object sender, EventArgs e)

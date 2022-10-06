@@ -31,6 +31,8 @@ namespace CustomTabControl
             //tabControl1.Appearance = TabAppearance.FlatButtons;
             //tabControl1.Appearance = TabAppearance.Buttons;
 
+            //tabControl1.DeselectTab();
+
             // 多行tab
             //tabControl1.Multiline = true;
 
@@ -108,7 +110,7 @@ namespace CustomTabControl
             {
                 var tabPage = tabControl1.TabPages[i];
                 var tabRect = GetTabRect(tabControl1,i);
-                //tabRect.Inflate(0, -2); // 似乎未其作用
+                //tabRect.Inflate(0, -2); // 似乎未起作用
                 var closeImage = imageList1.Images["close"];
                 var imageRect = new Rectangle(
                     tabRect.Right - closeImage.Width - (tabControl1.RightToLeftLayout && tabControl1.RightToLeft == RightToLeft.Yes?4:2),
