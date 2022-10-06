@@ -296,7 +296,7 @@ namespace CMCode.ProcessExt
                 ManagementObjectCollection moc = searcher.Get();
                 foreach (ManagementObject mo in moc)
                 {
-                    KillProcessAndChildren(Convert.ToInt32(mo["ProcessID"]));
+                    //KillProcessAndChildren(Convert.ToInt32(mo["ProcessID"]));
                 }
                 try
                 {
@@ -328,6 +328,7 @@ namespace CMCode.ProcessExt
                     var cchildPIds = GetProcessAllChildrenIds(childPId);
                 }
             }
+            return alst;
         }
         /// <summary>
         /// 仅获取子进程ids
@@ -369,7 +370,7 @@ namespace CMCode.ProcessExt
                 ManagementObjectCollection moc = searcher.Get();
                 foreach (ManagementObject mo in moc)
                 {
-                    KillProcessAndChildren(Convert.ToInt32(mo["ProcessID"]));
+                    //KillProcessAndChildren(Convert.ToInt32(mo["ProcessID"]));
                 }
                 try
                 {

@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EC5BCCEA-2FC0-42AD-A3E5-CB24BA43C344}</ProjectGuid>
+    <ProjectGuid>{4A0EEFE3-B90B-4182-9B5E-0E6680021BEE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>PGDBManagement</RootNamespace>
-    <AssemblyName>PGDBManagement</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <RootNamespace>ZipUnZip</RootNamespace>
+    <AssemblyName>ZipUnZip</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -23,7 +22,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,21 +31,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.2</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlphaFS, Version=2.2.0.0, Culture=neutral, PublicKeyToken=4d31a58f7d7ad5c9, processorArchitecture=MSIL">
-      <HintPath>..\packages\AlphaFS.2.2.6\lib\net452\AlphaFS.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.ServiceProcess" />
-    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,34 +48,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LongPathTest.cs">
+    <Compile Include="Compresses\SevenZipHelper.cs" />
+    <Compile Include="LZMA7zip\Common\CommandLineParser.cs" />
+    <Compile Include="LZMA7zip\Common\CRC.cs" />
+    <Compile Include="LZMA7zip\Common\InBuffer.cs" />
+    <Compile Include="LZMA7zip\Common\OutBuffer.cs" />
+    <Compile Include="LZMA7zip\ICoder.cs" />
+    <Compile Include="Compresses\DeflateHelper.cs" />
+    <Compile Include="Compresses\GZipHelper.cs" />
+    <Compile Include="Compresses\ZipHelper.cs" />
+    <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LongPathTest.Designer.cs">
-      <DependentUpon>LongPathTest.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
-    <Compile Include="ProgressBar\Extensions.cs" />
-    <Compile Include="ProgressBar\ProgressBarExt.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ProgressBar\ProgressBarTextModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProgressBar\TextProgressBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ServiceController\Extensions.cs" />
-    <EmbeddedResource Include="LongPathTest.resx">
-      <DependentUpon>LongPathTest.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -96,12 +76,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="app.manifest">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -113,39 +88,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Close_16_16_White.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Maximize_16_16_White.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Minimize_16_16_White.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Normal_16_16_White.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Maximize_16_16_Black.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Minimize_16_16_Black.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Normal_16_16_Black.png" />
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CMCode\CMCode.csproj">
       <Project>{2386e444-cca0-4ee1-85e7-b727b25c1af6}</Project>
       <Name>CMCode</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ZipUnZip\Code.ZipUnZip.csproj">
-      <Project>{4a0eefe3-b90b-4182-9b5e-0e6680021bee}</Project>
-      <Name>Code.ZipUnZip</Name>
+    <ProjectReference Include="..\CMControls\CMControls.csproj">
+      <Project>{A4A1639E-68F0-451C-9EDE-CE665FD5C820}</Project>
+      <Name>CMControls</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
