@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4A0EEFE3-B90B-4182-9B5E-0E6680021BEE}</ProjectGuid>
+    <ProjectGuid>{F8040EDA-C4B7-472F-87FF-C291A9C3EC98}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ZipUnZip</RootNamespace>
-    <AssemblyName>ZipUnZip</AssemblyName>
+    <RootNamespace>DragDropUse</RootNamespace>
+    <AssemblyName>DragDropUse</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -35,8 +35,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,40 +46,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Compresses\SevenZipHelper.cs" />
-    <Compile Include="LZMA7zip\Common\CommandLineParser.cs" />
-    <Compile Include="LZMA7zip\Common\CRC.cs" />
-    <Compile Include="LZMA7zip\Common\InBuffer.cs" />
-    <Compile Include="LZMA7zip\Common\OutBuffer.cs" />
-    <Compile Include="LZMA7zip\Compress\LzmaAlone\LzmaAlone.cs" />
-    <Compile Include="LZMA7zip\Compress\LzmaAlone\LzmaBench.cs" />
-    <Compile Include="LZMA7zip\Compress\LzmaAlone\Properties\AssemblyInfo.cs" />
-    <Compile Include="LZMA7zip\Compress\LzmaAlone\Properties\Resources.cs" />
-    <Compile Include="LZMA7zip\Compress\LzmaAlone\Properties\Settings.cs" />
-    <Compile Include="LZMA7zip\Compress\LZMA\LzmaBase.cs" />
-    <Compile Include="LZMA7zip\Compress\LZMA\LzmaDecoder.cs" />
-    <Compile Include="LZMA7zip\Compress\LZMA\LzmaEncoder.cs" />
-    <Compile Include="LZMA7zip\Compress\LZ\IMatchFinder.cs" />
-    <Compile Include="LZMA7zip\Compress\LZ\LzBinTree.cs" />
-    <Compile Include="LZMA7zip\Compress\LZ\LzInWindow.cs" />
-    <Compile Include="LZMA7zip\Compress\LZ\LzOutWindow.cs" />
-    <Compile Include="LZMA7zip\Compress\RangeCoder\RangeCoder.cs" />
-    <Compile Include="LZMA7zip\Compress\RangeCoder\RangeCoderBit.cs" />
-    <Compile Include="LZMA7zip\Compress\RangeCoder\RangeCoderBitTree.cs" />
-    <Compile Include="LZMA7zip\ICoder.cs" />
-    <Compile Include="Compresses\DeflateHelper.cs" />
-    <Compile Include="Compresses\GZipHelper.cs" />
-    <Compile Include="Compresses\ZipHelper.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="OnLayerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OnLayerForm.Designer.cs">
+      <DependentUpon>OnLayerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OnLayerForm.resx">
+      <DependentUpon>OnLayerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -107,12 +90,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CMControls\CMControls.csproj">
-      <Project>{A4A1639E-68F0-451C-9EDE-CE665FD5C820}</Project>
+      <Project>{a4a1639e-68f0-451c-9ede-ce665fd5c820}</Project>
       <Name>CMControls</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="LZMA7zip\Compress\LzmaAlone\LzmaAlone.sln" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

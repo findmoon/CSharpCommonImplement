@@ -46,6 +46,22 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Enums\RoundMode.cs" />
+    <Compile Include="Extensions\TreeViewExt.cs" />
+    <Compile Include="LayerAndLoadingGif\CMLayer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="LayerAndLoadingGif\LayerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LayerAndLoadingGif\LoadingImg.cs" />
+    <Compile Include="LayerAndLoadingGif\WaitProcessingFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Properties\LoadingResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LoadingResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="PulseButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -105,12 +121,31 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\LoadingResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LoadingResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="RoundedForm.resx">
       <DependentUpon>RoundedForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TextBoxProNo.resx">
       <DependentUpon>TextBoxProNo.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LayerAndLoadingGif\LoadingGif\Loading_arrowSmall.gif" />
+    <Content Include="LayerAndLoadingGif\LoadingGif\Loading_dotCircle.gif" />
+    <Content Include="LayerAndLoadingGif\LoadingGif\Loading_dotCircleSmall.gif" />
+    <Content Include="LayerAndLoadingGif\LoadingGif\Loading_sectorSmall.gif" />
+    <Content Include="LayerAndLoadingGif\LoadingGif\Loading_segmentCircle.gif" />
+    <Content Include="LayerAndLoadingGif\LoadingGif\Loading_simple.gif" />
+    <Content Include="LayerAndLoadingGif\LoadingGif\Loading_simpleSmall.gif" />
+    <Content Include="LayerAndLoadingGif\LoadingGif\Loading_stripBar.gif" />
+    <Content Include="LayerAndLoadingGif\LoadingGif\Loading_stripBar1.gif" />
+    <Content Include="LayerAndLoadingGif\LoadingGif\Loading_stripBar2.gif" />
+    <Content Include="LayerAndLoadingGif\LoadingGif\Loading_stripBar3.gif" />
+    <Content Include="LayerAndLoadingGif\LoadingGif\Loading_stripBar4.gif" />
+    <Content Include="LayerAndLoadingGif\LoadingGif\Loading_stripBar5.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
