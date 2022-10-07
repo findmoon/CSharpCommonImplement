@@ -76,12 +76,10 @@ namespace CustomTabControl
             #endregion
 
             #region 添加add和close按钮
-            tabControl1.TabPages.Clear();
-            tabControl1.TabPages.Add("add", "add");
             tabControl1.DrawMode = TabDrawMode.OwnerDrawFixed;
             tabControl1.DrawItem += TabControl1_DrawItem2;
 
-            // 创建句柄时触发。通过发送消息SendMessage是最后一个添加tab尽可能短。效果不明显
+            // 创建句柄时触发。通过发送消息SendMessage使绘制的(每个)tab尽可能短。SizeMode 不能为 Fixed
             tabControl1.HandleCreated += TabControl1_HandleCreated;
 
             // 如果只有一个tab，SelectedIndexChanged将无效
@@ -90,9 +88,14 @@ namespace CustomTabControl
             tabControl1.MouseDown += TabControl1_MouseDown;
             tabControl1.MouseMove += TabControl1_MouseMove;
 
-            // RTL的绘制优化
-            tabControl1.RightToLeft = RightToLeft.Yes;
-            tabControl1.RightToLeftLayout = true;
+            #region // RTL的绘制优化
+            //tabControl1.RightToLeft = RightToLeft.Yes;
+            //tabControl1.RightToLeftLayout = true; 
+            #endregion
+
+
+            tabControl1.TabPages.Clear();
+            tabControl1.TabPages.Add("add", "add");
             #endregion
 
 
@@ -195,7 +198,7 @@ namespace CustomTabControl
                 {
                     mousePos.X = tabControl1.Right - mousePos.X;
                 }
-                if (i == tabControl1.TabPages.Count - 1) // 组后一个 add 按钮
+                if (i == tabControl1.TabPages.Count - 1) // 最后一个 add 按钮
                 {
                     if (tabRect.Contains(mousePos))
                     {
@@ -250,8 +253,9 @@ namespace CustomTabControl
         {
             var tabPage = tabControl1.TabPages[e.Index];
             var tabRect = GetTabRect(tabControl1,e.Index);
-
-            //tabRect.Inflate(0, -2);
+            
+            //tabRect.Inflate(-2, -2);
+            //tabRect.Inflate(-2, 0);
             //e.DrawBackground(); // 背景
             if (e.Index == tabControl1.TabCount - 1) // 最后一个TabPage
             {
@@ -281,13 +285,13 @@ namespace CustomTabControl
                     var textRect = new Rectangle(tabRect.X, tabRect.Y, tabRect.Width - closeImage.Width, tabRect.Height);
                     e.Graphics.DrawString(tabPage.Text, tabPage.Font, new SolidBrush(tabPage.ForeColor), textRect, sf); // 不使用DrawString
 
-                    #region 无法处理RTL的情形
+                    #region DrawText 无法处理RTL的情形
                     //var real_tabRect = tabControl1.GetTabRect(e.Index);
                     //var real_textRect = new Rectangle(tabRect.X, tabRect.Y, tabRect.Width - closeImage.Width, tabRect.Height);
                     //e.Graphics.DrawText(real_textRect, tabPage.Text, tabPage.ForeColor, tabPage.Font, rtl: RightToLeft.Yes); 
                     #endregion
                 }
-        }
+            }
         }
 
         // 修改两边位置时的tab
