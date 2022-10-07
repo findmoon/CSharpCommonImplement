@@ -36,6 +36,8 @@
             this.ClosePicb = new System.Windows.Forms.PictureBox();
             this.TitleIconPicb = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.TitlePnl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MinimizePicb)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaximizeNormalPicb)).BeginInit();
@@ -126,12 +128,34 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("宋体", 12F);
-            this.label1.Location = new System.Drawing.Point(34, 193);
+            this.label1.Location = new System.Drawing.Point(34, 117);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(679, 48);
+            this.label1.Size = new System.Drawing.Size(679, 80);
             this.label1.TabIndex = 4;
-            this.label1.Text = "加载标题栏相关的资源图片、复制顶部标题控件TitlePnl、复制内部region内的代码，基本就OK\r\n后续调整背景色、删除资源图片中用不到的比如Gray灰色的图" +
-    "片等\r\n除非需要渐变复杂背景，再复制region内关于背景绘制的代码并修改";
+            this.label1.Text = "加载标题栏相关的资源图片、复制顶部标题控件TitlePnl、复制内部region内的代码，基本就OK\r\n\r\n后续调整背景色、删除资源图片中用不到的比如Gray灰色" +
+    "的图片等\r\n\r\n除非需要渐变复杂背景，再复制region内关于背景绘制的代码并修改";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold);
+            this.label2.ForeColor = System.Drawing.Color.Red;
+            this.label2.Location = new System.Drawing.Point(81, 61);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(534, 16);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "示例、模板，完整功能的无边框窗体自定义标题栏，直接拿来使用即可";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("宋体", 12F);
+            this.label3.Location = new System.Drawing.Point(34, 231);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(615, 32);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "PGDBManagement、DragDropAndTreeViewDGV（未完成，参考parsepcbcheckout7） 项目\r\n就是使用此窗体的示例，可参考" +
+    "";
             // 
             // CustomTitleBar
             // 
@@ -139,6 +163,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SkyBlue;
             this.ClientSize = new System.Drawing.Size(735, 485);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.TitlePnl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -162,5 +188,7 @@
         private System.Windows.Forms.PictureBox TitleIconPicb;
         private System.Windows.Forms.Label TitlePanelTitle;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }
