@@ -8,6 +8,9 @@ using System.Windows.Forms;
 
 namespace CMControls
 {
+    /// <summary>
+    /// 支持圆角的标题栏TitleBar控件，功能未完成
+    /// </summary>
     public class TitleBarPro: RoundPanel
     {
         Label titleLabel = new Label();

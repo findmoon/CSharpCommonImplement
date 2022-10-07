@@ -46,11 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomRoundTitleBar.cs">
+    <Compile Include="CustomRoundTitleBar_example.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomRoundTitleBar.Designer.cs">
-      <DependentUpon>CustomRoundTitleBar.cs</DependentUpon>
+    <Compile Include="CustomRoundTitleBar_example.Designer.cs">
+      <DependentUpon>CustomRoundTitleBar_example.cs</DependentUpon>
     </Compile>
     <Compile Include="CRoundPanelRoundModelForTitle.cs">
       <SubType>Form</SubType>
@@ -58,11 +58,11 @@
     <Compile Include="CRoundPanelRoundModelForTitle.Designer.cs">
       <DependentUpon>CRoundPanelRoundModelForTitle.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomTitleBar.cs">
+    <Compile Include="CustomTitleBar_example.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomTitleBar.Designer.cs">
-      <DependentUpon>CustomTitleBar.cs</DependentUpon>
+    <Compile Include="CustomTitleBar_example.Designer.cs">
+      <DependentUpon>CustomTitleBar_example.cs</DependentUpon>
     </Compile>
     <Compile Include="NoBorderFormDragResize.cs">
       <SubType>Form</SubType>
@@ -113,14 +113,14 @@
     <Compile Include="ShadowFormNo.Designer.cs">
       <DependentUpon>ShadowFormNo.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="CustomRoundTitleBar.resx">
-      <DependentUpon>CustomRoundTitleBar.cs</DependentUpon>
+    <EmbeddedResource Include="CustomRoundTitleBar_example.resx">
+      <DependentUpon>CustomRoundTitleBar_example.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CRoundPanelRoundModelForTitle.resx">
       <DependentUpon>CRoundPanelRoundModelForTitle.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CustomTitleBar.resx">
-      <DependentUpon>CustomTitleBar.cs</DependentUpon>
+    <EmbeddedResource Include="CustomTitleBar_example.resx">
+      <DependentUpon>CustomTitleBar_example.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NoBorderFormDragResize.resx">
       <DependentUpon>NoBorderFormDragResize.cs</DependentUpon>
