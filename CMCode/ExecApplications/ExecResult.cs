@@ -4,7 +4,7 @@
     {
         public string Output { get; set; }
         /// <summary>
-        /// 程序正常执行后的错误输出，需要根据实际内容判断是否成功。如果Output为空但Error不为空，责基本可以说明发生了问题或错误，但是可以正产执行结束
+        /// 程序正常执行后的错误输出，需要根据实际内容判断是否成功。如果Output为空但Error不为空，则基本可以说明发生了问题或错误，但是可以正常执行结束
         /// </summary>
         public string Error { get; set; }
         /// <summary>
