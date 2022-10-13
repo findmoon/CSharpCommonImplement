@@ -94,9 +94,9 @@
     <None Include="Resources\open.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FileLogging\FileLogging.csproj">
+    <ProjectReference Include="..\FileLogging\SimpleLogging.csproj">
       <Project>{6e72607f-2f09-44a1-b6f4-71717413163e}</Project>
-      <Name>FileLogging</Name>
+      <Name>SimpleLogging</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
