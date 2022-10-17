@@ -207,7 +207,7 @@ DebugAndTrace.exe Warning: 0 : TraceError警告
 
 Trace 与 Debug 都默认使用的`DefaultTraceListener`，用于在“输出”窗口输出信息。
 
-更改其它侦听器可以实现将信息输出到其他媒介，如文本文件、xml、csv、Windows Event Log、数据库等。配置和使用侦听器通常有两种方法，代码中设置和配置文件.config中设置。
+更改其它侦听器可以实现将信息输出到其他媒介，如文本文件、xml、csv、Windows Event Log、数据库等。配置和使用侦听器通常有两种方法：代码中设置和配置文件.config中设置。
 
 > .Net 的`TraceListener`实现使用了Observer模型：当客户调用Write等方法时，`Trace.Listeners` 集合里所有的 `TraceListener` 都会调用相关方法。
 
