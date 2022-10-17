@@ -59,15 +59,6 @@ namespace WindowHandle
             // 代码触发
             testBtn1.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
 
-            #region 获取Winform中的C#类名对应的GetClassName的window class name
-            //int nret;
-            //var className = new StringBuilder(255);
-            //nret = WndHelper.GetClassName(button1.Handle, className, className.Capacity);
-            //if (nret != 0)
-            //    MessageBox.Show("Classname is " + className.ToString());
-            //else
-            //    MessageBox.Show("Error getting window class name"); 
-            #endregion
         }
 
         private void TestBtn1_Copy_Click(object sender, RoutedEventArgs e)

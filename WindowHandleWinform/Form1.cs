@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CMCode.Handle;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -39,6 +40,19 @@ namespace WindowHandleWinform
             {
                 MessageBox.Show("点击了No");
             };
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            #region 获取Winform中的C#类名对应的GetClassName的window class name
+            int nret;
+            var className = new StringBuilder(255);
+            nret = WndHelper.GetClassName(button1.Handle, className, className.Capacity);
+            if (nret != 0)
+                MessageBox.Show("ClassName is " + className.ToString());
+            else
+                MessageBox.Show("Error getting window class name");
+            #endregion
         }
     }
 }
