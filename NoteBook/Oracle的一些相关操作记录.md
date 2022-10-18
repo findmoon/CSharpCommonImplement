@@ -64,7 +64,7 @@ sysoper权限：
 create user user_name identified by password;
 ```
 
-## 修改用户
+## 修改用户密码
 
 ```sql
 alter user user_name identified by password;
@@ -82,6 +82,12 @@ drop user user_name;
 drop user user_name cascade;
 ```
 
+## 查看用户是否被锁定
+
+```sql
+select username, account_status, lock_date from dba_users;
+```
+
 ## 锁定和解锁用户
 
 ```sql
@@ -90,6 +96,8 @@ alter user user_name account lock;
 
 alter user user_name account unlock;
 ```
+
+> `system`用户就有可能经常是被锁定的
 
 # 角色及授权
 
@@ -153,15 +161,37 @@ revoke connect, resource from user_name;
 
 # SQL Plus登陆连接数据库
 
+## SQL Plus登陆Oracle的完整语法
+
+```sh
+sqlplus user/pwd@[//]Host[:Port]/<service_name> [as {SYSDBA | SYSOPER | SYSASM}]
+```
+
+`[]`中为可以省略的选项。
+
+```sh
+sqlplus user/pwd@Host[:Port]/<service_name>;
+
+# 或
+
+sqlplus user/pwd@<net_service_name>;
+```
+
+`service_name`服务名或`net_service_name`网络服务名。
+
+登陆本地的Oracle，则可以直接`@service_name`，不用指定ip和端口。
+
+Oracle的默认端口为`1521`。
+
 ## SQL Plus登陆本地Oracle
 
 登陆本地的Oracle，默认不需要安装Client，只有在客户端（其他电脑）连接Oracle数据库服务器时，才需要安装Oracle。
 
 SQL Plus登陆Oracle，即使不连接任何数据库，至少也应保证Oracle上创建有一个数据库实例（未严格测试，但是如果登陆不上，可以使用`DBCA`随便创建个数据库再登陆测试）
 
-## 以DBA权限登陆（不连接数据库）
+### 以DBA权限登陆（不连接数据库）
 
-### 方式一
+#### 方式一
 
 ```sh
 sqlplus /nolog
@@ -171,15 +201,138 @@ sqlplus /nolog
 conn sys/admin as sysdba
 ```
 
-### 方式二
+> `conn user_name/password` 不指定角色连接。
+
+#### 方式二
 
 ```sh
 sqlplus sys/admin as sysdba
 ```
 
-### 方式三
+#### 方式三
 
-`sqlplus / as sysdba` 或 `conn / as sysdba` 不指定用户名密码作为`sysdba`登陆的方式，使用的是windows系统认证。因此，要保证开启系统认证登陆。
+`sqlplus / as sysdba` 或 `sqlplus /nolog`--`conn / as sysdba` 不指定用户名密码作为`sysdba`登陆的方式，使用的是windows系统认证。因此，要保证开启系统认证登陆。
+
+> `sqlplus "/as sysdba"` 的形式也可以登陆。
+
+#### sqlplus后输入用户名密码登陆
+
+- `sqlplus`或`sqlplus @ip:port/service_name`，然后输入用户名密码登陆
+
+```sh
+> sqlplus @localhsot/orcl
+
+SQL*Plus: Release 19.0.0.0.0 - Production on 星期二 10月 18 09:44:03 2022
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+SP2-0310: 无法打开文件 "localhsot/orcl.sql"
+请输入用户名:
+```
+
+- `sqlplus`和`请输入用户名:  sys as sysdba`
+
+以`sysdba`角色登陆
+
+```sh
+> sqlplus
+
+SQL*Plus: Release 19.0.0.0.0 - Production on 星期二 10月 18 09:40:02 2022
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+请输入用户名:  sys as sysdba
+输入口令:
+
+连接到:
+Oracle Database 19c Standard Edition 2 Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL>
+```
+
+#### 使用数据库实例连接
+
+前面的登陆连接未指定数据库（实例），连接的是默认新建的第一个数据库。
+
+查看当前连接的数据库：
+
+```sql
+SQL> select name from v$database;
+
+NAME
+------------------
+ORCL
+```
+
+连接到ORCL实例：
+
+```sh
+> sqlplus / as sysdba@orcl
+
+SQL*Plus: Release 19.0.0.0.0 - Production on 星期二 10月 18 09:32:45 2022
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+
+连接到:
+Oracle Database 19c Standard Edition 2 Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL>
+```
+
+> 或`sqlplus /@orcl as sysdba`。
+
+## SQL Plus登陆远程Oracle
+
+远程登陆，需要安装Oracle客户端，配置好网络连接。
+
+> 主要在client的安装目录下，找到`network/admin/tnsnames.ora`文件，如果没有则新建。
+> 
+> `tnsnames.ora`的网络连接配置如下（可从Oracle数据库安装包或所在安装目录下找到示例文件）：
+> 
+> ```sh
+> ORCL =
+> (DESCRIPTION =
+>   (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
+>   (CONNECT_DATA =
+>     (SERVER = DEDICATED)
+>     (SERVICE_NAME = orcl)
+>   )
+> )
+> ```
+> 
+> TNS通用配置示例：
+> 
+> ```sh
+> IPTrans =
+> (DESCRIPTION =
+>   (ADDRESS_LIST =
+>     (ADDRESS = (PROTOCOL = TCP)(HOST = xx.xx.xx.xx)(PORT = 1521))
+>   )
+>   (CONNECT_DATA =
+>     (SERVICE_NAME = xxx)
+>   )
+> )
+> ```
+> 
+> - IPTrans：连接的网络服务器名，自己自定义名字
+> - SERVICE_NAME ：要连接的实例名（或服务名）   
+
+或者，安装配置`Oracle Data Access Components (ODAC)`，使用其他工具连接。
+
+```sh
+sqlplus tiger/scott@localhost/orcl
+sqlplus tiger/scott@172.16.10.1:1521/orcl
+```
+
+> 如果在Oracle服务器的本地也安装了客户端，有时可能会出现`ORA-12560: TNS: 协议适配器错误`，可以查看`Path`环境变量中 Oracle_db 和 Oracle_client 的顺序（服务器端通常不需要安装客户端），`dbhome`在前面，`client`在后面。
+> 
+> 具体可参见 [sqlplus 登录Oracle，出现：ORA-12560: TNS: 协议适配器错误](https://blog.csdn.net/aganliang/article/details/85227283)
 
 # Windows下sqlplus / as sysdba登录出现ora-01017用户名/口令无效的问题
 
@@ -218,13 +371,15 @@ ORA-01017: 用户名/口令无效; 登录被拒绝
 
 > “仅配置软件”表示仅仅将配置当前的安装软件，将当前安装包所在的Oracle软件配置，并不是完整意义上的Oracle数据库（即使后面创建了数据库实例）
 > 
-> 创建和配置单实例数据库的作用在于“创建启动数据库”：
+> 创建和配置单实例数据库的作用在于“创建启动数据库”【启动数据库即默认的全局数据库】：
 > 
 > ![](img/20221017172619.png)  
 >
 > 而且，对于软件来说，似乎解压后的安装包，在安装后，是作为Oracle软件存在的（具体不太清楚）
 > 
 > ![](img/20221017173117.png)  
+
+> 启动数据库：也叫全局数据库，是数据库系统的入口，它会内置一些高级权限的用户如SYS，SYSTEM等
 
 在Oracle安装包中`network\admin\`下的`sqlnet.ora`文件中，可以看到其内容：
 
@@ -273,6 +428,10 @@ Version 19.3.0.0.0 断开
 > 
 > 也就是，安装包原文件已经作为Oracle软件被配置和使用，和之前的版本有所不同。
 
+# 关于电脑名导致的Oracle安装内存不可用问题
+
+电脑名字太长、有连字符、有中文，或者安装路径（包括安装包所在路径）有中文，都有可能导致安装失败，或者一直提示内存不可用，则必须修改电脑名字、所在路径名称等。
+
 # oracle 查看用户名
 
 ## 查看当前用户名
@@ -288,7 +447,168 @@ select user from dual;
 select * from all_users;
 ```
 
+```sql
+select * from dba_users;
+```
+
+## 查看用户拥有的角色或权限
+
+```sql
+select * from dba_role_privs where grantee='用户名'；
+```
+
+# Oracle查看当前的实例及切换实例
+
+## 查看当前实例
+
+### show parameter name
+
+查看当前登录数据库的配置参数，里面可以看到实例`instance_name`（此外还有`service_names`等）：
+
+```sql
+SQL> set linesize 800
+SQL> show parameter name
+
+NAME                                 TYPE                   VALUE
+------------------------------------ ---------------------- ------------------------------
+cdb_cluster_name                     string
+cell_offloadgroup_name               string
+db_file_name_convert                 string
+db_name                              string                 orcl
+db_unique_name                       string                 orcl
+global_names                         boolean                FALSE
+instance_name                        string                 orcl
+lock_name_space                      string
+log_file_name_convert                string
+pdb_file_name_convert                string
+processor_group_name                 string
+
+NAME                                 TYPE                   VALUE
+------------------------------------ ---------------------- ------------------------------
+service_names                        string                 orcl
+```
+
+### select name from v$database;
+
+```sql
+SQL> select name from v$database;
+
+NAME
+------------------
+ORCL
+```
+
+### show parameter instance_name;
+
+只查看实例参数（实例名）
+
+## 指定连接的实例
+
+```sh
+sqlplus /@ORACLE_SID as sysdba;
+# 或
+sqlplus user/pwd@ORACLE_SID as sysdba;
+```
+
+## 查看所有实例
+
+```sql
+select instance_name from v$instance;
+```
+
+```sql
+select name from v$database ;
+```
+
+## 查看所有的表空间
+
+```sql
+select tablespace_name from dba_tablespaces;
+```
+
+## 查看用户及其表空间
+
+```sql
+select default_tablespace, temporary_tablespace, d.username  
+from dba_users d;
+```
+
+# 理解Oracle中user、scheme、表空间、数据库、实例之间的关系
+
+## 数据库和实例
+
+完整的Oracle数据库通常由两部分组成：Oracle数据库和数据库实例。
+
+1) 数据库是一系列物理文件的集合（数据文件，控制文件，联机日志，参数文件等）； 
+2) Oracle数据库实例则是一组Oracle后台进程/线程以及在服务器分配的共享内存区。
+
+在启动Oracle数据库服务器时，实际上是在服务器的内存中创建一个Oracle实例（即在服务器内存中分配共享内存并创建相关的后台内存），然后由这个Oracle数据库实例来访问和控制磁盘中的数据文件。Oracle有一个很大的内存块，成为全局区（SGA）。
+
+> 实例是访问Oracle数据库所需的一部分计算机内存和辅助处理后台进程，是由进程和这些进程所使用的内存(SGA)所构成一个集合。
+> 
+> 实例关联了数据库文件才可以访问，如果没有，就会得到实例不可用的错误。
+
+服务器、数据库、实例的对应关系可以为：
+
+- 服务器：数据库——1：n
+
+- 数据库：实例——1：n
+
+- 实例：用户——1：n
+
+多个实例可以对应一个数据库，他们共同操作同一数据文件，一个数据库可被许多实例同时装载和打开(即RAC)，RAC环境中实例的作用能够得到充分的体现！
+
+在任何时刻，一个实例只能有一组相关的文件（与一个数据库关联）。大多数情况下，反过来也成立：一个数据库上只有一个实例对其进行操作。不过，Oracle的真正应用集群（Real Application Clusters，RAC）是一个例外，这是Oracle提供的一个选项，允许在集群环境中的多台计算机上操作，这样就可以有多台实例同时装载并打开一个数据库（位于一组共享物理磁盘上）。由此，可以同时从多台不同的计算机访问这个数据库。Oracle RAC能支持高度可用的系统，可用于构建可扩缩性极好的解决方案。
+
+**实例名指的是用于响应某个数据库操作的数据库管理系统的名称。同时也叫SID。实例名是由参数instance_name决定的。**
+
+## 表空间
+
+表空间(tablespace)是数据库的逻辑划分，每个数据库至少有一个表空间（称作SYSTEM表空间）。为了便于管理和提高运行效率，可以使用一些附加表空间来划分用户和应用程序。例如：USER表空间供一般用户使用，RBS表空间供回滚段使用。**一个表空间只能属于一个数据库**。
+
+Oracle数据库通过表空间来管理（使用和存储）物理表，一个数据库实例可以有N个表空间，一个表空间下可以有N张表。
+
+表空间只和数据文件（ORA或者DBF文件）发生关系，数据文件是物理的，一个表空间可以包含多个数据文件，而一个数据文件只能隶属一个表空间。
+
+## 数据文件（dbf、ora）：
+
+数据文件是数据库的物理存储单位。
+
+数据库的数据存储在表空间中，真正是在某一个或者多个数据文件中。而一个表空间可以由一个或多个数据文件组成，一个数据文件只能属于一个表空间。
+
+一旦数据文件被加入到某个表空间后，就不能删除这个文件，如果要删除某个数据文件，只能删除其所属于的表空间才行。
+
+## 用户
+
+Oracle数据库建好后，要想在数据库里建表，必须先为数据库建立用户，并为用户指定表空间。
+
+一个用户至少要有一个默认表空间，此外，还可以管理其他表空间。
+
+用户需要有表空间足够的权限，才能操作表空间
+
+**用户是在实例下建立的。不同实例可以建相同名字的用户。**
+
+> 表的数据，是由用户放入某一个表空间的，而这个表空间会随机把这些表数据放到一个或者多个数据文件中。
+> 
+> oracle的数据库不是普通的概念，oracle是由用户和表空间对数据进行管理和存放的。但是表不是由表空间去查询的，而是由用户去查的。因为不同用户可以在同一个表空间建立同一个名字的表！这里区分就是用户了！
+
+
+
 # 参考
 
 - [Oracle内置账户sys/system详解，角色normal/sysdba/sysoper详解及创建用户、角色、授权](https://blog.csdn.net/wqh0830/article/details/87874380)
 - [windows平台 sqlplus / as sysdba登录出现ora-01017错误](https://blog.csdn.net/m0_37625564/article/details/112920445)
+- [Oracle Sqlplus命令登录的几种方式](https://blog.csdn.net/wwlhz/article/details/73296430)
+
+- [Oracle 数据库服务器，数据库，实例，用户之间的关系](https://blog.csdn.net/u011519658/article/details/9986813)
+- [Oracle数据库、实例、用户、表空间、表之间的关系](https://blog.csdn.net/MINGDE_SKILL/article/details/102365698)
+
+# Oracle安装配置好文推荐
+
+- [Oracle---windows下安装oracle19c](https://www.cnblogs.com/zdyang/p/12580263.html)
+- [Oracle19c的安装、卸载配置教程](https://blog.csdn.net/Evening_breeze_/article/details/113988231)，尤其注意卸载Oracle后删除注册表中的内容
+
+# 其他好文
+
+- [关系型数据库Oracle之架构详解](https://blog.csdn.net/qq_41036232/article/details/84500594)
+- [Oracle架构、原理、进程](https://cloud.tencent.com/developer/article/1531025)
