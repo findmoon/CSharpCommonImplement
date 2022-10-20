@@ -58,6 +58,8 @@ sysoper权限：
  
 # 用户管理
 
+> 推荐 [Oracle 创建用户详解（create user）](https://blog.csdn.net/qq_34745941/article/details/109717799)
+
 ## 创建用户
 
 ```sql
@@ -158,6 +160,20 @@ revoke connect, resource from user_name;
 例子： drop role testRole;
 
 注：与testRole角色相关的权限将从数据库全部删除
+
+## 查看当前用户的角色
+
+select * from user_role_privs;
+
+## 查看当前用户的系统权限和表级权限
+
+select * from user_sys_privs;
+
+select * from user_tab_privs;
+
+## 查看用户下所有的表
+
+select * from user_tables; 
 
 # SQL Plus登陆连接数据库
 
@@ -430,7 +446,7 @@ Version 19.3.0.0.0 断开
 
 # 关于电脑名导致的Oracle安装内存不可用问题
 
-电脑名字太长、有连字符、有中文，或者安装路径（包括安装包所在路径）有中文，都有可能导致安装失败，或者一直提示内存不可用，则必须修改电脑名字、所在路径名称等。
+电脑名字太长、有连字符、有中文、有空格，或者安装路径（包括安装包所在路径）有这些符号（连字符、中文、空格），都有可能导致安装失败，或者安装过程中突然秒退，或者一直提示内存不可用，则必须修改电脑名字、所在路径名称等。
 
 # oracle 查看用户名
 
@@ -445,16 +461,50 @@ select user from dual;
 
 ```sql
 select * from all_users;
+
+select USERNAME from all_users;
 ```
 
 ```sql
 select * from dba_users;
+
+select USERNAME from dba_users;
 ```
 
 ## 查看用户拥有的角色或权限
 
 ```sql
 select * from dba_role_privs where grantee='用户名'；
+```
+
+## 查看某个角色包括哪些系统权限
+
+```sql
+select * from dba_sys_privs where grantee='DBA';
+```
+
+## 查看oracle中所有的角色
+
+```sql
+select * from dba_roles;
+```
+
+## 其他一些查看
+
+快速创建表空间：(备注：ADC_BACK_1 为表空间名称，datafile指定了表空间物理路径，如下创建2个表空间)
+create tablespace ADC_BACK_1 datafile 'D:\OracleBack\ADC1.dnf' size 500M;
+create tablespace ADC_BACK_2 datafile 'D:\OracleBack\ADC2.dnf' size 500M;
+
+查看单张表在不同表空间的详细信息(包括表空间、表名称、表使用的空间大小)：
+SELECT tablespace_name, segment_name, segment_type, blocks FROM dba_segments WHERE segment_name = 'JMS_NEWS'
+
+
+# Oracle查看所有表
+
+```sql
+select table_name from all_tables;
+
+select count(table_name) from all_tables;
 ```
 
 # Oracle查看当前的实例及切换实例
@@ -520,7 +570,7 @@ select instance_name from v$instance;
 select name from v$database ;
 ```
 
-## 查看所有的表空间
+## 查看所有的表空间（查看表空间）
 
 ```sql
 select tablespace_name from dba_tablespaces;
@@ -532,6 +582,49 @@ select tablespace_name from dba_tablespaces;
 select default_tablespace, temporary_tablespace, d.username  
 from dba_users d;
 ```
+
+## 修改用户可以管理其他表空间（使用多个表空间、其他表空间）
+
+将tablespace_name这个表空间分配给username用户来管理。
+
+```sql
+ALTER USER username QUOTA UNLIMITED ON tablespace_name;
+```
+
+## 修改用户的默认表空间
+
+```sql
+ALTER USER csdn DEFAULT TABLESPACE SPACE2；
+```
+
+## 删除用户
+
+```sql
+DROP USER csdn CASCADE;
+```
+
+## 删除表空间，及对应的表空间文件也删除掉
+
+```sql
+DROP TABLESPACE SPACE1 INCLUDING CONTENTS AND DATAFILES CASCADE CONSTRAINT;
+```
+
+# 查看数据库版本
+
+```sql
+select version from v$instance; 
+```
+
+也可以参考`sqlplus -v`或`sqlplus`登陆时的版本信息。
+
+# 检查数据库的字符集
+
+```sql
+select userenv('language') from dual;
+```
+
+# 查看用户具有怎样的角色：select * from dba_role_privs where grantee='用户名';
+
 
 # 理解Oracle中user、scheme、表空间、数据库、实例之间的关系
 
@@ -570,6 +663,40 @@ Oracle数据库通过表空间来管理（使用和存储）物理表，一个�
 
 表空间只和数据文件（ORA或者DBF文件）发生关系，数据文件是物理的，一个表空间可以包含多个数据文件，而一个数据文件只能隶属一个表空间。
 
+### 表空间类型
+
+> 好文：[ORACLE表空间详解](https://www.cnblogs.com/chenzhaoren/p/9969712.html)
+
+永久性表空间：一般保存表、视图、过程和索引等的数据。
+
+临时性表空间：只用于保存系统中短期活动的数据。
+
+撤销表空间：用来帮助回退未提交的事务数据。
+
+### 表空间作用
+
+表空间的作用能帮助DBA用户完成以下工作：
+
+　　1. 决定数据库实体的空间分配
+
+　　2. 设置数据库用户的空间份额
+
+　　3. 控制数据库部分数据的可用性
+
+　　4. 分布数据于不同的设备之间以改善性能
+
+　　5. 备份和恢复数据。
+
+用户创建其数据库实体时，必须给予表空间中具有相应的权力，所以对一个用户来说,其要操纵一个ORACLE数据库中的数据，应该：
+
+　　1. 被授予关于一个或多个表空间中的RESOURCE特权
+
+　　2. 被指定缺省表空间
+
+　　3. 被分配指定表空间的存储空间使用份额
+
+　　4. 被指定缺省临时段表空间,建立不同的表空间，设置最大的存储容量。
+
 ## 数据文件（dbf、ora）：
 
 数据文件是数据库的物理存储单位。
@@ -579,6 +706,8 @@ Oracle数据库通过表空间来管理（使用和存储）物理表，一个�
 一旦数据文件被加入到某个表空间后，就不能删除这个文件，如果要删除某个数据文件，只能删除其所属于的表空间才行。
 
 ## 用户
+
+> 什么是用户？用户本质只是一个抽象的概念，它表示的是在一个中拥有的资源，不同的用户有着不同的资源（或数据、信息）【**用户所持有的是系统的资源及权限**】。
 
 Oracle数据库建好后，要想在数据库里建表，必须先为数据库建立用户，并为用户指定表空间。
 
@@ -592,16 +721,137 @@ Oracle数据库建好后，要想在数据库里建表，必须先为数据库�
 > 
 > oracle的数据库不是普通的概念，oracle是由用户和表空间对数据进行管理和存放的。但是表不是由表空间去查询的，而是由用户去查的。因为不同用户可以在同一个表空间建立同一个名字的表！这里区分就是用户了！
 
+## scheme
 
+> 节选转自[理解 oracle 中 user和 schema 的关系](https://blog.csdn.net/qq_24434251/article/details/110285740)
+
+**oracle 中的 schema 就是指一个用户下所有数据库对象（如 tables，views，stored procedures等）的逻辑集合。**
+
+schema 本身不能理解成一个对象，oracle 中并没有提供创建 schema 的语法，schema 也并不是在创建 user 的时候就创建，而是在该用户下创建第一个对象之后 schema 也随之产生。只要 user 下存在对象，schema 就一定存在，user 下如果不存在对象，schema 也不存在。
+
+对于一个大型的企业应用，最好针对不同的目的，使用不同的 schema。
+比如，可以把会员相关的表放在会员 schema 中，账务相关的表放在账务 schema 中。
+
+在数据库中，一个对象的完整名称为 schema.object，而不是 user.object。在创建对象时，如果我们不指定该对象的 schema，则该对象的 schema 为用户缺省的 schema。
+
+下面这个比喻，很形象生动的说明了 user 和 schema 的关系。
+
+好比一个房子，里面放满了家具，对这些家具有支配权的是房子的主人(user)，而不是房子(schema)。你可以也是一个房子的主人(user)，拥有自己的房子(schema)，也可以进入别人的房子（通过 `alter session set current_schema = <>` 的方式）。
+
+如果你没有特别指定的话，你所做的操作都是针对你当前所在房子中的东西。
+
+至于你是否有权限使用 (select)、搬动 (update) 或者拿走 (delete) 这些家具就看这个房子的主人有没有给你这样的权限了，或者你是整个大厦 (DB) 的老大(DBA)，则随意。
+
+## scheme方案和用户、实例的关系
+
+oracle的单实例系统中，一个数据库对应一个实例，连上数据库之后，一个用户又对应一个Schema。
+
+一个用户可以访问自己的scheme下的数据库对象，也可以授权访问其他scheme（用户）下的数据库对象。
+
+通常，一个方案对应一个项目。一个方案对应一个用户；每个用户可以管理多个表空间，每个表空间由一个或多个物理文件(.dbf)组成，一个用户可以分配多个表空间，但只能有一个默认表空间，每张表可以存在于一个或多个表空间中。
+
+多个用户可以共享或使用一个表空间。
+
+表、视图等数据库对象都是建立在Schema中的，也可以理解为每个**用户拥有不同的表等对象**。一个用户想访问另外一个用户，也就是另外一个schema的表，可以用 `username.tablename` 的形式来访问。
+
+不同的schema之间没有直接的关系，不同的shcema之间的表可以同名，也可以互相引用（但必须有权限），在没有操作别的schema的操作根权下，每个用户只能操作它自己的schema下的所有的表。
+
+> 对于应用程序来说：
+> 
+> 在一个数据库中可以有多个应用的数据表，这些不同应用的表可以放在不同的schema之中，同时，每一个schema对应一个用户，不同的应用可以以不同的用户连接数据库，这样，一个大数据库就可以根据应用把其表分开来管理。
+
+> Oracle的企业管理器Enterprise Manager里面的用户就叫schema。
+
+## 容器数据库与可插拔数据库
+
+> [ORACLE容器数据库与可插拔数据库](https://blog.csdn.net/weixin_42774383/article/details/82116377)
+> 
+> [Oracle：容器数据库简介](https://blog.csdn.net/wubaohu1314/article/details/120099158)
+> 
+> [实例解析Oracle容器数据库的安装和使用](https://www.php.cn/oracle/493700.html)
+
+Oracle 12C 引入了 CDB 与 PDB 的新特性，在 ORACLE 12C 数据库引入的多租用户环境（Multitenant Environment）中，允许一个数据库容器（CDB）承载多个可插拔数据库（PDB）。CDB 全称为 Container Database，中文翻译为数据库容器，PDB 全称为 Pluggable Database，即可插拔数据库。在 ORACLE 12C 之前，实例与数据库是一对一或多对一关系（RAC）：即一个实例只能与一个数据库相关联，数据库可以被多个实例所加载。而实例与数据库不可能是一对多的关系。当进入 ORACLE 12C 后，实例与数据库可以是一对多的关系。
+
+### ORACLE MULTITEMENT CONTAINER DATABASE(CDB)，即多容器数据库
+
+是ORACLE12c新引入的特性，这个特性允许CDB容器数据库中创建并且维护多个数据库，在CDB中创建的数据库被称为PDB，每个PDB在CDB中是独立的，在单独使用PDB时与普通数据库无差别。CDB根容器数据库的主要作用就是容纳所有相关的PDB元数据，以及在CDB中对虽有PDB进行管理。
+
+### 多租户环境组成
+
+（1）ROOT：ROOT容器数据库，是CDB环境中的根数据库，在跟数据库中含有主数据字典视图，其中包含了与ROOT容器有关的元数据和CDB中包含的所有PDB信息，在CDB环境中被标识为CDB$ROOT，每个CDB环境中只能有一个ROOT容器数据库。
+
+（2）PDB SEED：PDB SEED为PDB的种子，其中提供了数据文件，在PDB环境中被标识为PDB$SEED，是创建PDB的模板，可以连接PDB$SEED但是不能执行任何事务，因为PDB$SEED是只读的，不可修改。
+
+（3）PDBS：PDBS数据库，在CDB环境中每个PDB都是独立存在的，与传统ORACLE数据库无差别，每个PDB拥有自己的数据文件和OBJECTS，唯一的区别就是PDB可以插入到PDB中，以及从CDB中拔出。当用户连接到PDB时不会感觉到根容器和其他PDB的存在。
+
+### 
+
+# Oracle中的监听器
+
+> 节选转自 https://www.cnblogs.com/remote-antiquity/p/7874743.html
+
+Oracle 监听器 Listener 是一个重要的数据库服务器组件，在整个 Oracle 体系结构中，扮演着重要的作用。它负责管理 Oracle 数据库和客户端之间的通讯，它在一个特定的网卡端口（默认是TCP 1521端口）上监听连接请求，并将连接转发给数据库。
+
+![](img/20221019163221.png)  
+
+## 1. 监听器的功能
+
+从当前的 Oracle 版本看，Listener 主要负责下面的几方面功能：
+
+1. 监听客户端请求。
+
+监听器运行在数据库服务器之上，与 Oracle 实例（可为多个）相关关联，是一个专门的进程 process。在 Windows 的服务项目或者 Linux 的运行进程列表中，都会看到对应的运行进程。Windows 上名为 TNSLSNR，Linux/Unix 平台上是 lsnrctl。监听器守候在服务器制定端口（默认为：1521），监听客户端的请求。
+
+2. 为客户端请求分配 Server Process。
+
+监听器只负责接听请求，之后将请求转接给 Oracle Server Process。在 Oracle 的服务模式下，客户端进程是不允许直接操作数据库实例和数据，而是通过一个服务进程 Server Process（也称为影子进程）作为代理。监听器接受到请求之后，就向操作系统（或者 Dispatcher 组件）要求 fork（或分配）一个 Server Process 与客户端相连。
+
+3. 注册实例服务。
+
+本质上讲，Listener 是建立实例和客户端进程之间联系的桥梁。Listener 与实例之间的联系，就是通过注册的过程来实现的。注册的过程就是实例告诉监听器，它的数据库数据库实例名称 instance_name 和服务名 service_names。监听器注册上这样的信息，对客户端请求根据监听注册信息，找到正确的服务实例名称。目前 Oracle 版本中，提供动态注册和静态注册两种方式。
+
+4. 错误转移 failover。
+
+failover 是 RAC 容错的一个重要方面功能，其功能是在数据库实例崩溃的时候，可以自动将请求转移到其他可用实例上的一种功能。可以提供很大程度上的可用性（Availability）功能。这个过程中，发现实例已经崩溃，并且将请求转移到其他实例上，就属于是 Listener 的功能。
+
+5. 负载均衡衡量。
+
+在 RAC 架构中，Oracle 实现了负载均衡。当一个客户请求到来时，Oracle 会根据当前 RAC 集群环境中所有实例的负载情况，避开负载较高的实例，将请求转移到负载较低的实例进行处理。在早期 RAC 版本中，负载轻重的衡量是根据监听器当前维护连接数目来确定的，而不是实时查看多实例的负载。RAC 环境中的监听器之间进行沟通通信。
+
+## 2. 监听器的工作过程
+
+一般，监听器作为一个独立 process 在操作系统中运行，守候在特定网络端口（默认为：1521），等待客户端请求的到来。注意：我们在客户端配置命名服务的时候，输入的1521也就是为了与监听器程序建立连接。
+
+当一个请求“如期而至”，监听器对照已经注册的服务列表，查找对应的数据库实例信息，获取到指定实例的 ORACLE_HOME 路径。相当于表明可以进行连接。
+
+客户端与实例的交互不是直接的，是通过 Server Process 作为代理中介来实现的。所有指令 SQL 都是客户端通过 Server Process 发送到实例中，这种体系结构是 Oracle 对于实例和数据库文件一种保护机制。
+
+当监听器获得请求之后，要从 Oracle 实例中分配一个 Server Process 与之对应。这里不同的 Oracle 连接方式存在一些差别。
+
+如果是专用连接模式，也就是一个客户端连接对应一个 Server Process。监听器就会向 OS 请求 fork（创造）出一个 Server Process，与监听器尝试交互。
+
+如果是共享连接模式，也就是多个客户端共享一个 Server Process（注意：这里还不是连接池）。监听器就会向 Dispatcher 进程（管理共享模式连接的进程）请求一个 Server Process 与之交互。
+
+Server Process 与监听器的连接，实际上就是相互信息的交换。Server Process 将自身在 OS 中的进程编号、连接地址信息发给监听器。监听器将客户端信息传递给 Server Process。
+
+监听器获取到 Server Process 的信息之后，将其返回给客户端连接程序。客户端获取到信息之后，进行重连接，根据返回的信息与 Server Process 在制定的服务器端口进行联系。
+
+直到这个时候，客户端程序才将连接用户名、密码等信息发给 Server Process，进行登录验证等操作。监听器的工作也就到此结束。
+
+这里面有一个技术细节，就是 Server Process 与客户端连接的时候，是允许不使用1521端口的。具体连接的端口，是带有随机因素的。在9i版本 Windows 平台下，如果安装了防火墙，只允许1521端口通信，是会带来一些连接问题。好在在其他平台上和之后的版本中，实现了一种端口共享技术，连接可以和监听器一起使用1521端口。
 
 # 参考
 
 - [Oracle内置账户sys/system详解，角色normal/sysdba/sysoper详解及创建用户、角色、授权](https://blog.csdn.net/wqh0830/article/details/87874380)
 - [windows平台 sqlplus / as sysdba登录出现ora-01017错误](https://blog.csdn.net/m0_37625564/article/details/112920445)
 - [Oracle Sqlplus命令登录的几种方式](https://blog.csdn.net/wwlhz/article/details/73296430)
+- [Oracle创建多表空间和用户，同一用户管理多个表空间](https://blog.csdn.net/qq_41807801/article/details/108070980)
 
 - [Oracle 数据库服务器，数据库，实例，用户之间的关系](https://blog.csdn.net/u011519658/article/details/9986813)
 - [Oracle数据库、实例、用户、表空间、表之间的关系](https://blog.csdn.net/MINGDE_SKILL/article/details/102365698)
+- [Oracle 数据库、实例、用户、表空间、表之间的关系讲解](https://blog.csdn.net/dhfzhishi/article/details/81160306)
+- [探秘Oracle表空间、用户、表之间的关系](https://blog.csdn.net/huyuyang6688/article/details/49282199)
+- [Oracle里schema理解](https://www.cnblogs.com/panxuejun/p/6755532.html)
 
 # Oracle安装配置好文推荐
 
@@ -612,3 +862,18 @@ Oracle数据库建好后，要想在数据库里建表，必须先为数据库�
 
 - [关系型数据库Oracle之架构详解](https://blog.csdn.net/qq_41036232/article/details/84500594)
 - [Oracle架构、原理、进程](https://cloud.tencent.com/developer/article/1531025)
+- [Oracle--查询表空间、schema、表等存储情况操作](https://www.cnblogs.com/wei523/p/8525743.html)
+- [Oracle中查询所有数据库名、表名、表中的所有字段名和类型](https://www.cnblogs.com/readyueson/articles/13322684.html)
+- [Oracle19C客户端部署及远程访问](https://blog.csdn.net/weixin_41645135/article/details/123470171)
+
+# 官网+网盘下载
+
+Oracle19C_database_官网下载地址 https://download.oracle.com/otn/nt/oracle19c/193000/WINDOWS.X64_193000_db_home.zip?AuthParam=1589441595_d3fbf2ad06c24ea04e50898e8da4eedb
+Oracle19C_client_官网下载地址
+https://download.oracle.com/otn/nt/oracle19c/193000/WINDOWS.X64_193000_client_home.zip?AuthParam=1589462569_2b721849632ff8067029498504b5e97b
+Oracle19C_database_百度网盘获取
+链接：https://pan.baidu.com/s/1Qin14Jv9TDuLH6c_SXfjhg
+提取码：u9x4
+Oracle19C_client_百度网盘获取
+链接：https://pan.baidu.com/s/1RjdkEENsudaxryn8UbKvdQ
+提取码：tp7p
