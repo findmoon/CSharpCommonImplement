@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1;net45</TargetFrameworks>
+    <Nullable>warnings</Nullable>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
+</Project>
