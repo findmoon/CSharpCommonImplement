@@ -2,9 +2,39 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1;net45</TargetFrameworks>
-    <Nullable>enable</Nullable>
+    <Nullable>warnings</Nullable>
     <LangVersion>8.0</LangVersion>
+
+    <!--<Product>产品名称</Product>
+    <Description>产品说明</Description>
+    <Authors>作者</Authors>
+    <Company>公司</Company>
+    <Copyright>版权</Copyright>
+
+    <Version>版本号</Version>
+    <AssemblyVersion>程序集版本号</AssemblyVersion>
+    <FileVersion>文件版本号</FileVersion>-->
+
+
+    <Description>很简单的SQL Server帮助类，基本的参数化SQL语句执行、查询DataTable结果的数据、判断数据库和表是否存在、更改连接的DB。支持.NET 4.5和.NET Standard2.1</Description>
+    <Authors>CodeMissing</Authors>
+   
+    <Copyright>Copyright © CodeMissing</Copyright>
+
+    <Version>0.9</Version>
+    
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>CodeMissing.$(AssemblyName)</PackageId>
+    <Title>简单易用的SQL Server DB访问帮助类</Title>
+    <PackageIcon>CodeMissing-Logo.png</PackageIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\NoteBook\CodeMissing-Logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DBSQLHelper\DBSQLHelper.csproj" />

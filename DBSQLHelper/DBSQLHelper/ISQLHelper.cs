@@ -42,9 +42,10 @@ namespace System.Data
         /// <param name="initModel"></param>
         /// <returns></returns>
         bool Initializer(SQLInitModel initModel);
+        bool Initializer(string ipInstance, string userName, string password, string dbName);
         //Task<bool> InitAsync(SQLInitModel initModel);
-
-        /// <summary>
+                         
+        /// <summary>    
         /// 更换连接的数据库
         /// </summary>
         /// <param name="dbName"></param>

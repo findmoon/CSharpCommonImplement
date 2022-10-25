@@ -20,6 +20,7 @@ namespace System.Data
         private string _ipInstance;
         private string _userName;
         private string _password;
+        private string _dbName;
 
         private SqlConnection _conn;
 
@@ -82,18 +83,57 @@ namespace System.Data
         /// <summary>
         /// 初始化一个新的SQLHelper对象
         /// </summary>
-        /// <param name="initModel"></param>
+        /// <param name="ipInstance"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <param name="dbName"></param>
         /// <returns></returns>
-        public bool Initializer(SQLInitModel initModel)
+        public bool Initializer(string ipInstance, string userName, string password, string dbName)
         {
-            _ipInstance = initModel.IpInstance;
-            _userName = initModel.UserName;
-            _password = initModel.Password;
-            var dbName = initModel.DBName;
+            _ipInstance = ipInstance;
+            _userName = userName;
+            _password = password;
+            _dbName = dbName;
             ConnStr = $"Server={_ipInstance};Database={dbName};User Id={_userName};Password={_password};";
             Conn = new SqlConnection(ConnStr);
             // 验证连接是否正常
             return CheckOpen();
+        }
+        /// <summary>
+        /// 初始化一个新的SQLHelper对象
+        /// </summary>
+        /// <param name="initModel"></param>
+        /// <returns></returns>
+        public bool Initializer(SQLInitModel initModel)
+        {
+            return Initializer(initModel.IpInstance, initModel.UserName,initModel.Password,initModel.DBName);
+        }
+        /// <summary>
+        /// 初始化SQLHelper对象，如果已有对应的数据库服务器连接，则直接返回；没有则创建新的
+        /// </summary>
+        /// <param name="ipInstance"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <param name="dbName"></param>
+        /// <returns></returns>
+        public static SQLServerHelper Init(string ipInstance, string userName, string password, string dbName)
+        {
+            var key = $"{ipInstance}-{userName}-{password}-{dbName}";
+            if (!_sqlHelperCache.ContainsKey(key))
+            {
+                var sql = new SQLServerHelper();
+                // 验证连接是否正常
+                if (sql.Initializer(ipInstance, userName, password, dbName))
+                {
+                    _sqlHelperCache.Add(key, sql);
+                    return sql;
+                }
+            }
+            // “Conn.ServerVersion”引发了类型“System.InvalidOperationException”的异常
+            // 强行打开将会报错
+            // Conn.Open();
+
+            return _sqlHelperCache[key];
         }
         /// <summary>
         /// 初始化SQLHelper对象，如果已有对应的数据库服务器连接，则直接返回；没有则创建新的
@@ -102,21 +142,7 @@ namespace System.Data
         /// <returns></returns>
         public static SQLServerHelper Init(SQLInitModel initModel)
         {
-            if (!_sqlHelperCache.ContainsKey(initModel.IpInstance))
-            {
-                var sql = new SQLServerHelper();
-                // 验证连接是否正常
-                if (sql.Initializer(initModel))
-                {
-                    _sqlHelperCache.Add(initModel.IpInstance, sql);
-                    return sql;
-                }
-            }
-            // “Conn.ServerVersion”引发了类型“System.InvalidOperationException”的异常
-            // 强行打开将会报错
-            // Conn.Open();
-
-            return _sqlHelperCache[initModel.IpInstance];
+            return Init(initModel.IpInstance, initModel.UserName, initModel.Password, initModel.DBName);
         }
 
         //public async Task<bool> InitAsync(SQLInitModel initModel)
@@ -132,6 +158,10 @@ namespace System.Data
 
         public bool ChangeDB(string dbName)
         {
+            if (_dbName== dbName)
+            {
+                return true;
+            }
             _conn?.Close();
             var connStr = $"Server={_ipInstance};Database={dbName};User Id={_userName};Password={_password};";
             _conn = new SqlConnection(connStr);
@@ -140,6 +170,10 @@ namespace System.Data
         }
         public async Task<bool> ChangeDBAsync(string dbName)
         {
+            if (_dbName == dbName)
+            {
+                return true;
+            }
             _conn?.Close();
             var connStr = $"Server={_ipInstance};Database={dbName};User Id={_userName};Password={_password};";
             _conn = new SqlConnection(connStr);
