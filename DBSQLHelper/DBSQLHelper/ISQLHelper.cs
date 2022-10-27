@@ -19,13 +19,13 @@ namespace System.Data
         //    get;
         //}
 
-        /// <summary>
-        /// 获取当前的连接字符串
-        /// </summary>
-        string ConnStr
-        {
-            get;
-        }
+        ///// <summary>
+        ///// 获取当前的连接字符串 【似乎没太大必要，子类自己返回DbConnection更好】
+        ///// </summary>
+        //string ConnStr
+        //{
+        //    get;
+        //}
 
         /// <summary>
         /// 获取连接状态是否OK
@@ -37,21 +37,37 @@ namespace System.Data
 
 
         /// <summary>
-        /// SQLHelper初始化器，初始化一个新的SQLHelper
+        /// SQLHelper初始化器，初始化新的连接【应注意避免重复初始化】
         /// </summary>
         /// <param name="initModel"></param>
         /// <returns></returns>
         bool Initializer(SQLInitModel initModel);
+        /// <summary>
+        /// 初始化新的连接
+        /// </summary>
+        /// <param name="ipInstance"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <param name="dbName"></param>
+        /// <returns></returns>
         bool Initializer(string ipInstance, string userName, string password, string dbName);
+        /// <summary>
+        /// 直接通过connString初始化新的连接，可以自定义传入自己的连接字符串
+        /// </summary>
+        /// <param name="connStr"></param>
+        /// <returns></returns>
+        bool Initializer(string connStr);
+
         //Task<bool> InitAsync(SQLInitModel initModel);
-                         
+
         /// <summary>    
         /// 更换连接的数据库
         /// </summary>
         /// <param name="dbName"></param>
         /// <returns></returns>
         bool ChangeDB(string dbName);
-        Task<bool> ChangeDBAsync(string dbName);
+        // 异步更改数据库似乎没太必要
+        //Task<bool> ChangeDBAsync(string dbName);
 
         /// <summary>
         /// 断开连接
@@ -59,24 +75,28 @@ namespace System.Data
         void DisConn();
 
         /// <summary>
-        /// 检查当前连接是否打开，未打开将引发异常或返回false，已打开返回true【通常用于open()操作或初始化之后的检查】】
+        /// 检查是否初始化，未初始化将返回false或引发异常（且应该进行简单的重置），已初始化返回true【通常用于open()操作或初始化之后的检查】
         /// </summary>
-        bool CheckOpen();
+        bool CheckInitial();
 
         /// <summary>
         /// 是否存在某数据库及数据库中存在表
         /// </summary>
         /// <param name="dbName"></param>
         /// <param name="tableName"></param>
+        /// <param name="columnName">列名，如果为空，将检查数据库或表是否存在</param>
+        /// <param name="schema"></param>
         /// <returns></returns>
-        bool ExistsDBOrTable(string dbName, string tableName, string schema);
+        bool ExistsDBOrTableOrCol(string dbName, string tableName, string columnName, string schema);
         /// <summary>
         /// 是否存在某数据库及数据库中存在表
         /// </summary>
         /// <param name="dbName"></param>
         /// <param name="tableName"></param>
+        /// <param name="columnName">列名，如果为空，将检查数据库或表是否存在</param>
+        /// <param name="schema"></param>
         /// <returns></returns>
-        Task<bool> ExistsDBOrTableAsync(string dbName, string tableName, string schema);
+        Task<bool> ExistsDBOrTableOrColAsync(string dbName, string tableName, string columnName, string schema);
 
         /// <summary>
         /// 执行非查询SQL操作

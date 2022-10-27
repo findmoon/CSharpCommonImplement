@@ -1,19 +1,18 @@
-﻿#if NETSTANDARD2_1_OR_GREATER
-using Microsoft.Data.SqlClient;
-#endif
+﻿
+using Oracle.ManagedDataAccess.Client;
+
 using System.Collections.Generic;
 using System.Data.Common;
-#if NET45_OR_GREATER
-using System.Data.SqlClient;
-#endif
+
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace System.Data
 {
     /// <summary>
     /// 推荐使用Init创建SQLHelper对象，若使用new单独创建，必须调用Initializer
     /// </summary>
-    public class SQLServerHelper : ISQLHelper, IDisposable
+    public class OracleSQLHelper : ISQLHelper, IDisposable
     {
         // 基本都是直接查询获取或更新、或执行sql，没必要维护一个全局变量
         //private SqlCommand cmd = null;
@@ -23,7 +22,7 @@ namespace System.Data
         private string _password;
         private string _dbName;
 
-        private SqlConnection _conn;
+        private OracleConnection _conn;
 
         #region 属性
         /// <summary>
@@ -42,7 +41,8 @@ namespace System.Data
         /// <summary>
         /// 当前连接字符串
         /// </summary>
-        private string ConnStr => $"Server={_ipInstance};Database={_dbName};User Id={_userName};Password={_password};Encrypt=False;";
+        private string ConnStr => $"Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={_ipInstance})(PORT=1521))" +
+                    $"(CONNECT_DATA=(SERVICE_NAME={_dbName})));Persist Security Info=True;User ID={_userName};Password={_password};";
 
         /// <summary>
         /// 获取连接状态
@@ -53,7 +53,7 @@ namespace System.Data
         /// 获取当前连接对象SqlConnection (若未连接，会在获取时打开连接)
         /// </summary>
         /// <returns></returns>
-        public SqlConnection Conn
+        public OracleConnection Conn
         {
             get
             {
@@ -73,24 +73,24 @@ namespace System.Data
         #endregion
 
         #region 初始化器
-        static readonly Dictionary<string, SQLServerHelper> _sqlHelperCache = new Dictionary<string, SQLServerHelper>();
+        static readonly Dictionary<string, OracleSQLHelper> _sqlHelperCache = new Dictionary<string, OracleSQLHelper>();
 
         /// <summary>
         /// 初始化新的连接
         /// </summary>
-        /// <param name="ipInstance"></param>
+        /// <param name="ipServer"></param>
         /// <param name="userName"></param>
         /// <param name="password"></param>
         /// <param name="dbName"></param>
         /// <returns></returns>
-        public bool Initializer(string ipInstance, string userName, string password, string dbName)
+        public bool Initializer(string ipServer, string userName, string password, string dbName)
         {
-            if ($"{ipInstance}-{userName}-{password}-{dbName}" == $"{_ipInstance}-{_userName}-{_password}-{_dbName}")
+            if ($"{ipServer}-{userName}-{password}-{dbName}" == $"{_ipInstance}-{_userName}-{_password}-{_dbName}")
             {
                 return true;
             }
 
-            _ipInstance = ipInstance;
+            _ipInstance = ipServer;
             _userName = userName;
             _password = password;
             _dbName = dbName;
@@ -115,14 +115,14 @@ namespace System.Data
         /// <param name="password"></param>
         /// <param name="dbName"></param>
         /// <returns></returns>
-        public static SQLServerHelper Init(string ipInstance, string userName, string password, string dbName)
+        public static OracleSQLHelper Init(string ipServer, string userName, string password, string dbName)
         {
-            var key = $"{ipInstance}-{userName}-{password}-{dbName}";
+            var key = $"{ipServer}-{userName}-{password}-{dbName}";
             if (!_sqlHelperCache.ContainsKey(key))
             {
-                var sql = new SQLServerHelper();
+                var sql = new OracleSQLHelper();
                 // 验证连接是否正常
-                if (sql.Initializer(ipInstance, userName, password, dbName))
+                if (sql.Initializer(ipServer, userName, password, dbName))
                 {
                     _sqlHelperCache.Add(key, sql);
                     return sql;
@@ -139,7 +139,7 @@ namespace System.Data
         /// </summary>
         /// <param name="initModel"></param>
         /// <returns></returns>
-        public static SQLServerHelper Init(SQLInitModel initModel)
+        public static OracleSQLHelper Init(SQLInitModel initModel)
         {
             return Init(initModel.IpInstance, initModel.UserName, initModel.Password, initModel.DBName);
         }
@@ -151,7 +151,7 @@ namespace System.Data
         /// <returns></returns>
         public bool Initializer(string connStr)
         {
-            Conn = new SqlConnection(connStr);
+            Conn = new OracleConnection(connStr);
 
             // 验证连接是否正常
             return CheckInitial();
@@ -214,78 +214,68 @@ namespace System.Data
             return true;
         }
         /// <summary>
-        /// 是否存在某数据库或数据库中存在某表【dbName tableName不能同时为空】
+        /// 是否存在某表或某列(异步)【tableName columnName不能同时为空】
         /// </summary>
-        /// <param name="dbName">数据库名，如果为空，将检查当前连接的数据库中是否存在某table或column</param>
-        /// <param name="tableName">表名，如果为空，将仅检查是否存在某db</param>
-        /// <param name="columnName">列名，如果为空，将检查数据库或表是否存在;若不为空，则tableName也必须指定</param>
-        /// <param name="schema">不应该为空</param>
+        /// <param name="dbName">参数无效</param>
+        /// <param name="tableName">表名</param>
+        /// <param name="columnName">列名，如果为空，将检查表是否存在</param>
+        /// <param name="schema">参数无效</param>
         /// <returns></returns>
-        public bool ExistsDBOrTableOrCol(string dbName, string tableName, string columnName = "", string schema = "dbo")
+        public bool ExistsDBOrTableOrCol(string dbName, string tableName, string columnName = "", string schema = "")
         {
-            if (string.IsNullOrWhiteSpace(dbName) && string.IsNullOrWhiteSpace(tableName))
+            if (string.IsNullOrWhiteSpace(tableName))
             {
                 return false;
             }
-            string sql = GetQueryExistsDBOrTableOrColSQLStr(dbName, tableName, columnName, schema);
+            string sql = GetQueryExistsDBOrTableSQLStr(dbName, tableName, columnName, schema);
             var dbExists = ExecuteScalar(sql);
 
             return dbExists != "0";
         }
 
         /// <summary>
-        /// 是否存在某数据库或数据库中存在某表(异步)【dbName tableName不能同时为空】
+        /// 是否存在某表或某列(异步)【tableName columnName不能同时为空】
         /// </summary>
-        /// <param name="dbName">数据库名，如果为空，将检查当前连接的数据库中是否存在某table或column</param>
-        /// <param name="tableName">表名，如果为空，将仅检查是否存在某db</param>
-        /// <param name="columnName">列名，如果为空，将检查数据库或表是否存在;若不为空，则tableName也必须指定</param>
-        /// <param name="schema">不应该为空</param>
+        /// <param name="dbName">参数无效</param>
+        /// <param name="tableName">表名</param>
+        /// <param name="columnName">列名，如果为空，将检查表是否存在</param>
+        /// <param name="schema">参数无效</param>
         /// <returns></returns>
-        public async Task<bool> ExistsDBOrTableOrColAsync(string dbName, string tableName, string columnName = "", string schema = "dbo")
+        public async Task<bool> ExistsDBOrTableOrColAsync(string dbName, string tableName, string columnName = "", string schema = "")
         {
-            if (string.IsNullOrWhiteSpace(dbName) && string.IsNullOrWhiteSpace(tableName))
+            if (string.IsNullOrWhiteSpace(tableName))
             {
                 return false;
             }
-            string sql = GetQueryExistsDBOrTableOrColSQLStr(dbName, tableName, columnName, schema);
+            string sql = GetQueryExistsDBOrTableSQLStr(dbName, tableName, columnName, schema);
             var dbExists = await ExecuteScalarAsync(sql);
 
             return dbExists != "0";
         }
         /// <summary>
-        /// 获取查询数据库或表或列是否存在的SQL语句
+        /// 获取查询数据库或表是否存在的SQL语句
         /// </summary>
-        /// <param name="dbName"></param>
-        /// <param name="tableName"></param>
-        /// <param name="columnName"></param>
-        /// <param name="schema"></param>
+        /// <param name="dbName">参数无效</param>
+        /// <param name="tableName">表名</param>
+        /// <param name="columnName">列名，如果为空，将检查表是否存在</param>
+        /// <param name="schema">参数无效</param>
         /// <returns></returns>
-        private static string GetQueryExistsDBOrTableOrColSQLStr(string dbName, string tableName, string columnName="", string schema = "dbo")
+        private static string GetQueryExistsDBOrTableSQLStr(string dbName, string tableName, string columnName="", string schema = "")
         {
-            if (string.IsNullOrWhiteSpace(dbName) && string.IsNullOrWhiteSpace(tableName))
+            if (string.IsNullOrWhiteSpace(tableName))
             {
-                throw new ArgumentNullException($"dbName and tableName");
+                throw new ArgumentNullException($"tableName");
             }
+            // 语句结尾;要去掉，否则报错 ORA-00933
+            // 查询表/列是否存在时 user_tables、user_tab_columns 表中的表名、列名均为大写，传入参数如果不大写将查询不到，因此添加upper()
             var sql = string.Empty;
-            if (!string.IsNullOrWhiteSpace(columnName))
+            if (!string.IsNullOrWhiteSpace(tableName) && string.IsNullOrWhiteSpace(columnName))
             {
-                if (string.IsNullOrWhiteSpace(tableName))
-                {
-                    throw new ArgumentNullException($"columnName存在时，必须指定tableName");
-                }
-                sql = $"SELECT case when COL_LENGTH('{dbName}.{schema}.{tableName}','{columnName}') IS NULL THEN 0 ELSE 1 END;";
-            }
-            else if (!string.IsNullOrWhiteSpace(dbName) && string.IsNullOrWhiteSpace(tableName))
-            {
-                sql = $"SELECT case when DB_ID('{dbName}') IS NULL THEN 0 ELSE 1 END;";
-            }
-            else if (string.IsNullOrWhiteSpace(dbName) && !string.IsNullOrWhiteSpace(tableName))
-            {
-                sql = $"SELECT case when OBJECT_ID('{schema}.{tableName}') IS NULL THEN 0 ELSE 1 END;";
+                sql = $"select count(*) from user_tables where table_name = upper('{tableName}')";
             }
             else
             {
-                sql = $"SELECT case when (DB_ID('{dbName}') IS NULL OR OBJECT_ID('{dbName}.{schema}.{tableName}') IS NULL) THEN 0 ELSE 1 END;";
+                sql = $"select count(*) from user_tab_columns t where t.table_name= upper('{tableName}') and t.column_name = upper('{columnName}')";
             }
 
             return sql;
@@ -300,7 +290,7 @@ namespace System.Data
         /// <returns></returns>
         public int ExecuteNonQuery(string cmdText, DbParameter[] parameters = null, CommandType cmdType = CommandType.Text)
         {
-            using (var cmd = new SqlCommand(cmdText, Conn))
+            using (var cmd = new OracleCommand(cmdText, Conn))
             {
                 if (parameters != null && parameters.Length > 0) cmd.Parameters.AddRange(parameters);
                 cmd.CommandType = cmdType;
@@ -316,7 +306,7 @@ namespace System.Data
         /// <returns></returns>
         public async Task<int> ExecuteNonQueryAsync(string cmdText, DbParameter[] parameters = null, CommandType cmdType = CommandType.Text)
         {
-            using (var cmd = new SqlCommand(cmdText, Conn))
+            using (var cmd = new OracleCommand(cmdText, Conn))
             {
                 if (parameters != null && parameters.Length > 0) cmd.Parameters.AddRange(parameters);
                 cmd.CommandType = cmdType;
@@ -333,7 +323,7 @@ namespace System.Data
         /// <returns></returns>
         public DataTable ExecuteQuery(string cmdText, DbParameter[] parameters = null, CommandType cmdType = CommandType.Text)
         {
-            using (var cmd = new SqlCommand(cmdText, Conn))
+            using (var cmd = new OracleCommand(cmdText, Conn))
             {
                 cmd.CommandType = cmdType;
                 if (parameters != null && parameters.Length > 0) cmd.Parameters.AddRange(parameters);
@@ -354,7 +344,7 @@ namespace System.Data
         /// <returns></returns>
         public async Task<DataTable> ExecuteQueryAsync(string cmdText, DbParameter[] parameters = null, CommandType cmdType = CommandType.Text)
         {
-            using (var cmd = new SqlCommand(cmdText, Conn))
+            using (var cmd = new OracleCommand(cmdText, Conn))
             {
                 cmd.CommandType = cmdType;
                 if (parameters != null && parameters.Length > 0) cmd.Parameters.AddRange(parameters);
@@ -376,7 +366,7 @@ namespace System.Data
         /// <returns></returns>
         public string ExecuteScalar(string cmdText, DbParameter[] parameters = null, CommandType cmdType = CommandType.Text)
         {
-            using (var cmd = new SqlCommand(cmdText, Conn))
+            using (var cmd = new OracleCommand(cmdText, Conn))
             {
                 cmd.CommandType = cmdType;
                 if (parameters != null && parameters.Length > 0) cmd.Parameters.AddRange(parameters);
@@ -392,7 +382,7 @@ namespace System.Data
         /// <returns></returns>
         public async Task<string> ExecuteScalarAsync(string cmdText, DbParameter[] parameters = null, CommandType cmdType = CommandType.Text)
         {
-            using (var cmd = new SqlCommand(cmdText, Conn))
+            using (var cmd = new OracleCommand(cmdText, Conn))
             {
                 cmd.CommandType = cmdType;
                 if (parameters != null && parameters.Length > 0) cmd.Parameters.AddRange(parameters);

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.1;net45</TargetFrameworks>
@@ -16,20 +16,23 @@
     <FileVersion>文件版本号</FileVersion>-->
 
 
-    <Description>很简单的SQL Server帮助类，基本的参数化SQL语句执行、查询DataTable结果的数据、判断数据库和表是否存在、更改连接的DB。支持.NET 4.5和.NET Standard2.1</Description>
+    <Description>很简单的Oracle SQL帮助类，基本的参数化SQL语句执行、查询DataTable结果的数据、判断数据库和表是否存在、更改连接的DB。支持.NET 4.5和.NET Standard2.1</Description>
     <Authors>CodeMissing</Authors>
-   
+
     <Copyright>Copyright © CodeMissing</Copyright>
 
-    <Version>0.9</Version>
-    
+    <Version>0.9.0.1</Version>
+
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>CodeMissing.$(AssemblyName)</PackageId>
-    <Title>简单易用的SQL Server DB访问帮助类</Title>
+    <Title>简单易用的Oracle DB访问帮助类</Title>
     <PackageIcon>CodeMissing-Logo.png</PackageIcon>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>BSD-2-Clause</PackageLicenseExpression>
     <PackageReadmeFile>Readme.md</PackageReadmeFile>
+  
+    <!-- 会导致所有依赖都不列出 -->
+    <!-- <SuppressDependenciesWhenPacking>True</SuppressDependenciesWhenPacking> -->
   </PropertyGroup>
 
   <ItemGroup>
@@ -42,17 +45,30 @@
   <ItemGroup>
     <ProjectReference Include="..\DBSQLHelper\DBSQLHelper.csproj" />
   </ItemGroup>
+  
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
-    <PackageReference Include="Microsoft.Data.SqlClient">
-      <Version>5.0.1</Version>
-    </PackageReference>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+    <PackageReference Include="Oracle.ManagedDataAccess" Version="19.17.0" />
+
+    <_PackageFiles Include="$(OutputPath)\DBSQLHelper.dll">
+      <BuildAction>None</BuildAction>
+      <PackagePath></PackagePath>
+    </_PackageFiles>
   </ItemGroup>
+  
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
+    <PackageReference Include="Oracle.ManagedDataAccess.Core">
+      <Version>2.19.170</Version>
+    </PackageReference>
 
+    <_PackageFiles Include="$(OutputPath)\DBSQLHelper.dll">
+      <BuildAction>None</BuildAction>
+      <PackagePath></PackagePath>
+    </_PackageFiles>
+  </ItemGroup>
+  
   <ItemGroup>
     <None Include="Readme.md">
-    <!-- <None Update="Readme.md"> 时，打包会报错 NuGet错误 NU5039: 包中不存在自述文件 -->
-    <!-- update、remove、Include参数最多一个 -->
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

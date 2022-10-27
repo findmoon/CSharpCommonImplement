@@ -59,6 +59,8 @@ README应该简短精要，使阅读者快速的了解项目，快速的上手�
 - [如何选择开源许可证？](https://www.ruanyifeng.com/blog/2011/05/how_to_choose_free_software_licenses.html)
 
 - [六种常见开源协议整理](https://blog.csdn.net/qq_28877125/article/details/116887370)
+  
+- 可以参考有关 [SPDX License List](https://spdx.org/licenses/) 许可证列表的资料
 
 直接上一张 阮一峰大佬 制作的国外程序员Paul Bagwell的开源协议分析图中文版。简单明了的介绍了六种主流开源协议的主要区别：
 
@@ -136,6 +138,7 @@ README：[中文](#) | [English](#)
 - 支持 Support
 - 作者和致谢(鸣谢) Authors and acknowledgment
 - 更新日志 Changelog
+- 路线图 Roadmap ； technology roadmap 技术路线，技术路线图 
 
 # 参考
 

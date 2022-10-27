@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SQLServerHelper\SQLServerHelper.csproj" />
+    <ProjectReference Include="..\OracleSQLHepler\OracleSQLHepler.csproj" />
   </ItemGroup>
 
 </Project>

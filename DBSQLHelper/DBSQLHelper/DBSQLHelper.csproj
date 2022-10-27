@@ -5,5 +5,10 @@
     <Nullable>warnings</Nullable>
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
-
+  
+  <!--Release模式 下禁用 pdb调试信息文件 生成-->
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+  </PropertyGroup>
 </Project>
