@@ -143,10 +143,6 @@
       <Project>{2386e444-cca0-4ee1-85e7-b727b25c1af6}</Project>
       <Name>CMCode</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ZipUnZip\ZipUnZip.csproj">
-      <Project>{4a0eefe3-b90b-4182-9b5e-0e6680021bee}</Project>
-      <Name>ZipUnZip</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -82,7 +82,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RandomString\RandomString.csproj">
+    <ProjectReference Include="..\..\RandomString\RandomString.csproj">
       <Project>{f82db123-4f37-4b84-aed2-f0ad12450e7f}</Project>
       <Name>RandomString</Name>
     </ProjectReference>

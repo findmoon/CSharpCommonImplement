@@ -64,6 +64,16 @@ namespace CMControls.Rounds
             //g.DrawEllipse(new Pen(Color.Black, 2), 2, 2, Width - 6, Height - 6);
             //var mybit = new Bitmap("bai.png");
             //mybit.MakeTransparent(Color.White);
+
+
+            #region 原来 创建Region的代码 又有DrawEllipse 又有AddEllipse，混乱
+            //base.OnPaint(e);//递归  每次重新都发生此方法,保证其形状为自定义形状
+            //Drawing.Drawing2D.GraphicsPath path = new Drawing.Drawing2D.GraphicsPath();
+            //path.AddEllipse(2, 2, this.Width - 6, this.Height - 6);
+            //Graphics g = e.Graphics;
+            //g.DrawEllipse(new Pen(Color.Black, 2), 2, 2, Width - 6, Height - 6);
+            //Region = new Region(path);
+            #endregion
         }
     }
 }

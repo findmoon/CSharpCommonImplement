@@ -33,7 +33,6 @@ using (var sqlHelper = new SQLServerHelper())
 ```cs
 using (var sqlHelper = new SQLServerHelper())
 {
-
         if (sqlHelper.Initializer("ConnectionString"))
         {
 
@@ -61,4 +60,4 @@ using (var sqlHelper = SQLServerHelper.Init(ip, user, pwd, dbname))
 
 # License
 
-BSD-2-Clause(涉及第三方类库或代码，以第三方或兼容第三方为准)
+BSD-2-Clause(涉及第三方类库或代码，以第三方或兼容第三方类库的License为准)

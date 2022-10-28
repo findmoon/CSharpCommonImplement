@@ -41,19 +41,15 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\DBSQLHelper\DBSQLHelper.csproj" />
-  </ItemGroup>
   
-
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
     <PackageReference Include="Oracle.ManagedDataAccess" Version="19.17.0" />
 
-    <_PackageFiles Include="$(OutputPath)\DBSQLHelper.dll">
+    <!-- 指定包含其他的程序集或文件内容，未实际验证测试 -->
+    <!--<_PackageFiles Include="$(OutputPath)\DBSQLHelper.dll">
       <BuildAction>None</BuildAction>
       <PackagePath></PackagePath>
-    </_PackageFiles>
+    </_PackageFiles>-->
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
@@ -61,10 +57,11 @@
       <Version>2.19.170</Version>
     </PackageReference>
 
-    <_PackageFiles Include="$(OutputPath)\DBSQLHelper.dll">
+    <!-- 指定包含其他的程序集或文件内容，未实际验证测试 -->
+    <!--<_PackageFiles Include="$(OutputPath)\DBSQLHelper.dll">
       <BuildAction>None</BuildAction>
       <PackagePath></PackagePath>
-    </_PackageFiles>
+    </_PackageFiles>-->
   </ItemGroup>
   
   <ItemGroup>
@@ -72,6 +69,10 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="CodeMissing.DBSQLHelper" Version="1.0.0" />
   </ItemGroup>
 
   <!--Release模式 下禁用 pdb调试信息文件 生成-->

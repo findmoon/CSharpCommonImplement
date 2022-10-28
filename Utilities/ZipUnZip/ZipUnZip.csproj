@@ -91,11 +91,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CMCode\CMCode.csproj">
+    <ProjectReference Include="..\..\CMCode\CMCode.csproj">
       <Project>{2386e444-cca0-4ee1-85e7-b727b25c1af6}</Project>
       <Name>CMCode</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CMControls\CMControls.csproj">
+    <ProjectReference Include="..\..\CMControls\CMControls.csproj">
       <Project>{A4A1639E-68F0-451C-9EDE-CE665FD5C820}</Project>
       <Name>CMControls</Name>
     </ProjectReference>

@@ -87,7 +87,7 @@ namespace System.Data
         {
             if ($"{ipInstance}-{userName}-{password}-{dbName}" == $"{_ipInstance}-{_userName}-{_password}-{_dbName}")
             {
-                return true;
+                return CheckInitial();
             }
 
             _ipInstance = ipInstance;
@@ -202,13 +202,7 @@ namespace System.Data
             }
             if (!ConnStatusOk)
             {
-                // 简要重置
-                Conn = null;
-                //ConnStr = null;
-                _ipInstance = null;
-                _userName = null;
-                _password = null;
-                _dbName = null;
+                Dispose();
                 throw new Exception("当前SQLHelper未正确初始化！");
             }
             return true;
@@ -411,6 +405,13 @@ namespace System.Data
                 _sqlHelperCache.Remove(key);
             }
             _conn?.Dispose();
+            // 简要重置
+            _conn = null;
+            //ConnStr = null;
+            _ipInstance = null;
+            _userName = null;
+            _password = null;
+            _dbName = null;
         }
     }
 }

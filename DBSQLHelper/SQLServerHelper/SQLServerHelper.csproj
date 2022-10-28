@@ -21,7 +21,7 @@
    
     <Copyright>Copyright © CodeMissing</Copyright>
 
-    <Version>0.9</Version>
+    <Version>0.9.0.1</Version>
     
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>CodeMissing.$(AssemblyName)</PackageId>
@@ -39,10 +39,6 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DBSQLHelper\DBSQLHelper.csproj" />
-  </ItemGroup>
-
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
     <PackageReference Include="Microsoft.Data.SqlClient">
       <Version>5.0.1</Version>
@@ -56,6 +52,10 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CodeMissing.DBSQLHelper" Version="1.0.0" />
   </ItemGroup>
 
   <!--Release模式 下禁用 pdb调试信息文件 生成-->

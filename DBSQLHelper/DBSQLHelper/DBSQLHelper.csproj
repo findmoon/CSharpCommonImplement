@@ -4,8 +4,46 @@
     <TargetFrameworks>netstandard2.1;net45</TargetFrameworks>
     <Nullable>warnings</Nullable>
     <LangVersion>8.0</LangVersion>
+
+    <!--<Product>产品名称</Product>
+    <Description>产品说明</Description>
+    <Authors>作者</Authors>
+    <Company>公司</Company>
+    <Copyright>版权</Copyright>
+
+    <Version>版本号</Version>
+    <AssemblyVersion>程序集版本号</AssemblyVersion>
+    <FileVersion>文件版本号</FileVersion>-->
+
+
+    <Description>很简单的SQL帮助类接口，基本的参数化SQL语句执行、查询DataTable结果的数据、判断数据库和表是否存在、更改连接的DB。
+目前已实现 CodeMissing.SQLServerHelper、 CodeMissing.OracleSQLHepler
+支持.NET 4.5和.NET Standard2.1
+    </Description>
+    <Authors>CodeMissing</Authors>
+
+    <Copyright>Copyright © CodeMissing</Copyright>
+
+    <!--<Version>1.0.0</Version>-->
+
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>CodeMissing.$(AssemblyName)</PackageId>
+    <Title>简单易用的DB访问帮助类接口</Title>
+    <PackageIcon>CodeMissing-Logo.png</PackageIcon>
+    <!--<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>-->
+    <PackageLicenseExpression>BSD-2-Clause</PackageLicenseExpression>
+
+    <!-- 会导致所有依赖都不列出 -->
+    <!-- <SuppressDependenciesWhenPacking>True</SuppressDependenciesWhenPacking> -->
   </PropertyGroup>
-  
+
+  <ItemGroup>
+    <None Include="..\..\NoteBook\CodeMissing-Logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
   <!--Release模式 下禁用 pdb调试信息文件 生成-->
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <DebugSymbols>False</DebugSymbols>
