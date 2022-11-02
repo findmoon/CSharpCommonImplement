@@ -37,6 +37,7 @@
             this.dbTxt = new System.Windows.Forms.TextBox();
             this.serverTxt = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label4
@@ -115,11 +116,22 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(195, 303);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(164, 52);
+            this.button2.TabIndex = 18;
+            this.button2.Text = "其他测试";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(538, 381);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.pwdTxt);
             this.Controls.Add(this.label3);
@@ -147,5 +159,6 @@
         private TextBox dbTxt;
         private TextBox serverTxt;
         private Button button1;
+        private Button button2;
     }
 }

@@ -49,8 +49,9 @@ namespace System.Data
         /// <param name="userName"></param>
         /// <param name="password"></param>
         /// <param name="dbName"></param>
+        /// <param name="port"></param>
         /// <returns></returns>
-        bool Initializer(string ipInstance, string userName, string password, string dbName);
+        bool Initializer(string ipInstance, string userName, string password, string dbName, ushort? port=null);
         /// <summary>
         /// 直接通过connString初始化新的连接，可以自定义传入自己的连接字符串
         /// </summary>
@@ -99,7 +100,7 @@ namespace System.Data
         Task<bool> ExistsDBOrTableOrColAsync(string dbName, string tableName, string columnName, string schema);
 
         /// <summary>
-        /// 执行非查询SQL操作
+        /// 执行非查询SQL操作，返回受影响的行数 ddl语句似乎返回 -1
         /// </summary>
         /// <param name="cmdText"></param>
         /// <param name="parameters"></param>

@@ -5,6 +5,9 @@
     <Nullable>warnings</Nullable>
     <LangVersion>8.0</LangVersion>
 
+    <!-- 生成xml注释文档 -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
     <!--<Product>产品名称</Product>
     <Description>产品说明</Description>
     <Authors>作者</Authors>
@@ -21,7 +24,7 @@
    
     <Copyright>Copyright © CodeMissing</Copyright>
 
-    <Version>0.9.0.1</Version>
+    <Version>0.9.0.2</Version>
     
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>CodeMissing.$(AssemblyName)</PackageId>
@@ -55,7 +58,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CodeMissing.DBSQLHelper" Version="1.0.0" />
+    <PackageReference Include="CodeMissing.DBSQLHelper" Version="1.0.0.1" />
   </ItemGroup>
 
   <!--Release模式 下禁用 pdb调试信息文件 生成-->

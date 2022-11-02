@@ -21,6 +21,7 @@ namespace System.Data
         private string _userName;
         private string _password;
         private string _dbName;
+        private ushort? _port;
 
         private OracleConnection _conn;
 
@@ -41,7 +42,7 @@ namespace System.Data
         /// <summary>
         /// 当前连接字符串
         /// </summary>
-        private string ConnStr => $"Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={_ipInstance})(PORT=1521))" +
+        private string ConnStr => $"Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={_ipInstance})(PORT={_port ?? 1521}))" +
                     $"(CONNECT_DATA=(SERVICE_NAME={_dbName})));Persist Security Info=True;User ID={_userName};Password={_password};";
 
         /// <summary>
@@ -67,6 +68,8 @@ namespace System.Data
             }
             private set
             {
+                // 释放之前的资源
+                _conn?.Dispose();
                 _conn = value;
             }
         }
@@ -82,10 +85,11 @@ namespace System.Data
         /// <param name="userName"></param>
         /// <param name="password"></param>
         /// <param name="dbName"></param>
+        /// <param name="port">端口，不指定将使用默认端口</param>
         /// <returns></returns>
-        public bool Initializer(string ipServer, string userName, string password, string dbName)
+        public bool Initializer(string ipServer, string userName, string password, string dbName, ushort? port = null)
         {
-            if ($"{ipServer}-{userName}-{password}-{dbName}" == $"{_ipInstance}-{_userName}-{_password}-{_dbName}")
+            if ($"{ipServer}-{userName}-{password}-{dbName}-{port}" == $"{_ipInstance}-{_userName}-{_password}-{_dbName}-{_port}")
             {
                 return CheckInitial();
             }
@@ -94,6 +98,7 @@ namespace System.Data
             _userName = userName;
             _password = password;
             _dbName = dbName;
+            _port = port;
 
             return Initializer(ConnStr);
         }
@@ -104,25 +109,26 @@ namespace System.Data
         /// <returns></returns>
         public bool Initializer(SQLInitModel initModel)
         {
-            return Initializer(initModel.IpInstance, initModel.UserName, initModel.Password, initModel.DBName);
+            return Initializer(initModel.IpInstance, initModel.UserName, initModel.Password, initModel.DBName, initModel.Port);
         }
         /// <summary>
         /// 初始化获取SQLHelper对象，如果已有对应的数据库服务器连接，则直接返回；没有则创建新的
         /// 
         /// </summary>
-        /// <param name="ipInstance"></param>
+        /// <param name="ipServer"></param>
         /// <param name="userName"></param>
         /// <param name="password"></param>
         /// <param name="dbName"></param>
+        /// <param name="port">端口，不指定将使用默认端口</param>
         /// <returns></returns>
-        public static OracleSQLHelper Init(string ipServer, string userName, string password, string dbName)
+        public static OracleSQLHelper Init(string ipServer, string userName, string password, string dbName, ushort? port = null)
         {
-            var key = $"{ipServer}-{userName}-{password}-{dbName}";
+            var key = $"{ipServer}-{userName}-{password}-{dbName}-{port}";
             if (!_sqlHelperCache.ContainsKey(key))
             {
                 var sql = new OracleSQLHelper();
                 // 验证连接是否正常
-                if (sql.Initializer(ipServer, userName, password, dbName))
+                if (sql.Initializer(ipServer, userName, password, dbName, port))
                 {
                     _sqlHelperCache.Add(key, sql);
                     return sql;
@@ -141,7 +147,7 @@ namespace System.Data
         /// <returns></returns>
         public static OracleSQLHelper Init(SQLInitModel initModel)
         {
-            return Init(initModel.IpInstance, initModel.UserName, initModel.Password, initModel.DBName);
+            return Init(initModel.IpInstance, initModel.UserName, initModel.Password, initModel.DBName, initModel.Port);
         }
 
         /// <summary>
@@ -192,14 +198,10 @@ namespace System.Data
             _conn?.Close();
         }
         /// <summary>
-        /// 检查是否初始化，未初始化将返回false或引发异常，已初始化返回true【通常用于open()操作或初始化之后的检查】
+        /// 检查是否初始化，未初始化将引发异常，已初始化返回true【通常用于open()操作或初始化之后的检查】
         /// </summary>
         public bool CheckInitial()
         {
-            if (Conn == null)
-            {
-                return false;
-            }
             if (!ConnStatusOk)
             {
                 Dispose();
@@ -254,7 +256,7 @@ namespace System.Data
         /// <param name="columnName">列名，如果为空，将检查表是否存在</param>
         /// <param name="schema">参数无效</param>
         /// <returns></returns>
-        private static string GetQueryExistsDBOrTableSQLStr(string dbName, string tableName, string columnName="", string schema = "")
+        private static string GetQueryExistsDBOrTableSQLStr(string dbName, string tableName, string columnName = "", string schema = "")
         {
             if (string.IsNullOrWhiteSpace(tableName))
             {
@@ -276,7 +278,7 @@ namespace System.Data
         }
 
         /// <summary>
-        /// 执行非查询语句
+        /// 执行非查询语句，返回受影响的行数   ddl语句似乎返回 -1
         /// </summary>
         /// <param name="cmdText"></param>
         /// <param name="parameters"></param>
@@ -292,7 +294,7 @@ namespace System.Data
             }
         }
         /// <summary>
-        /// 异步执行非查询语句
+        /// 异步执行非查询语句，返回受影响的行数  ddl语句似乎返回 -1
         /// </summary>
         /// <param name="cmdText"></param>
         /// <param name="parameters"></param>
@@ -389,7 +391,7 @@ namespace System.Data
         /// </summary>
         public void Dispose()
         {
-            var key = $"{_ipInstance}-{_userName}-{_password}-{_dbName}";
+            var key = $"{_ipInstance}-{_userName}-{_password}-{_dbName}-{_port}";
             if (_sqlHelperCache.ContainsKey(key))
             {
                 _sqlHelperCache.Remove(key);

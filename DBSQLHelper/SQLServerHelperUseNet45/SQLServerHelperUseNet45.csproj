@@ -31,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\SQLServerHelperUseNet45.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -80,6 +81,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DBSQLHelper\DBSQLHelper.csproj">
+      <Project>{1aab55b9-ed34-40dc-88f8-ab7194e6315a}</Project>
+      <Name>DBSQLHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SQLServerHelper\SQLServerHelper.csproj">
       <Project>{2a882443-027e-4fa0-b73c-56b3ce33e881}</Project>
       <Name>SQLServerHelper</Name>
