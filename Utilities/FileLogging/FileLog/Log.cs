@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace System.Text
@@ -71,7 +72,7 @@ namespace System.Text
 
         #region //Log处理
         /// <summary>
-        /// 处理日志信息的写入等
+        /// 处理日志信息的写入等【不推荐直接使用，而应该使用 DealLogInfoAsync 】
         /// </summary>
         /// <param name="logInfo">日志内容</param>
         /// <param name="isShowMessageBox">是否显示消息框展示日志信息</param>
@@ -161,10 +162,40 @@ namespace System.Text
         /// <param name="isShowMessageBox">是否显示消息框展示日志信息</param>
         public static void DealLogInfoAsync(string logInfo, bool isShowMessageBox = false)
         {
-            new Action(() =>
+#if NET45_OR_GREATER
+            #region Task 异步处理
+            // 如果Task的实例化和执行需要分开时，才应该这么执行。比如Task创建后有条件的执行；通常则推荐使用 Task.Run 或 TaskFactory.StartNew 方法
+            //new Task(() =>
+            //{
+            //    DealLogInfo($"[{DateTime.Now.ToString("yyyMMddHHmmss")}]: {logInfo}", isShowMessageBox, false);
+            //}).Start();
+
+            Task.Run(() =>
             {
-                DealLogInfo($"[{ DateTime.Now.ToString("yyyMMddHHmmss")}]: {logInfo}", isShowMessageBox, false);
-            }).BeginInvoke(null, null);
+                DealLogInfo($"[{DateTime.Now.ToString("yyyMMddHHmmss")}]: {logInfo}", isShowMessageBox, false);
+            });
+            #endregion
+#else
+            #region BeginInvoke 的处理方式，改为 Task
+            // 仅 BeginInvoke 
+            //new Action(() =>
+            //{
+            //    DealLogInfo($"[{ DateTime.Now.ToString("yyyMMddHHmmss")}]: {logInfo}", isShowMessageBox, false);
+            //}).BeginInvoke(null, null);
+
+            // BeginInvoke 后 成对 调用 EndInvoke
+            var logAction = new Action(() =>
+            {
+                DealLogInfo($"[{DateTime.Now.ToString("yyyMMddHHmmss")}]: {logInfo}", isShowMessageBox, false);
+            });
+
+            logAction.BeginInvoke(ar =>
+            {
+                logAction.EndInvoke(ar);
+            }, null);
+            #endregion
+#endif
+
         }
 
         static void DoAppendTxtLog(string lineStr)
