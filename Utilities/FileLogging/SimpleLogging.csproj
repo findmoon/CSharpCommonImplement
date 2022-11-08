@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6E72607F-2F09-44A1-B6F4-71717413163E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>FileLogging</RootNamespace>
-    <AssemblyName>FileLogging</AssemblyName>
+    <RootNamespace>SimpleLogging</RootNamespace>
+    <AssemblyName>SimpleLogging</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -67,6 +67,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

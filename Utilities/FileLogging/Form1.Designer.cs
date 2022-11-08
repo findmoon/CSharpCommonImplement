@@ -1,4 +1,4 @@
-﻿namespace FileLogging
+﻿namespace SimpleLogging
 {
     partial class Form1
     {

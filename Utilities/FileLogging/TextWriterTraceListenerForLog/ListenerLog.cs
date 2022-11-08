@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 
-namespace FileLogging.TextWriterTraceListenerForLog
+namespace SimpleLogging.TextWriterTraceListenerForLog
 {
     /// <summary>
     /// 写入控制台或文件的异步日志类  参考自：农民伯伯 http://over140.cnblogs.com/
