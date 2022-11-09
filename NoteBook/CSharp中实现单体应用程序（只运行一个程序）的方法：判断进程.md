@@ -6,14 +6,25 @@
 
 代码解释已经非常详细，包括注意点。此代码原本是参考网上的内容，并进行了一些修改和说明，由于时间久远，未记录出处，后续碰到再添加。
 
-如 `region` 部分的提示，注意以下几部分：
+如 `region` 部分的提示，注意以下几部分（**重要，尤其第7条。**）：
 
 1. 替换默认的 `Application.Run(new Form1());` 为 `SingletonApp();`。
+
 2. 如有需要 修改 `Application.Run` 运行的主窗体类名。
+
 3. 注意定义 编译符号 `#define GlobalSingleton` 是否为全局单体。
+
 4. 单体实现了全局单个应用（当前系统内单个应用），和 非全局单个应用，本示例为：同一个路径内单个应用。 具体可根据需要修改 `GetRunningInstance()` 内对 单体进程的获取 的代码。
+
 5. 设置窗台到前台的 win32 API `SetForegroundWindow` 的使用注意，见代码注释。
-6. 不推荐使用 `Process.MainWindowHandle`
+
+6. 位于 `C:\Program Files (x86)` 等管理员权限的目录下时，使用`GetExecutingAssembly().Location` 获取程序集或位置，会报错无权限访问。需要启动程序也是以管理员权限。这一点需要注意，具体见代码内的注释。
+
+为什么如此，原因暂时不知。
+
+7. 由于其单个程序运行的实现是通过判断`进程`，因此，**在`进程`启动起来的短时间内，是可以实现运行多个程序的（比如通过脚本快速运行多个、快速点击运行多个等）**。这也是很多 **启动多个程序的脚本** 能够成功的原因，比如 "运行多个xx"。
+
+8. 不推荐使用 `Process.MainWindowHandle`。
 
 > 测试或示例程序位于 `SingletonApp` 解决方案文件夹下的 `SingletonApp_Winform` 程序。
 
@@ -21,6 +32,7 @@
 #define GlobalSingleton
 using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;

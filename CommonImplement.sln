@@ -199,6 +199,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SingletonApp", "SingletonAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingletonApp_Winform", "SingletonApp\SingletonApp_Winform\SingletonApp_Winform.csproj", "{8C72AF12-9ECF-43B6-8849-1912675E3FA4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NetworkCommunication", "NetworkCommunication", "{2EDEA7F7-8D2D-479E-A276-F63111A14618}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
