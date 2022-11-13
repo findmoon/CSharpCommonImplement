@@ -201,6 +201,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingletonApp_Winform", "Sin
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NetworkCommunication", "NetworkCommunication", "{2EDEA7F7-8D2D-479E-A276-F63111A14618}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestForNet", "TestForNet\TestForNet.csproj", "{560E9AC1-E8E3-432D-99FF-FB57839445BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1955,6 +1957,26 @@ Global
 		{8C72AF12-9ECF-43B6-8849-1912675E3FA4}.Release|x64.Build.0 = Release|Any CPU
 		{8C72AF12-9ECF-43B6-8849-1912675E3FA4}.Release|x86.ActiveCfg = Release|Any CPU
 		{8C72AF12-9ECF-43B6-8849-1912675E3FA4}.Release|x86.Build.0 = Release|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Debug|ARM.Build.0 = Debug|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Debug|x64.Build.0 = Debug|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Debug|x86.Build.0 = Debug|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Release|ARM.ActiveCfg = Release|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Release|ARM.Build.0 = Release|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Release|ARM64.Build.0 = Release|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Release|x64.ActiveCfg = Release|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Release|x64.Build.0 = Release|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Release|x86.ActiveCfg = Release|Any CPU
+		{560E9AC1-E8E3-432D-99FF-FB57839445BA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
