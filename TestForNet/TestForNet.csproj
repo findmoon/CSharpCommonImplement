@@ -5,6 +5,7 @@
     <!--<LangVersion>8.0</LangVersion>-->
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
+    <WarningsAsErrors>$(WarningsAsErrors);CS8600;CS8601;CS8602;CS8603;CS8604;CS8609;CS8610;CS8614;CS8616;CS8618;CS8619;CS8622;CS8625</WarningsAsErrors>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
