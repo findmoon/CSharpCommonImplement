@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace System
 {
-    public class StartWitchPC
+    public class StartWithPC
     {
     }
 }
