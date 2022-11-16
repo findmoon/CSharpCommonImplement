@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F8040EDA-C4B7-472F-87FF-C291A9C3EC98}</ProjectGuid>
+    <ProjectGuid>{42CB26A5-ECC4-412E-8758-94CBE691701A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>DragDropUse</RootNamespace>
-    <AssemblyName>DragDropUse</AssemblyName>
+    <RootNamespace>ExecAppTest</RootNamespace>
+    <AssemblyName>ExecAppTest</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,19 +53,10 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="OnLayerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="OnLayerForm.Designer.cs">
-      <DependentUpon>OnLayerForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OnLayerForm.resx">
-      <DependentUpon>OnLayerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -89,9 +81,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CMControls\CMControls.csproj">
-      <Project>{a4a1639e-68f0-451c-9ede-ce665fd5c820}</Project>
-      <Name>CMControls</Name>
+    <ProjectReference Include="..\..\CMCode\CMCode.csproj">
+      <Project>{2386e444-cca0-4ee1-85e7-b727b25c1af6}</Project>
+      <Name>CMCode</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

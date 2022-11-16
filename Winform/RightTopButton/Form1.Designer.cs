@@ -1,4 +1,4 @@
-﻿namespace RigthTopButton
+﻿namespace RightTopButton
 {
     partial class Form1
     {

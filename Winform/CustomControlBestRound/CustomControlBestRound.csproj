@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{42CB26A5-ECC4-412E-8758-94CBE691701A}</ProjectGuid>
+    <ProjectGuid>{D67C7AEF-F7E1-4E5B-A7F0-0C58B14F689D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ExecAppTest</RootNamespace>
-    <AssemblyName>ExecAppTest</AssemblyName>
+    <RootNamespace>CustomControlBestRound</RootNamespace>
+    <AssemblyName>CustomControlBestRound</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -35,7 +35,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -81,9 +80,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CMCode\CMCode.csproj">
-      <Project>{2386e444-cca0-4ee1-85e7-b727b25c1af6}</Project>
-      <Name>CMCode</Name>
+    <ProjectReference Include="..\..\CMControls\CMControls.csproj">
+      <Project>{a4a1639e-68f0-451c-9ede-ce665fd5c820}</Project>
+      <Name>CMControls</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

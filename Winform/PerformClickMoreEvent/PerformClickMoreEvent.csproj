@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}</ProjectGuid>
+    <ProjectGuid>{BB671DA0-6253-49C0-AE46-A64167C943D6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>PerformClickMoreEvent</RootNamespace>
     <AssemblyName>PerformClickMoreEvent</AssemblyName>

@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{37FC7575-7C51-4346-A56A-CD55C213E33B}</ProjectGuid>
+    <ProjectGuid>{F8040EDA-C4B7-472F-87FF-C291A9C3EC98}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>CustomTabControl</RootNamespace>
-    <AssemblyName>CustomTabControl</AssemblyName>
+    <RootNamespace>DragDropUse</RootNamespace>
+    <AssemblyName>DragDropUse</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -52,19 +52,19 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form2.cs">
+    <Compile Include="OnLayerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form2.Designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <Compile Include="OnLayerForm.Designer.cs">
+      <DependentUpon>OnLayerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form2.resx">
-      <DependentUpon>Form2.cs</DependentUpon>
+    <EmbeddedResource Include="OnLayerForm.resx">
+      <DependentUpon>OnLayerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -89,8 +89,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CMControls\CMControls.csproj">
-      <Project>{A4A1639E-68F0-451C-9EDE-CE665FD5C820}</Project>
+    <ProjectReference Include="..\..\CMControls\CMControls.csproj">
+      <Project>{a4a1639e-68f0-451c-9ede-ce665fd5c820}</Project>
       <Name>CMControls</Name>
     </ProjectReference>
   </ItemGroup>

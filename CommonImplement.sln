@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonImplement", "CommonImplement\CommonImplement.csproj", "{A7537948-D3F4-4956-B158-782F1DBF90AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimizeSystemTray", "MinimizeSystemTray\MinimizeSystemTray.csproj", "{545F5377-6420-42A6-BE62-688693418153}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimizeSystemTray", "Winform\MinimizeSystemTray\MinimizeSystemTray.csproj", "{545F5377-6420-42A6-BE62-688693418153}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StartWithPC", "StartWithPC\StartWithPC\StartWithPC.csproj", "{9D46CAB6-ECD6-4E6B-932F-D52DB2B64529}"
 EndProject
@@ -13,15 +13,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StartWithPCLibNoAdmin", "St
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StartWithPCLibAdmin", "StartWithPC\StartWithPCLibAdmin\StartWithPCLibAdmin.csproj", "{428C9948-52AD-4E5F-B167-9F69B3209E7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RigthTopButton", "RigthTopButton\RigthTopButton.csproj", "{175AE491-6CAB-413B-8C46-3D88B26897CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RightTopButton", "Winform\RightTopButton\RightTopButton.csproj", "{175AE491-6CAB-413B-8C46-3D88B26897CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopMost", "TopMost\TopMost.csproj", "{0DECA39F-264A-48E4-8199-77CE3867F4D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopMost", "Winform\TopMost\TopMost.csproj", "{0DECA39F-264A-48E4-8199-77CE3867F4D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BorderNoneForm", "BorderNoneForm\BorderNoneForm.csproj", "{9A5954F5-25D3-406C-9448-DED618FB4467}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BorderNoneForm", "Winform\BorderNoneForm\BorderNoneForm.csproj", "{9A5954F5-25D3-406C-9448-DED618FB4467}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplePainting", "SimplePainting\SimplePainting.csproj", "{4F895E3D-8733-466C-9345-9E65842C4816}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaskedTextBoxExample", "MaskedTextBoxExample\MaskedTextBoxExample.csproj", "{612B5169-57F7-4EE8-8E30-02261B05E39A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaskedTextBoxExample", "Winform\MaskedTextBoxExample\MaskedTextBoxExample.csproj", "{612B5169-57F7-4EE8-8E30-02261B05E39A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetIPFromNetWork", "CSharp\GetIPFromNetWork\GetIPFromNetWork.csproj", "{D4DA213F-E88F-4D1F-9E46-6465009F0C28}"
 EndProject
@@ -39,23 +39,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValidCode", "ValidCode\Vali
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncodingCase", "CSharp\EncodingCase\EncodingCase.csproj", "{19123E4C-2A91-4722-8EFE-4074711417EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextBoxHeight", "TextBoxHeight\TextBoxHeight.csproj", "{2BAAB850-B41E-4C39-AACD-DD41B9BBB1CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextBoxHeight", "Winform\TextBoxHeight\TextBoxHeight.csproj", "{2BAAB850-B41E-4C39-AACD-DD41B9BBB1CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard", "Dashboard\Dashboard.csproj", "{DFD496B9-4811-4B70-8421-B2D19185EBCA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dashboard", "Winform\Dashboard\Dashboard.csproj", "{DFD496B9-4811-4B70-8421-B2D19185EBCA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IconImgResource", "IconImgResource\IconImgResource.csproj", "{35E69604-7939-41D0-B6C2-CE41508DE369}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FullScreen", "FullScreen\FullScreen.csproj", "{4517FF31-F86B-4804-B9F0-E57DB7B11577}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FullScreen", "Winform\FullScreen\FullScreen.csproj", "{4517FF31-F86B-4804-B9F0-E57DB7B11577}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyEventTest", "CSharp\KeyEventTest\KeyEventTest.csproj", "{0801ADF1-C6B0-4F18-92C5-D9703A7BB56F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoWayDataBindings", "TwoWayDataBindings\TwoWayDataBindings.csproj", "{144BDA8B-5660-44F4-BC21-4A89AB6EB50A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoWayDataBindings", "Winform\TwoWayDataBindings\TwoWayDataBindings.csproj", "{144BDA8B-5660-44F4-BC21-4A89AB6EB50A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Introduce", "WinformIntroduce\Introduce.csproj", "{521BB796-4FA6-459E-AB1A-BA1E1510AC22}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinformIntroduce", "Winform\WinformIntroduce\WinformIntroduce.csproj", "{521BB796-4FA6-459E-AB1A-BA1E1510AC22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinformTransparent", "WinformTransparent\WinformTransparent.csproj", "{ED120B5B-CF57-4B65-88C9-96D5C98909D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinformTransparent", "Winform\WinformTransparent\WinformTransparent.csproj", "{ED120B5B-CF57-4B65-88C9-96D5C98909D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ButtonUse", "ButtonUse\ButtonUse.csproj", "{480FC4B0-74C4-480C-84B9-8DF672667772}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ButtonUse", "Winform\ButtonUse\ButtonUse.csproj", "{480FC4B0-74C4-480C-84B9-8DF672667772}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackBarCustom", "TrackBarCustom\TrackBarCustom.csproj", "{CB03A2CF-A6CC-44AF-AA1A-89AA643DFC59}"
 EndProject
@@ -63,37 +63,37 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ColorHandle", "ColorHandle\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HEXAndDECInterConvert", "HEXAndDECInterConvert\HEXAndDECInterConvert.csproj", "{7E8B4F52-F453-4E52-BA22-D9835E38FBA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmbedFont", "EmbedFont\EmbedFont.csproj", "{6A6D05FA-F1B7-415D-BF98-9145B989F623}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmbedFont", "Winform\EmbedFont\EmbedFont.csproj", "{6A6D05FA-F1B7-415D-BF98-9145B989F623}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadEmbedResourceFile", "ReadEmbedResourceFile\ReadEmbedResourceFile.csproj", "{368987F4-00F8-4987-97B3-BD919C02AE8F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadEmbedResourceFile", "Winform\ReadEmbedResourceFile\ReadEmbedResourceFile.csproj", "{368987F4-00F8-4987-97B3-BD919C02AE8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControlSplitButton", "CustomControlSplitButton\CustomControlSplitButton.csproj", "{26FC989E-9690-4D71-B92A-1576AA155551}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControlSplitButton", "Winform\CustomControlSplitButton\CustomControlSplitButton.csproj", "{26FC989E-9690-4D71-B92A-1576AA155551}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMControls", "CMControls\CMControls.csproj", "{A4A1639E-68F0-451C-9EDE-CE665FD5C820}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControlButton", "CustomControlButton\CustomControlButton.csproj", "{A6AA6083-07F3-4271-938F-E808DBF46D59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControlButton", "Winform\CustomControlButton\CustomControlButton.csproj", "{A6AA6083-07F3-4271-938F-E808DBF46D59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDIForArc", "GDIForArc\GDIForArc.csproj", "{78B503AA-7A00-45B1-9CD6-557D04217406}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDIForArc", "GDIPlus\GDIForArc\GDIForArc.csproj", "{78B503AA-7A00-45B1-9CD6-557D04217406}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControlRound", "CustomControlRound\CustomControlRound.csproj", "{C397C790-DBFD-4A0E-938C-8E4C2447205D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControlRound", "Winform\CustomControlRound\CustomControlRound.csproj", "{C397C790-DBFD-4A0E-938C-8E4C2447205D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControlBestRound", "CustomControlBestRound\CustomControlBestRound.csproj", "{D67C7AEF-F7E1-4E5B-A7F0-0C58B14F689D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControlBestRound", "Winform\CustomControlBestRound\CustomControlBestRound.csproj", "{D67C7AEF-F7E1-4E5B-A7F0-0C58B14F689D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeautifulRoundForm", "BeautifulRoundForm\BeautifulRoundForm.csproj", "{D52C3983-CC37-4B73-BCE3-33B91A1D74D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeautifulRoundForm", "Winform\BeautifulRoundForm\BeautifulRoundForm.csproj", "{D52C3983-CC37-4B73-BCE3-33B91A1D74D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControlTextBox", "CustomControlTextBox\CustomControlTextBox.csproj", "{DA44D44D-475C-48F0-BEFD-B4A274D81E6F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControlTextBox", "Winform\CustomControlTextBox\CustomControlTextBox.csproj", "{DA44D44D-475C-48F0-BEFD-B4A274D81E6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomTabControl", "CustomTabControl\CustomTabControl.csproj", "{37FC7575-7C51-4346-A56A-CD55C213E33B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomTabControl", "Winform\CustomTabControl\CustomTabControl.csproj", "{37FC7575-7C51-4346-A56A-CD55C213E33B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{379287EC-74DF-42F6-AB98-941AB5B13673}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomForm", "CustomForm\CustomForm.csproj", "{27F4ADC7-2600-4CA3-A4EE-C130A8F00B2B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomForm", "Winform\CustomForm\CustomForm.csproj", "{27F4ADC7-2600-4CA3-A4EE-C130A8F00B2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomPulseButtonTest", "CustomPulseButtonTest\CustomPulseButtonTest.csproj", "{85E40244-2AA7-4DE2-99E3-C837A70681EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomPulseButtonTest", "Winform\CustomPulseButtonTest\CustomPulseButtonTest.csproj", "{85E40244-2AA7-4DE2-99E3-C837A70681EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragDropUse", "DragDropUse\DragDropUse.csproj", "{F8040EDA-C4B7-472F-87FF-C291A9C3EC98}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragDropUse", "Winform\DragDropUse\DragDropUse.csproj", "{F8040EDA-C4B7-472F-87FF-C291A9C3EC98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeViewUse", "TreeViewUse\TreeViewUse.csproj", "{C9C25C0A-5E03-487A-A8D0-2F19C68A595A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeViewUse", "Winform\TreeViewUse\TreeViewUse.csproj", "{C9C25C0A-5E03-487A-A8D0-2F19C68A595A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PGDBManagement", "PGDBManagement\PGDBManagement.csproj", "{EC5BCCEA-2FC0-42AD-A3E5-CB24BA43C344}"
 EndProject
@@ -103,7 +103,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceManagement", "Servic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMCode", "CMCode\CMCode.csproj", "{2386E444-CCA0-4EE1-85E7-B727B25C1AF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExecAppTest", "ExecAppTest\ExecAppTest.csproj", "{42CB26A5-ECC4-412E-8758-94CBE691701A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExecAppTest", "Winform\ExecAppTest\ExecAppTest.csproj", "{42CB26A5-ECC4-412E-8758-94CBE691701A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessAndWMIAndMIUse", "CSharp\ProcessAndWMIAndMIUse\ProcessAndWMIAndMIUse.csproj", "{59CABE91-F73B-4285-82DF-266E926AF8AF}"
 EndProject
@@ -126,8 +126,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugAndTrace", "CSharp\DebugAndTrace\DebugAndTrace.csproj", "{8A6362CD-AA94-46B0-BE1C-3D4C7D35E1C6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{298E9539-A0D0-4873-92F3-772062F0CF7B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformClickMoreEvent", "PerformClickMoreEvent\PerformClickMoreEvent.csproj", "{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformClickMoreEvent", "Winform\PerformClickMoreEvent\PerformClickMoreEvent.csproj", "{BB671DA0-6253-49C0-AE46-A64167C943D6}"
 EndProject
@@ -216,6 +214,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeriodicTimer", "Timer\PeriodicTimer\PeriodicTimer.csproj", "{E9A338EB-E320-4540-99A3-29EB032922DF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StartWithPC", "StartWithPC", "{3F04EDA2-4614-49BC-A880-626CCBB3E146}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GDIPlus", "GDIPlus", "{8C66EA12-0BE7-418B-93C8-69099C087BAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1351,26 +1351,6 @@ Global
 		{8A6362CD-AA94-46B0-BE1C-3D4C7D35E1C6}.Release|x64.Build.0 = Release|Any CPU
 		{8A6362CD-AA94-46B0-BE1C-3D4C7D35E1C6}.Release|x86.ActiveCfg = Release|Any CPU
 		{8A6362CD-AA94-46B0-BE1C-3D4C7D35E1C6}.Release|x86.Build.0 = Release|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Debug|ARM.Build.0 = Debug|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Debug|x64.Build.0 = Debug|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Debug|x86.Build.0 = Debug|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Release|ARM.ActiveCfg = Release|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Release|ARM.Build.0 = Release|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Release|ARM64.Build.0 = Release|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Release|x64.ActiveCfg = Release|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Release|x64.Build.0 = Release|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Release|x86.ActiveCfg = Release|Any CPU
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD}.Release|x86.Build.0 = Release|Any CPU
 		{BB671DA0-6253-49C0-AE46-A64167C943D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BB671DA0-6253-49C0-AE46-A64167C943D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB671DA0-6253-49C0-AE46-A64167C943D6}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -2122,7 +2102,7 @@ Global
 		{368987F4-00F8-4987-97B3-BD919C02AE8F} = {10675582-3AC2-45A5-BEE4-543540D0D49C}
 		{26FC989E-9690-4D71-B92A-1576AA155551} = {10675582-3AC2-45A5-BEE4-543540D0D49C}
 		{A6AA6083-07F3-4271-938F-E808DBF46D59} = {10675582-3AC2-45A5-BEE4-543540D0D49C}
-		{78B503AA-7A00-45B1-9CD6-557D04217406} = {10675582-3AC2-45A5-BEE4-543540D0D49C}
+		{78B503AA-7A00-45B1-9CD6-557D04217406} = {8C66EA12-0BE7-418B-93C8-69099C087BAF}
 		{C397C790-DBFD-4A0E-938C-8E4C2447205D} = {10675582-3AC2-45A5-BEE4-543540D0D49C}
 		{D67C7AEF-F7E1-4E5B-A7F0-0C58B14F689D} = {10675582-3AC2-45A5-BEE4-543540D0D49C}
 		{D52C3983-CC37-4B73-BCE3-33B91A1D74D6} = {10675582-3AC2-45A5-BEE4-543540D0D49C}
@@ -2138,7 +2118,6 @@ Global
 		{9ED450F0-0044-4287-88BB-FF7B3552DBA0} = {97CDB5E8-DBD9-42B1-805B-230C27193A98}
 		{1C871692-E2DA-4B23-A538-AE3B39F316CC} = {97CDB5E8-DBD9-42B1-805B-230C27193A98}
 		{8A6362CD-AA94-46B0-BE1C-3D4C7D35E1C6} = {97CDB5E8-DBD9-42B1-805B-230C27193A98}
-		{FF9B593C-4D0B-4A8B-AB5E-9AEEEE96C8FD} = {298E9539-A0D0-4873-92F3-772062F0CF7B}
 		{BB671DA0-6253-49C0-AE46-A64167C943D6} = {10675582-3AC2-45A5-BEE4-543540D0D49C}
 		{1AAB55B9-ED34-40DC-88F8-AB7194E6315A} = {39BBBED0-CF8B-420D-8CD6-70257D49B1FC}
 		{2A882443-027E-4FA0-B73C-56B3CE33E881} = {39BBBED0-CF8B-420D-8CD6-70257D49B1FC}
