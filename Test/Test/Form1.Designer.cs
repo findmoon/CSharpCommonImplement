@@ -1,4 +1,4 @@
-﻿namespace Test
+﻿namespace MiscellaneousTest
 {
     partial class Form1
     {

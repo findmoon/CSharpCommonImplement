@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 
 
-namespace Test
+namespace MiscellaneousTest
 {
     public partial class Form1 : Form
     {
