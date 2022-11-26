@@ -185,11 +185,17 @@ public class MyModel
 
 这样，就是实现了统一的模型验证。
 
-# 如何实现可以添加自定义错误消息 ErrorMessage 的 JsonRequired 特性【暂未实现】
+# 获取模型验证的自定义错误消息 ErrorMessage
+
+`context.ModelState` 的类型为 `ModelStateDictionary`，它是模型状态`ModelStateEntry`的字段，通过 `ModelStateEntry.ValidationState` 可以获取模型对应的验证结果是否无效，从而获取验证失败的模型状态，针对该模型状态的错误`Errors`有多个，通常应该获取最内层的一个，或者获取全部错误。
+
+# 如何实现添加自定义错误消息 ErrorMessage 的 JsonRequired 特性【暂未实现】
 
 比如 `Required` 的模型验证，可以很方便的自定义错误消息：`[Required(AllowEmptyStrings = false, ErrorMessage = "必须指定该属性且不能为空",)]`
 
 但是 `JsonRequired` 却没有此属性，甚至没有任何其他可使用的属性。它只是作为标记，在序列化时进行json键必须的判断。
+
+> 对 `JsonRequired` 添加 `ErrorMessage` 暂未实现。但是至少在 `System.Text.Json 7.0` 中，可以在不使用`JsonRequired`前提下，借助其他的模型验证特性，如 `Required`、`Range` 的 `ErrorMessage` 实现，具体参见 [关于ASP.NET Core中使用System.Text.Json的JsonRequired特性用于json模型绑定验证的问题](./JsonRequired特性用于模型绑定验证的问题.md)
 
 ## JsonRequired 验证失败时的默认错误消息
 

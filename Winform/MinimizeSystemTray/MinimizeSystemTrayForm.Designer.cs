@@ -32,10 +32,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MinimizeSystemTrayForm));
             this.label1 = new System.Windows.Forms.Label();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.exit = new System.Windows.Forms.ToolStripMenuItem();
-            this.showForm = new System.Windows.Forms.ToolStripMenuItem();
-            this.notifyCtxMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.notifyCtxMenuStrip.SuspendLayout();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.exitAppMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showWindowMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -53,26 +53,26 @@
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
             this.notifyIcon.Visible = true;
             // 
-            // exit
+            // contextMenuStrip
             // 
-            this.exit.Name = "exit";
-            this.exit.Size = new System.Drawing.Size(100, 22);
-            this.exit.Text = "退出";
+            this.contextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exitAppMenuItem,
+            this.showWindowMenuItem});
+            this.contextMenuStrip.Name = "contextMenuStrip1";
+            this.contextMenuStrip.Size = new System.Drawing.Size(181, 70);
             // 
-            // showForm
+            // exitAppMenuItem
             // 
-            this.showForm.Name = "showForm";
-            this.showForm.Size = new System.Drawing.Size(100, 22);
-            this.showForm.Text = "显示";
+            this.exitAppMenuItem.Name = "exitAppMenuItem";
+            this.exitAppMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitAppMenuItem.Text = "退出";
             // 
-            // notifyCtxMenuStrip
+            // showWindowMenuItem
             // 
-            this.notifyCtxMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.notifyCtxMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exit,
-            this.showForm});
-            this.notifyCtxMenuStrip.Name = "contextMenuStrip1";
-            this.notifyCtxMenuStrip.Size = new System.Drawing.Size(101, 48);
+            this.showWindowMenuItem.Name = "showWindowMenuItem";
+            this.showWindowMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.showWindowMenuItem.Text = "显示";
             // 
             // MinimizeSystemTrayForm
             // 
@@ -83,7 +83,7 @@
             this.Name = "MinimizeSystemTrayForm";
             this.Text = "MinimizeSystemTrayForm";
             this.Load += new System.EventHandler(this.MinimizeSystemTrayForm_Load);
-            this.notifyCtxMenuStrip.ResumeLayout(false);
+            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -93,9 +93,9 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NotifyIcon notifyIcon;
-        private System.Windows.Forms.ToolStripMenuItem exit;
-        private System.Windows.Forms.ToolStripMenuItem showForm;
-        private System.Windows.Forms.ContextMenuStrip notifyCtxMenuStrip;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem exitAppMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showWindowMenuItem;
     }
 }
 

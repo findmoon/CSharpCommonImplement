@@ -69,3 +69,31 @@ var inintDB= ExecInitFujidb().GetAwaiter().GetResult();
 
 异步方法同步化调用 需要有一定的前提，并不是所有的直接同步调用就可以。
 
+# [Use ASP.NET Core APIs in a class library](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/target-aspnetcore?view=aspnetcore-6.0&tabs=visual-studio)
+
+# [The difference between GetService() and GetRequiredService() in ASP.NET Core](https://andrewlock.net/the-difference-between-getservice-and-getrquiredservice-in-asp-net-core/)
+
+# [最佳实践系列：ASP.NET Core 3.0中的验证机制——给错误信息加上默认值](https://www.jianshu.com/p/0b03fadb1641)
+
+
+# [怎么查询oracle有哪些用户](https://www.php.cn/oracle/489128.html)
+
+# Oracle
+
+在 会话 级别下 不能修改 NLS_CHARACTERSET：
+
+```sql
+ALTER SESSION SET NLS_CHARACTERSET='UTF8'
+
+错误报告 -
+ORA-00922: ？？缺失或无效
+00922. 00000 -  "missing or invalid option"
+```
+
+其他的 NLS 参数，比如 `NLS_TIME_FORMAT` 就可以修改成功
+
+```sql
+ALTER SESSION SET NLS_TIME_FORMAT='HH24.MI.SSXFF'
+
+Session已变更。
+```

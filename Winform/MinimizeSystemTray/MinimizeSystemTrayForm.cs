@@ -16,20 +16,41 @@ namespace MinimizeSystemTray
         {
             InitializeComponent();
 
-            #region 最小化到任务托盘所有的处理
-            FormClosing += MainForm_FormClosing;
+            #region 最小化到系统托盘 和 程序退出处理 所有操作
+            Application.ApplicationExit += Application_ApplicationExit;
+            #region 最小化到任务托盘和显示的所有处理
+            // 是否最小化时隐藏taskbar，注释掉则不隐藏
             SizeChanged += MainForm_SizeChanged;
+            // 系统托盘中鼠标hover图标时的提示文本，默认为窗口标题
+            notifyIcon.Text = Text;
 
-            notifyIcon.Text = "MyApp-" + Text;
-            notifyIcon.MouseDoubleClick += ShowNomalFormEvent;
-            notifyIcon.ContextMenuStrip = notifyCtxMenuStrip;
-            notifyCtxMenuStrip.Items["exit"].Click += Notity_ContextMenu_Exit_Click;
-            notifyCtxMenuStrip.Items["showForm"].Click += ShowNomalFormEvent;
+            FormClosing += MainForm_FormClosing;
+            notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
+            notifyIcon.ContextMenuStrip = contextMenuStrip;
+
+            // 托盘右键菜单中的显示和退出
+            exitAppMenuItem.Click += ExitAppMenuItem_Click;
+            showWindowMenuItem.Click += ShowWindowMenuItem_Click;
             #endregion
-            
+            #endregion
+
         }
 
         #region 最小化到任务托盘所有的处理
+        /// <summary>
+        /// 应用程序退出处理 如有需要额外的处理
+        /// 不能在 ApplicationExit 中操作控件相关，因为已经释放，无法使用
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Application_ApplicationExit(object sender, EventArgs e)
+        {
+            // 可以捕获 taskkill /im WebCfgManager.exe 的终止，但是taskkill /f /im WebCfgManager.exe不会捕获
+            // 程序退出的一些清理操作。不能访问控件
+            //ClearHandler();
+            //watcher?.Dispose();
+            //client?.Dispose();
+        }
         /// <summary>
         /// 主窗口关闭，最小化到任务托盘
         /// </summary>
@@ -46,15 +67,19 @@ namespace MinimizeSystemTray
 
                 ShowInTaskbar = false;
             }
+            else
+            {
+                // 关闭时额外的清理（如控件的一些清理）
+            }
         }
         /// <summary>
-        /// 主窗口大小变化
+        /// 主窗口大小变化，最小化时隐藏ShowInTaskbar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void MainForm_SizeChanged(object sender, EventArgs e)
         {
-            //判断是否是最小化，隐藏ShowInTaskbar，否则从ShowInTaskbar关闭将无法恢复显示
+            //判断是否是最小化，隐藏ShowInTaskbar
             if (WindowState == FormWindowState.Minimized)
             {
                 ShowInTaskbar = false;
@@ -62,9 +87,37 @@ namespace MinimizeSystemTray
         }
 
         /// <summary>
-        /// 右键任务托盘 退出
+        /// 双击托盘的图标 显示窗口
         /// </summary>
-        private void Notity_ContextMenu_Exit_Click(object sender, EventArgs e)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ShowNomalForm();
+        }
+
+        /// <summary>
+        /// 显示主界面 标准大小
+        /// </summary>
+        void ShowNomalForm()
+        {
+            //任务栏区显示图标。必须设置任务栏图标显示，否则窗口可能不显示
+            ShowInTaskbar = true;
+            Show();
+            // Show 之后再设置 WindowState 是最正确的顺序，否则 如果最小化后再从Taskbar关闭会导致无法恢复显示出来       
+            if (WindowState == FormWindowState.Minimized)
+            {
+                WindowState = FormWindowState.Normal;
+            }
+            //激活窗体并给予焦点
+            Activate();
+        }
+        /// <summary>
+        /// 右键菜单“退出”
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExitAppMenuItem_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("是否确认退出?", "退出", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
@@ -76,30 +129,14 @@ namespace MinimizeSystemTray
                 //Close();
             }
         }
-
         /// <summary>
-        /// 双击托盘的图标和右键菜单 显示窗口
+        /// 右键菜单“显示”
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ShowNomalFormEvent(object sender, EventArgs e)
+        private void ShowWindowMenuItem_Click(object sender, EventArgs e)
         {
             ShowNomalForm();
-        }
-
-        //显示主界面
-        void ShowNomalForm()
-        {
-            if (WindowState == FormWindowState.Minimized)
-            {
-                WindowState = FormWindowState.Normal;
-            }
-
-            //任务栏区显示图标。必须设置任务栏图标显示，否则窗口可能不显示
-            ShowInTaskbar = true;
-            Show();
-            //激活窗体并给予焦点
-            Activate();
         }
         #endregion
 
