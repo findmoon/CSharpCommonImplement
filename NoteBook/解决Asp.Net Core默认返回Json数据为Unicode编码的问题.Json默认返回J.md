@@ -1,6 +1,10 @@
-**解决ASP.Net Core使用内置的System.Text.Json默认返回Json数据为Unicode编码的问题**
+**System.Text.Json序列化和反序列化详解，及解决ASP.Net Core使用内置的System.Text.Json默认返回Json数据为Unicode编码的问题**
 
 [toc]
+
+# ASP.Net Core中Json默认会返回Unicode字符的问题
+
+## 问题介绍
 
 ASP.Net Core 中返回`JsonResult`时，默认`System.Text.Json`会返回Unicode字符。
 
@@ -13,7 +17,68 @@ public IActionResult Index()
 }
 ```
 
-在进行任何设置修改的情况下，返回的结果将为：
+在未进行任何设置修改，使用默认设置的情况下，返回的结果将为：
+
+```json
+"\u0022\u6D4B\u8BD5\u0022\u4F60\u597D.|\u0027"
+```
+
+也就是，实际的内容被转义编码为Unicode返回。
+
+使用 ASP.Net Core 的 JsonResult/ContentResult 等 Result 结果，默认返回的均是 `charset=utf-8` 编码，只是上面内容为 Unicode 字符
+                    // 设置此处的UnicodeRanges.All，使内容为可以显示的正常结果
+
+## 设置 Encoder 为 UnicodeRanges.All
+
+将 `Encoder` 指定为 `UnicodeRanges.All` 是简单的处理方式：
+
+```C#
+services.AddControllers()
+        .AddJsonOptions(option =>
+        {
+            option.JsonSerializerOptions.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);                  
+        });
+```
+
+这样可以防止中文等字符转义编码为Unicode，上面测试返回的结果将变为：
+
+```json
+"\u0022测试\u0022你好.|\u0027"
+```
+
+此设置不编码中文，比如 `new JsonResult("测试")` 结果为json字符串：`"测试"`，但是会编码 `"`、`'` 单双引号等。
+
+## Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping【推荐】
+
+`JavaScriptEncoder.UnsafeRelaxedJsonEscaping` 用于设置最大程度地减少转义编码
+
+```C#
+services.AddControllers()
+        .AddJsonOptions(option =>
+        {
+            option.JsonSerializerOptions.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;                  
+        });
+```
+
+测试 `"\"测试\"你好.|'"` 转为 json 的结果为：
+
+```json
+"\"测试\"你好.|'"
+```
+
+单双引号正常输出显示。
+
+## 另：web编码选项 WebEncoderOptions
+
+`WebEncoderOptions`用于web数据（文本）的编码指定，参考如下，有需要可以设置
+
+```C#
+// web编码选项
+services.Configure<WebEncoderOptions>(options =>
+{
+   options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
+});
+```
 
 # 序列化和反序列化的使用(非常简单)
 
@@ -24,7 +89,7 @@ public IActionResult Index()
 
 # JsonSerializerOptions 的使用
 
-`JsonSerializerOptions`用于按照一定格式或规则序列化对象，获取想要的格式的JSON。
+`JsonSerializerOptions`用于按照一定格式或规则序列化对象，以获取到想要的格式的JSON。
 
 ## 指定序列化选项
 
@@ -239,7 +304,7 @@ JsonSerializerOptions optionsCopy = new(options);
 - `JsonNamingPolicy = CamelCase`
 - `NumberHandling = AllowReadingFromString`
 
-作为`ASP.NET Core`用于web的默认设置，此外还需要添加一个`Encoder`对于序列化时的转义处理，基本就是最广泛的`JsonOptions`设置了，如下：
+**作为`ASP.NET Core`用于web的默认设置，此外还需要添加一个`Encoder`对于序列化时的转义处理，基本就是最广泛的`JsonOptions`设置了**，如下：
 
 ```C#
 var JsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web)

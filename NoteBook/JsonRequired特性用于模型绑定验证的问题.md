@@ -1,4 +1,4 @@
-**关于ASP.NET Core中使用System.Text.Json的JsonRequired特性用于json模型绑定验证的问题**
+**使用System.Text.Json的JsonRequired特性指定必需属性，及ASP.NETCore中json模型绑定验证的问题**
 
 [toc]
 
@@ -7,7 +7,7 @@
 > 对 `JsonRequired` 的使用和探索源于“误导”（`SuppressModelStateInvalidFilter`使用导致），以及 `Newtonsoft.Json` 库中 `[JsonProperty]` 特性可以设置 `Required` 指定属性是必需的。
 > 
 > `JsonRequired` 的替代仅在于`ASP.NET Core`中的模型绑定中（这也是使用场景最多的），对于想要在JSON数据反序列化时指定必需的属性，则应该使用`JsonRequiredAttribute`或 C# 11 的`required`修饰符（所有非`ASP.NET Core`模型绑定情况下的json序列化和反序列化中）。
-> 
+
 > **在反序列化的场景下，指定必需属性，通常推荐使用`JsonRequiredAttribute`**。
 
 
@@ -21,7 +21,7 @@
 
 `System.Text.Json 7.0` 之前，没有很好的解决方法，只能在模型绑定的反序列化处理方法中进行判断和实现。
 
-## `[JsonRequired]`特性
+## `[JsonRequired]`特性【`System.Text.Json 7.0`新增】
 
 测试在 ASP.NET Core 6 中，通过安装 System.Text.Json 7.0 nuget包，使用 `[JsonRequired]` 特性，用于 JSON 模型对象的属性上。
 
@@ -65,7 +65,7 @@ public class TestModel
 }
 ```
 
-# Action 方法内判断模型类对象
+## Action 方法内判断模型类对象
 
 在 MVC 或禁用了自动400错误响应的情况下，可以通过在 Action 方法内，**判断模型验证的结果`ModelState.IsValid`**，或者，**判断模型类对象是否为`null`**，处理模型绑定失败的情况。如下：
 
@@ -86,7 +86,7 @@ public async Task<IActionResult> MyTest(TestModel model)
 }
 ```
 
-# Web 模型验证中 对 JsonRequired 的替代实现
+## Web 模型验证中 对 JsonRequired 的替代实现
 
 > 注：**`JsonRequired` 的替代实现仅在于`ASP.NET Core`中的模型绑定中，如果是使用`System.Text.Json`序列化反序列化json，想要指定必需属性，则应该使用`JsonRequiredAttribute`或`required`修饰符。**
 
@@ -125,4 +125,113 @@ public class TestModel
 
 相对来说，这种`替代实现`比`JsonRequired`的验证：必须指定json键，效果要好，不过其验证(失败)不是发生在JSON反序列化时，而是在反序列化为模型类对象后的模型数据验证时。
 
-# 
+# JsonPropertyInfo.IsRequired 指定必需属性【System.Text.Json 7.0新增】
+
+借助约定模型(`contract model`)，还可以使用`JsonPropertyInfo.IsRequired`实现指定json反序列化时类的必须属性。
+
+如下，指定json反序列化对象的所有属性都不是必需的：
+
+```C#
+var options = new JsonSerializerOptions
+{
+    TypeInfoResolver = new DefaultJsonTypeInfoResolver
+    {
+        Modifiers = {
+            // static typeInfo => 静态匿名函数需要C# 9.0
+            typeInfo =>
+            {
+                if (typeInfo.Kind != JsonTypeInfoKind.Object)
+                    return;
+
+                foreach (JsonPropertyInfo propertyInfo in typeInfo.Properties)
+                {
+                    // Strip IsRequired constraint from every property.
+                    propertyInfo.IsRequired = false;
+                }
+            }
+        }
+    }
+};
+```
+
+> `TypeInfoResolver`、`DefaultJsonTypeInfoResolver`、`JsonPropertyInfo.IsRequired` 等，与` JsonRequiredAttribute`一样，在 .NET7 中引入，(不升级.NET版本)需要安装`System.Text.Json 7.0`，才能使用。
+
+# 自定义转换器(custom converter)实现必须属性【注意使用异常】
+
+本示例来自官方文档，使用 自定义转换器 或者 自定义转换特性（极其不推荐，无限循环）时，要注意可能的无限循环导致堆栈溢出异常【`自定义转换器`注意递归调用时会无限循环】，具体参见官文。
+
+自定义json转换器`WeatherForecastRequiredPropertyConverter`，在转换之后的结果对象中，判断某个属性是否存在：
+
+```C#
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+namespace SystemTextJsonSamples
+{
+    public class WeatherForecastRequiredPropertyConverter : JsonConverter<WeatherForecast>
+    {
+        public override WeatherForecast Read(
+            ref Utf8JsonReader reader,
+            Type type,
+            JsonSerializerOptions options)
+        {
+            // Don't pass in options when recursively calling Deserialize.
+            WeatherForecast forecast = JsonSerializer.Deserialize<WeatherForecast>(ref reader)!;
+
+            // Check for required fields set by values in JSON
+            return forecast!.Date == default
+                ? throw new JsonException("Required property not received in the JSON")
+                : forecast;
+        }
+
+        public override void Write(
+            Utf8JsonWriter writer,
+            WeatherForecast forecast, JsonSerializerOptions options)
+        {
+            // Don't pass in options when recursively calling Serialize.
+            JsonSerializer.Serialize(writer, forecast);
+        }
+    }
+}
+```
+
+然后就是将自定义转换器添加到`JsonSerializerOptions.Converters`：
+
+```C#
+// 添加自定义转换器
+var optionss = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+optionss.Converters.Add(new WeatherForecastRequiredPropertyConverter());
+```
+
+> `WeatherForecast`类如下：
+>
+> ```C#
+>   public class WeatherForecast
+>   {
+>       public DateTime Date { get; set; }
+> 
+>       public int TemperatureC { get; set; }
+> 
+>       public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+> 
+>       public string Summary { get; set; }
+>   }
+> ```
+
+#  OnDeserialized 回调实现必修属性（.NET6及以上版本）
+
+`System.Text.Json.Serialization`中提供了序列化时的几个回调用的接口：
+
+- IJsonOnDeserializing
+- IJsonOnDeserialized
+- IJsonOnSerializing
+- IJsonOnSerialized
+
+通常在序列化类中继承对应的接口，可以在序列化过程中调用相关的回调方法，完成对序列化的控制，详见参考中的官文。
+
+`IJsonOnDeserialized.OnDeserialized`可以验证反序列化后的结果，判断某个属性是否为必须的。
+
+# 参考
+
+- [Required properties](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/required-properties)
+- [Compare Newtonsoft.Json to System.Text.Json, and migrate to System.Text.Json](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/migrate-from-newtonsoft?pivots=dotnet-6-0)

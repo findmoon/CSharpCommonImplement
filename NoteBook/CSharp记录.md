@@ -97,3 +97,12 @@ ALTER SESSION SET NLS_TIME_FORMAT='HH24.MI.SSXFF'
 
 Session已变更。
 ```
+
+# [Return different types of content from ASP.NET Core MVC Action Result](https://geeksarray.com/blog/return-different-types-of-content-from-asp-net-core-mvc-action-result)
+
+# [ADO.NET 参数化查询](https://www.cnblogs.com/zhangyuanbo12358/p/3959924.html)
+
+# [Oracle数据库之事务](https://www.cnblogs.com/zf29506564/p/5772380.html)
+
+[Oracle 事务详解（transaction）](https://blog.csdn.net/qq_34745941/article/details/107865782)
+
