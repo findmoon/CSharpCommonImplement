@@ -1,4 +1,4 @@
-**System.Text.Json序列化和反序列化详解，及解决ASP.Net Core使用内置的System.Text.Json默认返回Json数据为Unicode编码的问题**
+**解决ASP.Net Core使用内置的System.Text.Json默认返回Unicode编码的问题，及System.Text.Json序列化和反序列化详解**
 
 [toc]
 
@@ -115,8 +115,8 @@ JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions()
     // 序列化 键名 为 小写字母开头的驼峰命名
     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
 
-    // 对字典的键进行驼峰命名
-    DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
+    // 对字典的键进行驼峰命名。通常可能不需要
+    // DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
     
     // 序列化的时候忽略null值的属性（JSON结果中不包含此键）
     DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
@@ -338,8 +338,185 @@ var JsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web)
 
 ## JsonConstructor
 
+# JSON对象：JsonNode、JsonObject、JsonArray、JsonValue
+
+.net 6中提供了处理内存中可写文档对象模型(`writeable DOM`)的类型，用于在数据的结构化视图中随机访问JSON元素。
+
+这样就可以直接操作JSON元素和数据，对于JSON DOM的操作主要依靠三个类型：JsonObject - 表示创建JSON对象；JsonArray - 表示创建JSON数组；JsonValue: - JSON中的一个值。它们都继承自 `JsonNode - JSON 文档中的一个节点`。
+
+## JsonNode的使用
+
+### `JsonNode.Parse` 解析JSON字符串为JsonNode对象。
+
+```C#
+JsonNode jnode = JsonNode.Parse(@"{""a"":""你好"",""b"":10,""C"":[1,2,3]}")!;     //将string 解析为JsonNode
+```
+
+### `AsObject()` 将JsonNode转换为JsonObject。
+
+```C#
+JsonObject jobject = jnode.AsObject()!;     //JsonNode 转化为JsonObject对象
+```
+
+### `AsArray()` 将JsonNode转换为JsonArray。
+
+```C#
+JsonArray jarray = jobject["C"]!.AsArray();     //解析并且转化成JsonArray
+```
+
+### 获取节点的操作
+
+```C#
+//获取节点
+JsonNode jnode1 = jarray[1]!;
+Debug.WriteLine($"Parent Node：{jnode1.Parent}");
+Debug.WriteLine($"Root Node：{jnode1.Root}");
+Debug.WriteLine($"JsonNodeOptions：{jnode1.Options}");
+```
+
+输出：
+
+```js
+Parent Node：[
+  1,
+  2,
+  3
+]
+Root Node：{
+  "a": "\u4F60\u597D",
+  "b": 10,
+  "C": [
+    1,
+    2,
+    3
+  ]
+}
+JsonNodeOptions：
+```
+
+### 获取Json对象的值
+
+```C#
+//取值
+Debug.WriteLine($"ToJsonString():{jarray.ToJsonString()}");
+Debug.WriteLine($"GetValue<int>():{jnode1.GetValue<int>()}");
+Debug.WriteLine($"强制类型转换:{(int?)jarray[2]}");
+
+Debug.WriteLine($"反序列化获取Int[]:{JsonSerializer.Deserialize<int[]>(jarray)}{Environment.NewLine}  反序列化后取值：{Environment.NewLine}{JsonSerializer.Deserialize<int[]>(jarray)?.Aggregate("", (aggStr, v) => $"{aggStr}    值：{v}{Environment.NewLine}")}");
+```
+
+输出：
+
+```js
+ToJsonString():[1,2,3]
+GetValue<int>():2
+强制类型转换:3
+反序列化获取Int[]:System.Int32[]
+  反序列化后取值：
+    值：1
+    值：2
+    值：3
+```
+
+### `ToJsonString()`进行序列化
+
+可以看到`JsonNode.ToJsonString()`方法用于序列化JsonNode数据。
+
+```C#
+Debug.WriteLine($"ToJsonString()序列化：{jnode1.Root.ToJsonString(new JsonSerializerOptions(JsonSerializerDefaults.Web) { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping })}");
+```
+
+输出：
+
+```json
+{"a":"你好","b":10,"C":[1,2,3]}
+```
+
+## JsonObject对象的创建和使用
+
+- 使用对象初始值创建JsonObject。
+
+```C#
+//新增操作
+JsonObject jo = new JsonObject
+{
+    //JsonObject继承JsonNode ，JsonNode内部有字典和索引(索引会生成一个node)。字典初始值设定项
+    ["Message"] = "个人信息",
+    ["Father"] = new JsonObject { ["Name"] = "张三" },
+    ["Son"] = new JsonArray(
+        //JsonArray 内部有一个list和Add()方法。  JsonArray列表初始化设定项
+        new JsonObject
+        {
+            ["Name"] = "张小小",
+            ["Pet"] = new JsonArray("小花狗", "小花猫"),
+            ["Age"] = ""
+        },
+        new JsonObject
+        {
+            ["Name"] = "张大大",
+            ["Pet"] = new JsonArray("小狼狗", "小公鸡"),
+            ["Age"] = 2
+        })
+};
+```
+
+- key访问或添加JsonObject项
+
+```C#
+JsonObject JObject1 = new();
+JObject["JiangSu"] = 54;
+JObject["ShangHai"] = 32;
+JObject["HangZhou"] = 44;
+```
+
+- Add方法添加JsonObject项
+
+```C#
+JsonObject JObject2 = new();
+JObject2.Add(KeyValuePair.Create<string, JsonNode>("name3", "value3"!)!);
+JObject2.Add("name4", "value4");
+```
+
+- 由字典或VK创建
+
+```C#
+var dictionary = new Dictionary<string, JsonNode>
+{
+    ["name1"] = "value1"!,
+    ["name2"] = 2
+};
+
+JsonObject JObject3 = new JsonObject(dictionary!);
+
+JsonObject JObject4 = new JsonObject(
+    new[]
+    {
+        KeyValuePair.Create<string, JsonNode?>("name1", "value1"),
+        KeyValuePair.Create<string, JsonNode?>("name2", 2),
+    }
+);
+```
+
+- 添加JsonArray等JsonNode对象
+
+```C#
+JObject["YunNan"] = new JsonArray
+{
+   new JsonObject{["Name"] = "Spot"},
+    new JsonObject{["Exp"] = 255},
+       new JsonObject{["Exp1"] = 257},
+};
+//or
+JObject["KunMing"] = new JsonArray("Shield", "Sword", "Bottle");
+```
+
+# 关于Utf8JsonWriter
+
+
+
 # 参考
 
 - [How to serialize and deserialize (marshal and unmarshal) JSON in .NET](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/how-to?pivots=dotnet-7-0)
 - [How to instantiate JsonSerializerOptions instances with System.Text.Json](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/configure-options?pivots=dotnet-7-0)
 - [How to preserve references and handle or ignore circular references in System.Text.Json](https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/preserve-references?pivots=dotnet-7-0)
+- [【C# 序列化】System.Text.Json.Nodes ---Json数据交换格式 对应C#类](https://www.cnblogs.com/cdaniu/p/16002594.html)

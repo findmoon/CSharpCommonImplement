@@ -4,6 +4,9 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,6 +14,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -118,6 +122,87 @@ namespace MiscellaneousTestForNet
 
         public static bool IsValid2([NotNullWhen(true)] Person? person)
         => person is not null && person.Name is not null;
+
+        private void Button_Click2(object sender, RoutedEventArgs e)
+        {
+            JsonNode jnode = JsonNode.Parse(@"{""a"":""你好"",""b"":10,""C"":[1,2,3]}")!;     //将string 解析为JsonNode
+
+            JsonObject jobject = jnode.AsObject()!;     //JsonNode 转化为JsonObject对象
+
+            
+            JsonArray jarray = jobject["C"]!.AsArray();     //解析并且转化成JsonArray
+
+
+            //获取节点
+            JsonNode jnode1 = jarray[1]!;
+            Debug.WriteLine($"Parent Node：{jnode1.Parent}");
+            Debug.WriteLine($"Root Node：{jnode1.Root}");
+            Debug.WriteLine($"JsonNodeOptions：{jnode1.Options}");
+
+            //取值
+            Debug.WriteLine($"ToJsonString():{jarray.ToJsonString()}");
+            Debug.WriteLine($"GetValue<int>():{jnode1.GetValue<int>()}");
+            Debug.WriteLine($"强制类型转换:{(int?)jarray[2]}");
+            Debug.WriteLine($"反序列化获取Int[]:{JsonSerializer.Deserialize<int[]>(jarray)}{Environment.NewLine}  反序列化后取值：{Environment.NewLine}{JsonSerializer.Deserialize<int[]>(jarray)?.Aggregate("", (aggStr, v) => $"{aggStr}    值：{v}{Environment.NewLine}")}");
+
+            Debug.WriteLine($"ToJsonString()序列化：{jnode1.Root.ToJsonString(new JsonSerializerOptions(JsonSerializerDefaults.Web) { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping })}");
+        }
+
+        private void Button_Click3(object sender, RoutedEventArgs e)
+        {
+            unsafe
+            {
+                char* pointerToChars = stackalloc char[123];
+
+                for (int i = 65; i < 123; i++)
+                {
+                    pointerToChars[i] = (char)i;
+                }
+
+                Debug.Write("Uppercase letters: ");
+                for (int i = 65; i < 91; i++)
+                {
+                    Debug.Write(pointerToChars[i]);
+                }
+                Debug.WriteLine("");
+                Debug.Write("Lowercase letters: ");
+                for (int i = 97; i < 123; i++)
+                {
+                    Debug.Write(pointerToChars[i]);
+                }
+            }
+            // Output:
+            // Uppercase letters: ABCDEFGHIJKLMNOPQRSTUVWXYZ
+            // Lowercase letters: abcdefghijklmnopqrstuvwxyz
+        }
+
+        private void Button_Click4(object sender, RoutedEventArgs e)
+        {
+            int number = 1024;
+
+            unsafe
+            {
+                // Convert to byte:
+                byte* p = (byte*)&number;
+
+                Debug.Write("整型的四个字节:");
+
+                // Display the 4 bytes of the int variable:
+                for (int i = 0; i < sizeof(int); ++i)
+                {
+                    Debug.Write((*p).ToString("X2")+" ");
+                    // Increment the pointer:
+                    p++;
+                }
+                Debug.WriteLine("");
+                Debug.WriteLine("整型的值: {0}", number);
+
+                /* Output:
+                    整型的四个字节: 00 04 00 00
+                    整型的值: 1024
+                */
+            }
+        }
     }
     class MyTest { }
 
