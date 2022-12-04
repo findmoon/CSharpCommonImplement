@@ -1,8 +1,44 @@
-**C#中实现单体应用程序（只运行一个程序）的方法：判断进程【激活并显示已打开的程序到前台】**
+**C#中实现单体应用程序（只运行一个程序、只启动一个进程）的方法：判断进程【激活并显示已打开的程序到前台】**
 
 [toc]
 
-全部对应的 `Program.cs` 入口文件的代码如下。具体可以直接复制，或者单独复制 `region` 部分的单体有关的代码。
+# 最简单实现代码
+
+如下，通过判断进程，确定是否存在已打开的当前程序的进程，如果存在则将已打开的进程窗口置前，当前程序退出不再打开运行。
+
+```cs
+/// <summary>
+/// 应用程序的主入口点。
+/// </summary>
+[STAThread]
+static void Main()
+{
+    // 判断进程，只能启动一个实例
+    Process cur = Process.GetCurrentProcess();
+    foreach (Process p in Process.GetProcesses())
+    {
+        if (p.Id == cur.Id) continue;
+        if (p.ProcessName == cur.ProcessName)
+        {
+            SetForegroundWindow(p.MainWindowHandle);
+            return;
+        }
+    }
+    // Main方法开始处添加上面的代码
+
+    Application.EnableVisualStyles();
+    Application.SetCompatibleTextRenderingDefault(false);
+    Application.Run(new Form1());
+}
+
+    
+[DllImport("user32.dll", EntryPoint = "SetForegroundWindow")]
+public static extern int SetForegroundWindow(IntPtr hwnd);
+```
+
+# 标准通用方法【直接复制使用，根据需要最小修改】
+
+对应的实现只启动一个程序的代码放于 `Program.cs` 入口文件出，其全部代码如后面所示。具体可以直接复制，或者单独复制 `region` 部分的单体有关的代码。
 
 代码解释已经非常详细，包括注意点。此代码原本是参考网上的内容，并进行了一些修改和说明，由于时间久远，未记录出处，后续碰到再添加。
 
@@ -24,7 +60,7 @@
 
 7. 由于其单个程序运行的实现是通过判断`进程`，因此，**在`进程`启动起来的短时间内，是可以实现运行多个程序的（比如通过脚本快速运行多个、快速点击运行多个等）**。这也是很多 **启动多个程序的脚本** 能够成功的原因，比如 "运行多个xx"。
 
-8. 不推荐使用 `Process.MainWindowHandle`。
+8. 不推荐使用 `Process.MainWindowHandle`，`MainWindowHandle`并不是win32窗体中的标准概念，在遇到多个窗口的winform程序时，此值的获取将会不准确。
 
 > 测试或示例程序位于 `SingletonApp` 解决方案文件夹下的 `SingletonApp_Winform` 程序。
 

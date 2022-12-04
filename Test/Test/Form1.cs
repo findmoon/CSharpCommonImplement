@@ -48,5 +48,11 @@ namespace MiscellaneousTest
             //    Debug.WriteLine();
             //}
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            string @int = "你好";
+            int @string = 10;
+        }
     }
 }
