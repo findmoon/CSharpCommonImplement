@@ -106,3 +106,4 @@ Session已变更。
 
 [Oracle 事务详解（transaction）](https://blog.csdn.net/qq_34745941/article/details/107865782)
 
+# 关于SQLLite在并发多线程访问时的情况，是否需要额外处理？

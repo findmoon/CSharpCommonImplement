@@ -10,7 +10,7 @@ namespace UnsafeCodeAndPointer
             unsafe
             {
                 int myInt;
-                int* myIntPtr=&myInt;
+                int* myIntPtr = &myInt;
 
                 // 间接寻址运算符
                 *myIntPtr = 11;
@@ -22,10 +22,16 @@ namespace UnsafeCodeAndPointer
                 //var num = 10;
                 //int* pNum = &num;
                 //Debug.WriteLine((int)pNum);
+
+
+                FunctionPointer functionPtr = new FunctionPointer();
+                functionPtr.InvokeFuncPtr();
             }
 
             Console.ReadKey();
         }
+
+
 
         /// <summary>
         /// 使用fixed pin对象，然后使用其指针
@@ -74,5 +80,46 @@ namespace UnsafeCodeAndPointer
             12
             */
         }
+    }
+
+
+    unsafe class FunctionPointer
+    {
+        /// <summary>
+        /// 调用函数指针
+        /// </summary>
+        internal void InvokeFuncPtr()
+        {
+            int product = UnsafeCombine(&localMultiply, 3, 4);
+            Console.WriteLine("函数指针调用的结果：" + product);
+        }
+        static int localMultiply(int x, int y) => x * y;
+
+        public static T Combine<T>(Func<T, T, T> combinator, T left, T right) =>
+    combinator(left, right);
+
+        public static T1 Combine2<T,T1>(Func<T, T, T1> combinator, T left, T right) =>
+    combinator(left, right);
+
+
+        public static T UnsafeCombine<T>(delegate*<T, T, T> combinator, T left, T right) =>
+            combinator(left, right);
+
+        #region calling convention
+        public static T ManagedCombine<T>(delegate* managed<T, T, T> combinator, T left, T right) =>
+    combinator(left, right);
+
+        public static T CDeclCombine<T>(delegate* unmanaged[Cdecl]<T, T, T> combinator, T left, T right) =>
+            combinator(left, right);
+        public static T StdcallCombine<T>(delegate* unmanaged[Stdcall]<T, T, T> combinator, T left, T right) =>
+            combinator(left, right);
+        public static T FastcallCombine<T>(delegate* unmanaged[Fastcall]<T, T, T> combinator, T left, T right) =>
+            combinator(left, right);
+        public static T ThiscallCombine<T>(delegate* unmanaged[Thiscall]<T, T, T> combinator, T left, T right) =>
+            combinator(left, right);
+
+        public static T UnmanagedCombine<T>(delegate* unmanaged<T, T, T> combinator, T left, T right) =>
+            combinator(left, right);
+        #endregion
     }
 }
