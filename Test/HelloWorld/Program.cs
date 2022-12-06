@@ -1,17 +1,17 @@
 ﻿namespace HelloWorld
 {
-    internal class Program
+    internal class Program12567
     {
         static void Main(string[] args)
         {
-            var a = 1;
+            int a = 1;
             a++;
             {
                 var b = a + 2;
             }
 
-
-            Console.WriteLine("Hello, World!");
+            var aa = false;
+            Console.WriteLine("Hello, World!---"+a);
         }
     }
 
@@ -28,5 +28,22 @@
         }
 
         public string GetName() => $"name:{locationName.Trim()}";
+
+        /// <summary>
+        /// 求和方法
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns>返回两个参数的和</returns>
+        public int Add(int a,int b)
+        {
+            // 返回两个数相加的和
+            return a + b;
+            /*
+             * 我是多行注释
+             * 可以有多行
+             作为说明解释
+             */
+        }
     }
 }
