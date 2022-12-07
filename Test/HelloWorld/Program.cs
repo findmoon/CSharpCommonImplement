@@ -11,7 +11,21 @@
             }
 
             var aa = false;
+            var bb = true;
+
+            Console.WriteLine("aa---"+ aa);
+            Console.WriteLine("bb---"+ bb);
+            Console.WriteLine("aa---"+ aa.ToString());
+            Console.WriteLine("bb---"+ bb.ToString());
+
+            var trueStr=Boolean.TrueString;
+            
+            var trueStr2=bool.TrueString;
+
             Console.WriteLine("Hello, World!---"+a);
+
+            Test.TestMethod();
+            Console.ReadLine();
         }
     }
 
