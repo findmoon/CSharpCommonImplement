@@ -5,10 +5,20 @@ namespace UnsafeCodeAndPointer
 {
     internal class Program
     {
+
         static void Main(string[] args)
         {
             unsafe
             {
+                var testInts = new int[10];
+                fixed(int* ptr = testInts)
+                {
+                    fixed(int* ptr2 = &testInts[0])
+                    {
+                        Console.WriteLine(ptr == ptr2 ? "相同" : "不同");
+                    }
+                }
+
                 int myInt;
                 int* myIntPtr = &myInt;
 
@@ -43,6 +53,10 @@ namespace UnsafeCodeAndPointer
             // Must be in unsafe code to use interior pointers.
             unsafe
             {
+                // 获取数组a变量的栈数据，数组指针
+                fixed (int* p = a)
+                {
+                }
                 // Must pin object on heap so that it doesn't move while using interior pointers.
                 fixed (int* p = &a[0])
                 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace HelloWorldNetFx
 {
@@ -9,7 +10,7 @@ namespace HelloWorldNetFx
             int a = 10;
             new MyTest();
             Console.WriteLine("Hello, World");
-            Console.Read();
+            Console.ReadKey();
 
             var m = 0b101;
 
@@ -22,11 +23,26 @@ namespace HelloWorldNetFx
 
             decimal myMoney1 = 1_000.5m;
             var myMoney2 = 200.75M;
+
+            Console.WriteLine(getMemory(new object()));
+
+  
+
+            Console.ReadKey();
         }
 
         void Main()
         {
             Console.WriteLine("Hello, World");
+        }
+
+        // 获取引用类型的内存地址方法
+        public static string getMemory(object obj)
+        {
+            // GCHandle.Alloc(obj, GCHandleType.Pinned) // System.ArgumentException:“Object 包含非基元或非直接复制到本机结构中的数据。”
+            GCHandle handle = GCHandle.Alloc(obj, GCHandleType.WeakTrackResurrection);
+            IntPtr addr = GCHandle.ToIntPtr(handle);
+            return $"0x{addr.ToString("X")}";
         }
     }
     class MyTest
