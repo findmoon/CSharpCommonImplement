@@ -25,6 +25,11 @@
             Console.WriteLine("Hello, World!---"+a);
 
             Test.TestMethod();
+
+            Console.Out.WriteLine("11---11");
+
+
+
             Console.ReadLine();
         }
     }

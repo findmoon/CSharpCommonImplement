@@ -1,8 +1,113 @@
-**C#中获取变量的堆栈内存地址，GCHandle介绍和管理释放内存，及直接操作内存数据**
+**C#中GCHandle使用介绍和释放内存，GC.KeepAlive保持对象不被内存回收和GC介绍 获取变量的堆栈内存地址，及直接操作内存数据**
 
 [toc]
 
-# C#获取变量的内存地址
+# GCHandle 结构 介绍
+
+## GCHandle 结构
+
+`GCHandle` 是 Struct 结构类型，它的作用是 **提供从非托管内存访问托管对象的方法**。
+
+**在平台互操作的场景中，通常会遇到调用非托管代码的时候，要传递给非托管代码相关的托管对象，用以非托管代码执行时访问该对象或数据，这时就要注意自动垃圾回收，是否会收集或移动托管对象，导致内存访问错误。**
+
+最常见的，比如非托管代码需要回调函数，可以通过 `委托（安全的函数指针）` 传递回调，回调中引用 C# 的某个对象并访问操作，就需要小心，如果非托管代码用到的托管对象被GC回收了，就会报内存错误。
+
+因此，需要将这个托管对象 `pin`(钉住)，固定它的内存地址，不会垃圾收集移动或回收。即使用`GCHandle.Alloc`向特定对象分配一个handle。
+
+`pin`住的托管对象不会被GC回收，因此，如果确认不再使用，需要我们自己管理释放内存。即使用`GCHandle.Free`释放`GCHandle`。否则，可能会发生内存泄露(`memory leak`)。
+
+> This GCHandle must be released with Free() when it is no longer needed.
+
+## GCHandle.Alloc 和 Free 方法的使用
+
+官网提供了一个使用`GCHandle.Alloc`为托管对象创建`handle`句柄的示例，非托管函数`EnumWindows`接收传递的委托和托管对象的`GCHandle`转换的`IntPtr`，**非托管函数将该`IntPtr`传递回调用方的回调函数参数。**
+
+调用完后，执行`Free()`释放创建的`GCHandle`。
+
+```C#
+public delegate bool CallBack(int handle, IntPtr param);
+
+internal static class NativeMethods
+{
+    // passing managed object as LPARAM
+    // BOOL EnumWindows(WNDENUMPROC lpEnumFunc, LPARAM lParam);
+
+    [DllImport("user32.dll")]
+    internal static extern bool EnumWindows(CallBack cb, IntPtr param);
+}
+
+public class App
+{
+    public static void Main()
+    {
+        Run();
+    }
+
+    public static void Run()
+    {
+        TextWriter tw = Console.Out;
+        GCHandle gch = GCHandle.Alloc(tw);
+
+        CallBack cewp = new CallBack(CaptureEnumWindowsProc);
+
+        // platform invoke will prevent delegate to be garbage collected
+        // before call ends
+
+        NativeMethods.EnumWindows(cewp, GCHandle.ToIntPtr(gch));
+        gch.Free();
+    }
+
+    private static bool CaptureEnumWindowsProc(int handle, IntPtr param)
+    {
+        GCHandle gch = GCHandle.FromIntPtr(param);
+        TextWriter tw = (TextWriter)gch.Target;
+        tw.WriteLine(handle);
+        return true;
+    }
+}
+```
+
+# GC.KeepAlive 
+
+## GC
+
+`GC`静态类用于控制系统垃圾收集器，该服务会自动回收未使用的内存。
+
+
+
+
+# C#获取对象的内存地址
+
+c#是不能获取内存地址的，就算获取到了也没什么意义。
+
+在unsafe的情况下，可以把内存pin在一定的地址防止回收，只有这样获取的地址才有意义（后语后续操作）。
+
+`GCHandle`可以转化成`IntPtr`指针。
+
+```C#
+using System.Runtime.InteropServices;
+ using System;
+ namespace ConsolePrototype
+ {
+     public class A
+     {
+     }
+ 
+     class Program
+     {
+         static void Main(string[] args)
+         { 
+             A a = new A();
+             GCHandle hander = GCHandle.Alloc(a);
+             var pin = GCHandle.ToIntPtr(hander);
+ 
+             Console.WriteLine(pin);
+         }
+     }
+ }
+```
+
+# C#获取内存地址的方法
 
 > `&`取址符号，获取一个变量的内存地址，或获取一个变量的指针。
 
@@ -62,37 +167,6 @@ public static string getMemory(object obj)
 }
 ```
 
-# C#获取对象的内存地址
-
-c#是不能获取内存地址的，就算获取到了也没什么意义。
-
-在unsafe的情况下，可以把内存pin在一定的地址防止回收，只有这样获取的地址才有意义。
-
-`GCHandle`可以转化成`IntPtr`指针。
-
-```C#
-using System.Runtime.InteropServices;
- using System;
- namespace ConsolePrototype
- {
-     public class A
-     {
-     }
- 
-     class Program
-     {
-         static void Main(string[] args)
-         {
- 
-             A a = new A();
-             GCHandle hander = GCHandle.Alloc(a);
-             var pin = GCHandle.ToIntPtr(hander);
- 
-             Console.WriteLine(pin);
-         }
-     }
- }
-```
 
 # 参考
 

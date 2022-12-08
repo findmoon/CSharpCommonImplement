@@ -21,6 +21,8 @@ namespace HelloWorld
 
             Console.WriteLine($"枚举默认值：{default(Season)}");
             Console.WriteLine($"枚举默认值：{(int)default(Season)}");
+
+
         }
     }
     public enum Season
