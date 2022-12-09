@@ -8,5 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Button Content="使用GCHandle" Margin="77,117,561,259" Click="Button_Click"/>
+        <Button Content="使用 GC 静态类" Margin="77,183,561,193" Click="Button_Click1"/>
+        <Button Content="GCHandle获取IntPtr或托管对象" Margin="77,41,561,335" Click="Button_Click2"/>
     </Grid>
 </Window>

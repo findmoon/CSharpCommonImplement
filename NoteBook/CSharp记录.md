@@ -107,3 +107,23 @@ Session已变更。
 [Oracle 事务详解（transaction）](https://blog.csdn.net/qq_34745941/article/details/107865782)
 
 # 关于SQLLite在并发多线程访问时的情况，是否需要额外处理？
+
+
+# [UserControl 用户自定义控件](https://www.cnblogs.com/coolkiss/archive/2010/09/07/1820467.html)
+
+# [Cycle Sort](https://www.cnblogs.com/coolkiss/archive/2010/12/15/1906562.html)
+
+# COPY COMPLETE CONSOLE OUTPUT IN A WPF TEXTBOX?-WPF
+
+You can use [Console.OpenStandardOutput](https://msdn.microsoft.com/en-us/library/16f09842.aspx) to intercept `Console.Writeline()`\- This [answer](https://stackoverflow.com/a/6024185/7292772) and this [link](http://nmarkou.blogspot.com/2011/12/redirect-console-output-to-textbox.html) explain how to implement a `TextBoxStreamWriter` and inject it in standard output stream.
+
+As for `ConsoleTraceListener` - you should be able to write your own textbox based `TraceListener` and assign it to appropriate `TraceSources` (as they support multiple trace listeners). This [answer](https://stackoverflow.com/a/1389289/7292772) highlights how to implement the same.
+
+More details regarding trace sources and listeners can be found [here](https://blogs.msdn.microsoft.com/mikehillberg/2006/09/14/trace-sources-in-wpf/).
+
+# [《你不常用的c#之三》:Action 之怪状](https://www.cnblogs.com/zhaox583132460/p/3406233.html)
+
+# [《你不常用的c#之XX》](https://www.cnblogs.com/javalzy/p/6155589.html)
+
+
+# [3分钟带你了解PowerShell发展历程——PowerShell各版本资料整理](https://www.cnblogs.com/lavender000/p/6931405.html)

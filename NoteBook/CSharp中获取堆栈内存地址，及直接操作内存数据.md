@@ -1,4 +1,4 @@
-**C#中GCHandle使用介绍和释放内存，GC.KeepAlive保持对象不被内存回收和GC介绍 获取变量的堆栈内存地址，及直接操作内存数据**
+**C#中GCHandle使用介绍和释放内存，获取变量的堆栈内存地址，及直接操作内存数据**
 
 [toc]
 
@@ -12,7 +12,7 @@
 
 最常见的，比如非托管代码需要回调函数，可以通过 `委托（安全的函数指针）` 传递回调，回调中引用 C# 的某个对象并访问操作，就需要小心，如果非托管代码用到的托管对象被GC回收了，就会报内存错误。
 
-因此，需要将这个托管对象 `pin`(钉住)，固定它的内存地址，不会垃圾收集移动或回收。即使用`GCHandle.Alloc`向特定对象分配一个handle。
+因此，需要将这个托管对象 `pin`(钉住)，固定它的内存地址，不会垃圾收集移动或回收。即使用`GCHandle.Alloc`向特定对象分配一个`handle`，使其不受GC的影响而被回收或移动。
 
 `pin`住的托管对象不会被GC回收，因此，如果确认不再使用，需要我们自己管理释放内存。即使用`GCHandle.Free`释放`GCHandle`。否则，可能会发生内存泄露(`memory leak`)。
 
@@ -67,45 +67,84 @@ public class App
 }
 ```
 
-# GC.KeepAlive 
+> 另外，还可以使用 `GC.KeepAlive` 方法 确保对对象的引用存在【未具体测试，是否能确保pin住不被GC移动】
 
-## GC
+## GCHandle.ToIntPtr 获取对象的内存地址
 
-`GC`静态类用于控制系统垃圾收集器，该服务会自动回收未使用的内存。
+`GCHandle.ToIntPtr(gchandleObj)` 获取 `IntPtr` 类型的内存地址，它是`GCHandle`类的静态方法，参数为GCHandle对象。
 
-
-
-
-# C#获取对象的内存地址
-
-c#是不能获取内存地址的，就算获取到了也没什么意义。
-
-在unsafe的情况下，可以把内存pin在一定的地址防止回收，只有这样获取的地址才有意义（后语后续操作）。
-
-`GCHandle`可以转化成`IntPtr`指针。
+## GCHandle.FromIntPtr 从IntPtr类型指针获取GC句柄
 
 ```C#
-using System.Runtime.InteropServices;
- using System;
- namespace ConsolePrototype
- {
-     public class A
-     {
-     }
- 
-     class Program
-     {
-         static void Main(string[] args)
-         { 
-             A a = new A();
-             GCHandle hander = GCHandle.Alloc(a);
-             var pin = GCHandle.ToIntPtr(hander);
- 
-             Console.WriteLine(pin);
-         }
-     }
- }
+GCHandle gch = GCHandle.FromIntPtr(test_intPtr);
 ```
+
+## Target 属性获取GC句柄对应的托管对象
+
+`Target`属性用于获取 GC句柄对象 对应的托管对象。
+
+`gcHandleObject.Target`。
+
+```C#
+var test = new OnlyForTest();
+// 固定内存地址，获取托管对象的GC句柄
+GCHandle gch = GCHandle.Alloc(test);
+
+// 从GC句柄获取内存地址 IntPtr 指针
+var test_intPtr = GCHandle.ToIntPtr(gch);
+
+Debug.WriteLine($"从GC句柄获取内存地址：{test_intPtr}");
+
+// 从 IntPtr 指针 获取GC句柄
+var gch2 = GCHandle.FromIntPtr(test_intPtr);
+
+// 从GC句柄获取对应的 托管对象
+var test2 = (OnlyForTest)gch2.Target!;
+
+Debug.WriteLine($"托管对象和GC句柄相互转换后是否相等：{Object.ReferenceEquals(test, test2)}");
+
+Debug.WriteLine($"通过intPtr转换后GC句柄是否相等：{Object.ReferenceEquals(test, test2)}");
+
+gch.Free();
+gch2.Free();
+
+
+// --- 输出
+// 从GC句柄获取内存地址：1679464217032
+// 托管对象和GC句柄相互转换后是否相等：True
+// 通过intPtr转换后GC句柄是否相等：True
+
+// ....
+
+class OnlyForTest{}
+```
+
+## AddrOfPinnedObject 获取pinned对象的内存地址
+
+`gchandleObj.AddrOfPinnedObject()` 用于获取pinned对象的`GCHandle`实例的 `IntPtr` 类型的内存地址，它是GCHandle实例的方法。
+
+并且 GCHandle 一定要为 `GCHandleType.Pinned` 类型 pin住的对象，否则获取时将会报错。
+
+```C#
+#region AddrOfPinnedObject() 需要获取的是pin住对象地址，非pinned对象获取时报错
+GCHandleType.Pinned pin住对象时报错 System.ArgumentException:“Object contains non-primitive or non-blittable data. Arg_ParamName_Name”
+只能pin基元类型或可复制(传输)类型。对象引用为 non-blittable 类型
+var test_forPinned = new OnlyForTest();
+GCHandle gch_pined = GCHandle.Alloc(test_forPinned, GCHandleType.Pinned);
+// 获取pin住的GC句柄的内存地址 IntPtr 指针
+var test_intPtr = gch_pined.AddrOfPinnedObject(); 
+#endregion
+
+// ....
+
+class OnlyForTest{}
+```
+
+`System.ArgumentException:“Object contains non-primitive or non-blittable data. Arg_ParamName_Name”` 要 pin住 的对象必须为基元类型或可复制(传输)类型，否则无法创建 pinned对象 的GC句柄。
+
+**对象引用为 non-blittable 类型。**
+
+## `Object.ReferenceEquals` 比较对象的引用是否相等
 
 # C#获取内存地址的方法
 
@@ -152,13 +191,13 @@ unsafe
 
 `GCHandleType`需要使用`WeakTrackResurrection`或`Weak`。
 
-通过`GCHandle.ToIntPtr` 获取 IntPtr 类型的内存地址，这种情况下不用启用“允许不安全代码”（没涉及到操作或使用指针）
+通过 `GCHandle.ToIntPtr` 获取 `IntPtr` 类型的内存地址，这种情况下不用启用“允许不安全代码”（没涉及到操作或使用指针）
 
 > **指针和固定大小缓冲区只能在 不安全上下文 中使用**。
 
 ```C#
 // 获取引用类型的内存地址方法
-public static string getMemory(object obj)
+public static string GetMemory(object obj)
 {
     // GCHandle.Alloc(obj, GCHandleType.Pinned) // System.ArgumentException:“Object 包含非基元或非直接复制到本机结构中的数据。”
     GCHandle handle = GCHandle.Alloc(obj, GCHandleType.WeakTrackResurrection);
@@ -167,7 +206,43 @@ public static string getMemory(object obj)
 }
 ```
 
+# C#获取对象的内存地址
+
+> 前面已经介绍，使用的是 `GCHandle.ToIntPtr`。
+> 
+> 只是当时这部分也是参考的 [c#获取类的内存地址](https://q.cnblogs.com/q/42721/) ，因此再出
+
+c#是不能获取内存地址的，就算获取到了也没什么意义。
+
+在unsafe的情况下，可以把内存pin在一定的地址防止回收，只有这样获取的地址才有意义（后语后续操作）。
+
+`GCHandle`可以转化成`IntPtr`指针。
+
+```C#
+using System.Runtime.InteropServices;
+ using System;
+ namespace ConsolePrototype
+ {
+     public class A
+     {
+     }
+ 
+     class Program
+     {
+         static void Main(string[] args)
+         { 
+             A a = new A();
+             GCHandle hander = GCHandle.Alloc(a);
+             var pin = GCHandle.ToIntPtr(hander);
+ 
+             Console.WriteLine(pin);
+         }
+     }
+ }
+```
+
 
 # 参考
 
-- [c#获取类的内存地址](https://q.cnblogs.com/q/42721/)
+- [GCHandle Struct](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.gchandle?view=net-6.0)
+- [《你不常用的c#之二》:略谈GCHandle](https://www.cnblogs.com/zhaox583132460/p/3402243.html)

@@ -1,4 +1,45 @@
-﻿using System;
+**C#中的垃圾回收和GC类保持对象不被内存回收**
+
+[toc]
+
+[GC Class](https://learn.microsoft.com/en-us/dotnet/api/system.gc?view=net-6.0)
+
+[GC.KeepAlive(Object) Method](https://learn.microsoft.com/en-us/dotnet/api/system.gc.keepalive?view=net-6.0#system-gc-keepalive(system-object))
+
+
+[GC：.net framework中的自动内存管理--part 1 （翻译）](https://www.cnblogs.com/coolkiss/archive/2010/08/27/1810095.html)
+[GC：.net framework中的自动内存管理--part 2 （翻译）](https://www.cnblogs.com/coolkiss/archive/2010/08/31/1813665.html#!comments)
+[使用finalize/dispose 模式提高GC性能（翻译）](https://www.cnblogs.com/coolkiss/archive/2010/08/23/1806382.html)
+
+[《你不常用的c#之二》:略谈GCHandle](https://www.cnblogs.com/zhaox583132460/p/3402243.html)
+
+[深入了解.net垃圾回收机制之代龄与算法详解](https://blog.csdn.net/superhoy/article/details/8553470)
+
+[【C# .Net GC】垃圾回收算法 应用程序线程运行时，](https://www.cnblogs.com/cdaniu/p/15927757.html)
+
+[C#【必备技能篇】垃圾回收机制(GC)的理解（资源清理+内存管理）](https://blog.csdn.net/sinat_40003796/article/details/128041837)
+
+[C#内存泄漏--event内存泄漏](https://www.chinacion.cn/article/2907.html)
+
+[温故之.NET垃圾回收](https://zhuanlan.zhihu.com/p/38292761)
+
+
+
+
+[【C# .Net GC】强制垃圾回收 和System GC](https://www.cnblogs.com/cdaniu/p/15935837.html)
+
+[C# 垃圾回收机制GC详解](https://zhuanlan.zhihu.com/p/484572963)
+
+# GC 实现禁止垃圾回收
+
+## GC
+
+`GC`静态类用于控制系统垃圾收集器，该服务会自动回收未使用的内存。
+
+下面的示例来自官方文档，演示了使用 GC 类的几个方法获取未使用对象的生成和内存信息、内存总数等。
+
+```C#
+using System;
 using System.Diagnostics;
 using System.DirectoryServices.ActiveDirectory;
 
@@ -59,3 +100,6 @@ namespace GCCollectIntExample
         }
     }
 }
+```
+
+## .KeepAlive
