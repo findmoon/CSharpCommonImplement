@@ -184,7 +184,12 @@ namespace System.Data
         //    return ConnStatusOk;
         //}
         #endregion
-
+        /// <summary>
+        /// 变更连接的数据库
+        /// </summary>
+        /// <param name="dbName"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool ChangeDB(string dbName)
         {
             if (_conn == null || _dbName == null) throw new Exception("当前无法更改数据库，请直接进行初始化连接");

@@ -172,8 +172,30 @@ namespace System.Data
 
         //    return ConnStatusOk;
         //}
-        #endregion
+        /// <summary>
+        /// Windows系统用户登陆认证，初始化获取SQLHelper对象
+        /// </summary>
+        /// <param name="dbName"></param>
+        /// <param name="ipServer"></param>
+        /// <param name="port"></param>
+        /// <returns></returns>
+        public static OracleSQLHelper WindowsAuthentication(string dbName, string ipServer= "localhost", ushort? port = null)
+        {
+            //return Init(ipServer, "/", "", dbName, port);
+            var oraHelper = new OracleSQLHelper();
+            //oraHelper.Initializer($"Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={ipServer})(PORT={port ?? 1521}))" +
+            //        $"(CONNECT_DATA=(SERVICE_NAME={dbName})));User ID=/;");
+            oraHelper.Initializer($"Data Source=NEXIMDB;User Id=/;password=");
 
+            return oraHelper;
+        }
+        #endregion
+        /// <summary>
+        /// 变更连接的数据库
+        /// </summary>
+        /// <param name="dbName"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool ChangeDB(string dbName)
         {
             if (_conn == null || _dbName == null) throw new Exception("当前无法更改数据库，请直接进行初始化连接");

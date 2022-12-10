@@ -83,4 +83,11 @@
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
   </PropertyGroup>
+  
+  <!--解决 ‘TargetFrameworkMoniker’ and ‘NuGetTargetMoniker’ 问题
+    但会 可能导致 引用时 TargetFramework 目标框架问题
+  -->
+  <!--<PropertyGroup Condition="'$(Configuration)'=='FixError_NoMeans'">
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>-->
 </Project>

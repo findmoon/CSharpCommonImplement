@@ -52,4 +52,15 @@
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
   </PropertyGroup>
+
+  <!-- 项目“DBSQLHelper”在上一操作期间遇到问题: “Debug|AnyCPU”配置中 "TargetFrameworkMoniker" 和 "NuGetTargetMoniker" 属性的值均为空。此配置将影响 NuGet 还原，这可能导致还原和生成错误。。在解决问题后，可能需要重新加载解决方案。
+  The project ‘xxx’ ran into a problem during the last operation: The value of the ‘TargetFrameworkMoniker’ and ‘NuGetTargetMoniker’ properties in the ‘Debug|AnyCPU’ configuration are both empty. This configuration will not contribute to NuGet restore, which may result in restore and build errors. You may need to reload the solution after fixing the problem.
+And files inside the project are not visible anymore.
+     尝试解决此问题，如下方式可以，单独加个 PropertyGroup -> TargetFramework 用于 netstandard2.x
+     但会 可能导致 引用时 TargetFramework 目标框架问题
+  -->
+  <!--<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net45</TargetFramework>
+  </PropertyGroup>-->
 </Project>
