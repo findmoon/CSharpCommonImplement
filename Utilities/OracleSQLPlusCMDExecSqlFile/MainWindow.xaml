@@ -6,23 +6,17 @@
         xmlns:local="clr-namespace:OracleSQLPlusCMDExecSqlFile"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" KeyUp="Window_KeyUp">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#FF00D6cc"/>
+            <Setter Property="Foreground" Value="#333"/>
+        </Style>
+    </Window.Resources>
     <Grid>
-        <Button Content="初始化一次" HorizontalAlignment="Left" Margin="342,75,0,0" VerticalAlignment="Top" Height="49" Width="140" FontSize="18" Click="Button_Click">
-            <Button.Resources>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="#FF00D6cc"/>
-                    <Setter Property="Foreground" Value="#333"/>
-                </Style>
-            </Button.Resources>
+        <Button Content="初始化一次" HorizontalAlignment="Left" Margin="313,76,0,0" VerticalAlignment="Top" Height="49" Width="140" FontSize="18" Click="Button_Click">
         </Button>
         <TextBox x:Name="infoTxt" HorizontalAlignment="Center" Margin="0,208,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="780" Height="217"/>
         <Button x:Name="viewSQLContentBtn" Content="查看" HorizontalAlignment="Left" Margin="25,163,0,0" VerticalAlignment="Top" Height="29" Width="120" FontSize="18" Click="Button_Click2" KeyUp="viewSQLContentBtn_KeyUp" Visibility="Hidden">
-            <Button.Resources>
-                <Style TargetType="{x:Type Button}">
-                    <Setter Property="Background" Value="#FF00D6cc"/>
-                    <Setter Property="Foreground" Value="#333"/>
-                </Style>
-            </Button.Resources>
         </Button>
 
     </Grid>

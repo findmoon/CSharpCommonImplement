@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -28,20 +30,29 @@ namespace OracleSQLPlusCMDExecSqlFile
         {
             InitializeComponent();
 
+            ResizeMode = ResizeMode.NoResize;
+            //WindowStyle = WindowStyle.None;
+
             // 直接使用，整个窗体拖拽
             // 但是，如果窗体内有TextBox文本框，点击文本框并拖动，将会发生错误 System.InvalidOperationException:“调度程序进程已挂起，但消息仍在处理中。”
-            MouseMove += (sender, e) =>
+            MouseMove += (_, e) =>
             {
+                // 统一处理 TextBox 的拖拽。TextBlock\Label 等不影响
+                if (e.OriginalSource is TextBox)
+                {
+                    return;
+                }
                 if (e.LeftButton == MouseButtonState.Pressed)
                 {
                     DragMove();
                 }
             };
-            // 如何获取 所有的内部 TextBox 并通知设置事件处理？
-            infoTxt.MouseMove += (sender, e) =>
-            {
-                e.Handled= true;
-            };
+            // 或者在窗体的 MouseMove 事件中判断事件源是否来自TextBox，实现统一处理
+            // 如何获取 所有的 TextBox 并统一设置事件处理？
+            //infoTxt.MouseMove += (_, e) =>
+            //{
+            //    e.Handled= true;
+            //};
 
             Deactivated += MainWindow_Deactivated;
 
@@ -51,7 +62,42 @@ namespace OracleSQLPlusCMDExecSqlFile
                 enterCount = 0;
                 timer.Change(Timeout.Infinite, Timeout.Infinite);
             }, null, Timeout.Infinite, Timeout.Infinite);
+
+            //Closing += MainWindow_Closing;
+
+            //Loaded += MainWindow_Loaded;
         }
+
+        #region 禁用关闭按钮
+        //[DllImport("USER32.DLL", CharSet = CharSet.Unicode)]
+        //private static extern IntPtr GetSystemMenu(IntPtr hWnd, UInt32 bRevert);
+        //[DllImport("USER32.DLL ", CharSet = CharSet.Unicode)]
+        //private static extern UInt32 RemoveMenu(IntPtr hMenu, UInt32 nPosition, UInt32 wFlags);
+        //private const UInt32 SC_CLOSE = 0x0000F060;
+        //private const UInt32 MF_BYCOMMAND = 0x00000000;
+        
+        //private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    var hwnd = new WindowInteropHelper(this).Handle;  //获取window的句柄
+        //    IntPtr hMenu = GetSystemMenu(hwnd, 0);
+        //    RemoveMenu(hMenu, SC_CLOSE, MF_BYCOMMAND);
+        //}
+        #endregion
+
+        //private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        //{
+        //    e.Cancel = true;
+        //}
+
+        ///// <summary>
+        ///// 禁用关闭
+        ///// </summary>
+        ///// <param name="e"></param>
+        //protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        //{
+        //    base.OnClosing(e);
+        //    e.Cancel = true;
+        //}
 
         private void MainWindow_Deactivated(object sender, EventArgs e)
         {
@@ -148,14 +194,13 @@ EXIT";
                 }
                 timer.Change(800, Timeout.Infinite);
 
+                // 停止事件上传，否则 key 事件上传到Window窗体(或父级元素)事件处理 中，可能会有处理冲突
                 e.Handled= true;
             }
             else
             {
                 enterCount = 0;
             }
-
-            // 停止事件上传，否则 key 事件上传到Window窗体(或父级元素)事件处理 中，可能会有处理冲突
             
         }
     }
