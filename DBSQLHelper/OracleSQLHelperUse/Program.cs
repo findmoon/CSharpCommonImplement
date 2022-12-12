@@ -1,4 +1,4 @@
-namespace OracleSQLHeplerUse
+namespace OracleSQLHelperUse
 {
     internal static class Program
     {

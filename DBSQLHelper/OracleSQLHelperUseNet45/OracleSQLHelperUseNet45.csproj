@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{38CDB46D-0FA5-4490-AD3C-C95833782C41}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>OracleSQLHeplerUseNet45</RootNamespace>
-    <AssemblyName>OracleSQLHeplerUseNet45</AssemblyName>
+    <RootNamespace>OracleSQLHelperUseNet45</RootNamespace>
+    <AssemblyName>OracleSQLHelperUseNet45</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -64,6 +64,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -79,9 +80,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OracleSQLHepler\OracleSQLHepler.csproj">
+    <ProjectReference Include="..\OracleSQLHelper\OracleSQLHelper.csproj">
       <Project>{c4e5287a-f66c-4a2a-8e26-52854bc94b22}</Project>
-      <Name>OracleSQLHepler</Name>
+      <Name>OracleSQLHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -22,6 +22,8 @@
             
             var trueStr2=bool.TrueString;
 
+            false.ToString().ToLowerInvariant();
+
             Console.WriteLine("Hello, World!---"+a);
 
             Test.TestMethod();

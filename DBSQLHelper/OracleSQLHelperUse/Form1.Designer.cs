@@ -1,4 +1,4 @@
-﻿namespace OracleSQLHeplerUse
+﻿namespace OracleSQLHelperUse
 {
     partial class Form1
     {

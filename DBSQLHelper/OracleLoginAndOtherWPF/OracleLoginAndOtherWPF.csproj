@@ -5,10 +5,14 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <!-- 发布为单文件 是否单个exe -->
+    <PublishSingleFile>true</PublishSingleFile>
+    <!-- 启用压缩  WPF不支持或不推荐启动 -->
+    <!--<PublishTrimmed>true</PublishTrimmed>-->
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OracleSQLHepler\OracleSQLHepler.csproj" />
+    <ProjectReference Include="..\OracleSQLHelper\OracleSQLHelper.csproj" />
   </ItemGroup>
 
 </Project>

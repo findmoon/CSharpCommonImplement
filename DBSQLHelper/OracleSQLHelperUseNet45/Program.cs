@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace OracleSQLHeplerUseNet45
+namespace OracleSQLHelperUseNet45
 {
     internal static class Program
     {

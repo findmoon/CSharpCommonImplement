@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace OracleSQLHeplerUseNet45
+namespace OracleSQLHelperUseNet45
 {
     public partial class Form1 : Form
     {

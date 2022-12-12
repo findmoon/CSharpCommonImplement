@@ -105,7 +105,7 @@ int *p1, *p2, *p3;   // C#中无效
 
 ## `*`间接寻址运算符
 
-`*`除了声明指针变量，还可以作为`指针间接寻址运算符`，用于访问指针变量指向位置的内容。
+`*`除了声明指针变量，还可以作为`指针间接寻址运算符`，用于访问指针变量指向位置的内容（数据）。
 
 如下，使用`int*`类型的执行，并`*`寻址获取内容：
 
@@ -502,7 +502,7 @@ static unsafe void Copy(byte[] source, int sourceOffset, byte[] target,
 
 可以将 `stackalloc` 表达式的结果分配给以下任一类型的变量：
 
-## `System.Span<T>` 或 `System.ReadOnlySpan<T>` 类型
+## stackalloc 分配 `System.Span<T>` 或 `System.ReadOnlySpan<T>` 类型
 
 ```C#
 int length = 3;
@@ -528,7 +528,7 @@ var ind = numbers.IndexOfAny(stackalloc[] { 2, 4, 6, 8 });
 Console.WriteLine(ind);  // output: 1
 ```
 
-## 指针类型
+## stackalloc 分配 指针类型
 
 如下示例，对于指针类型，`stackalloc`表达式只能用于本地变量声明的初始化中。
 
@@ -563,7 +563,7 @@ Span<byte> buffer = inputLength <= MaxStackLimit ? stackalloc byte[MaxStackLimit
 
 - **避免在循环内部使用`stackalloc`。在循环外部`allocate`分配内存块，并在循环内部重用。**
 
-**新分配内存的内容时未定义的。必须在使用之前初始化。** 比如，**可以使用 `Span<T>.Clear` 方法设置所有的元素项为类型`T`的默认值**。
+**新分配内存的内容是未定义的。必须在使用之前初始化。** 比如，**可以使用 `Span<T>.Clear` 方法设置所有的元素项为类型`T`的默认值**。
 
 也可以使用数组初始化器定义新分配内存的内容。
 

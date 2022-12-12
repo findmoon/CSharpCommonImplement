@@ -20,7 +20,7 @@
 
 
     <Description>很简单的SQL帮助类接口，基本的参数化SQL语句执行、查询DataTable结果的数据、判断数据库和表是否存在、更改连接的DB。
-目前已实现 CodeMissing.SQLServerHelper、 CodeMissing.OracleSQLHepler
+目前已实现 CodeMissing.SQLServerHelper、 CodeMissing.OracleSQLHelper
 支持.NET 4.5和.NET Standard2.1
     </Description>
     <Authors>CodeMissing</Authors>
@@ -63,4 +63,7 @@ And files inside the project are not visible anymore.
     <TargetFramework>netstandard2.1</TargetFramework>
     <TargetFramework>net45</TargetFramework>
   </PropertyGroup>-->
+  <!-- 可以考虑添加如下 '$(Configuration)'=='Debug'空配置项 在 引用时 似乎会有些提示未引用的错误(很怪) -->
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+  </PropertyGroup>
 </Project>

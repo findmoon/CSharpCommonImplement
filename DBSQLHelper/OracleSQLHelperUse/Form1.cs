@@ -2,7 +2,7 @@ using Oracle.ManagedDataAccess.Client;
 using System.Data;
 using System.Diagnostics;
 
-namespace OracleSQLHeplerUse
+namespace OracleSQLHelperUse
 {
     public partial class Form1 : Form
     {
