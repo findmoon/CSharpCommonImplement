@@ -1,0 +1,29 @@
+﻿<Window x:Class="OracleSQLPlusCMDExecSqlFile.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OracleSQLPlusCMDExecSqlFile"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" KeyUp="Window_KeyUp">
+    <Grid>
+        <Button Content="初始化一次" HorizontalAlignment="Left" Margin="342,75,0,0" VerticalAlignment="Top" Height="49" Width="140" FontSize="18" Click="Button_Click">
+            <Button.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="#FF00D6cc"/>
+                    <Setter Property="Foreground" Value="#333"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <TextBox x:Name="infoTxt" HorizontalAlignment="Center" Margin="0,208,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="780" Height="217"/>
+        <Button x:Name="viewSQLContentBtn" Content="查看" HorizontalAlignment="Left" Margin="25,163,0,0" VerticalAlignment="Top" Height="29" Width="120" FontSize="18" Click="Button_Click2" KeyUp="viewSQLContentBtn_KeyUp" Visibility="Hidden">
+            <Button.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="#FF00D6cc"/>
+                    <Setter Property="Foreground" Value="#333"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+    </Grid>
+</Window>

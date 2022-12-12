@@ -11,6 +11,7 @@
         <Button Content="JSON" HorizontalAlignment="Left" Margin="94,195,0,0" VerticalAlignment="Top" Height="35" Width="138" Click="Button_Click2"/>
         <Button Content="指针元素访问[]" HorizontalAlignment="Left" Margin="94,244,0,0" VerticalAlignment="Top" Height="35" Width="138" Click="Button_Click3"/>
         <Button Content="指针类型转换" HorizontalAlignment="Left" Margin="94,292,0,0" VerticalAlignment="Top" Height="35" Width="138" Click="Button_Click4"/>
+        <Button Content="临时文件夹" HorizontalAlignment="Left" Margin="94,348,0,0" VerticalAlignment="Top" Height="35" Width="138" Click="Button_Click5"/>
 
     </Grid>
 </Window>

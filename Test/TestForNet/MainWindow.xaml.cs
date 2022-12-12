@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -202,6 +203,25 @@ namespace MiscellaneousTestForNet
                     整型的值: 1024
                 */
             }
+        }
+
+        private void Button_Click5(object sender, RoutedEventArgs e)
+        {
+            // 获取 当前用户的临时文件夹
+            string tempDir = System.IO.Path.GetTempPath();
+            Debug.WriteLine("临时文件夹：" + tempDir);
+
+            // 创建并获取 一个 当前用户的临时文件名: %LocalAppData%\Temp\tmpxxxxx.tmp
+            string tempFile =System.IO.Path.GetTempFileName();
+            Debug.WriteLine("Using： " + tempFile);
+            File.Delete(tempFile);
+
+
+            // 获取 TEMP 变量，通常为用户的临时文件夹，但 有时会获取到的路径为 C:\\Users\\WIN7HO~1\\AppData\\Local\\Temp 即包含"~1"，无法正确访问
+            string? tempVar = Environment.GetEnvironmentVariable("TEMP");
+            Debug.WriteLine("系统临时文件夹： " + tempVar);
+
+            Debug.WriteLine("随机文件名： " + System.IO.Path.GetRandomFileName()); 
         }
     }
     class MyTest { }
