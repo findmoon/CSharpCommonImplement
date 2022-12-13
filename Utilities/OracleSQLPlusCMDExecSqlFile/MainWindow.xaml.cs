@@ -75,7 +75,7 @@ namespace OracleSQLPlusCMDExecSqlFile
         //private static extern UInt32 RemoveMenu(IntPtr hMenu, UInt32 nPosition, UInt32 wFlags);
         //private const UInt32 SC_CLOSE = 0x0000F060;
         //private const UInt32 MF_BYCOMMAND = 0x00000000;
-        
+
         //private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         //{
         //    var hwnd = new WindowInteropHelper(this).Handle;  //获取window的句柄
@@ -84,6 +84,7 @@ namespace OracleSQLPlusCMDExecSqlFile
         //}
         #endregion
 
+        #region 取消关闭操作（禁用关闭）
         //private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         //{
         //    e.Cancel = true;
@@ -97,7 +98,8 @@ namespace OracleSQLPlusCMDExecSqlFile
         //{
         //    base.OnClosing(e);
         //    e.Cancel = true;
-        //}
+        //} 
+        #endregion
 
         private void MainWindow_Deactivated(object sender, EventArgs e)
         {
