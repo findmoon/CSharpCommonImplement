@@ -13,11 +13,14 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <Button Content="初始化一次" HorizontalAlignment="Left" Margin="313,76,0,0" VerticalAlignment="Top" Height="49" Width="140" FontSize="18" Click="Button_Click">
+        <Button Content="初始化一次" HorizontalAlignment="Left" Margin="314,128,0,0" VerticalAlignment="Top" Height="50" Width="140" FontSize="18" Click="Button_Click">
         </Button>
         <TextBox x:Name="infoTxt" HorizontalAlignment="Center" Margin="0,208,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="780" Height="217"/>
         <Button x:Name="viewSQLContentBtn" Content="查看" HorizontalAlignment="Left" Margin="25,163,0,0" VerticalAlignment="Top" Height="29" Width="120" FontSize="18" Click="Button_Click2" KeyUp="viewSQLContentBtn_KeyUp" Visibility="Hidden">
         </Button>
+        <Label Content="本地Oracle数据库ServiceName：" HorizontalAlignment="Left" Margin="129,77,0,0" VerticalAlignment="Top" Height="27" Width="185"/>
+        <Label Content="为空连接默认DB" HorizontalAlignment="Left" Margin="522,77,0,0" VerticalAlignment="Top" Height="27" Width="102"/>
+        <TextBox x:Name="loaclOracleDB" HorizontalAlignment="Left" Margin="316,82,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="206"/>
 
     </Grid>
 </Window>

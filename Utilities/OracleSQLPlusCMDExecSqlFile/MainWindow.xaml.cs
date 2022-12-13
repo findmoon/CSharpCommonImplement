@@ -115,7 +115,12 @@ namespace OracleSQLPlusCMDExecSqlFile
             string tempFile = System.IO.Path.Combine(System.IO.Path.GetTempPath(),$"OracleUserInit_{System.IO.Path.GetFileNameWithoutExtension(System.IO.Path.GetRandomFileName())}.sql");
             File.WriteAllText(tempFile, sqlScript);
 
-            var result = ExecCMD.Run("sqlplus /@neximdb as sysdba @" + tempFile);
+            var dbAt = "";
+            if (!string.IsNullOrWhiteSpace(loaclOracleDB.Text))
+            {
+                dbAt = $"@{loaclOracleDB.Text.Trim()}";
+            }
+            var result = ExecCMD.Run($"sqlplus /{dbAt} as sysdba @{tempFile}" );
 
             File.Delete(tempFile);
 
@@ -176,7 +181,12 @@ EXIT";
 
         private void Button_Click2(object sender, RoutedEventArgs e)
         {
-            infoTxt.Text = $"sqlplus /@neximdb as sysdba{Environment.NewLine}{Environment.NewLine}{sqlScript}";
+            var dbAt = "";
+            if (!string.IsNullOrWhiteSpace(loaclOracleDB.Text))
+            {
+                dbAt = $"@{loaclOracleDB.Text.Trim()}";
+            }
+            infoTxt.Text = $"sqlplus /{dbAt} as sysdba{Environment.NewLine}{Environment.NewLine}{sqlScript}";
         }
 
         private void viewSQLContentBtn_KeyUp(object sender, KeyEventArgs e)
