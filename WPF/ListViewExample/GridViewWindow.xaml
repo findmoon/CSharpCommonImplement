@@ -12,11 +12,11 @@
             <RowDefinition Height="84*"/>
             <RowDefinition Height="332*"/>
         </Grid.RowDefinitions>
-        <ListView x:Name="jobInfolistView" ItemsSource="{Binding}" Grid.Row="2">
+        <ListView x:Name="jobInfolistView" ItemsSource="{Binding}" Grid.Row="2" ContextMenuService.Placement="MousePoint">
             <ListView.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Name="MenuItem1" Header="文件" Tag="{Binding Path=SelectdIndex}" Click="MenuItem1_Click"/>
-                    <MenuItem Name="MenuItem2" Header="编辑" Tag="{Binding Path=SelectdIndex}" Click="MenuItem1_Click"/>
+                <ContextMenu x:Name="listViewContextMenu">
+                    <MenuItem Name="MenuItem1" Header="文件" Tag="{Binding Path=SelectdIndex}" Click="MenuItem_Click"/>
+                    <MenuItem Name="MenuItem2" Header="编辑" Tag="{Binding Path=SelectdIndex}" Click="MenuItem_Click"/>
                 </ContextMenu>
             </ListView.ContextMenu>
             <ListView.View>

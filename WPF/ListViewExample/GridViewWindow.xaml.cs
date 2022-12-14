@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -22,6 +23,16 @@ namespace ListViewExample
         public GridViewWindow()
         {
             InitializeComponent();
+
+            // 右键菜单的位置
+            //listViewContextMenu.Placement = PlacementMode.Right | PlacementMode.Bottom;
+            //listViewContextMenu.HorizontalOffset = 0;
+            //listViewContextMenu.VerticalOffset = 0;
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }
