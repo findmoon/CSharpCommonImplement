@@ -8,6 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Button Content="ListView For GridView" HorizontalAlignment="Left" Margin="79,86,0,0" VerticalAlignment="Top" Height="35" Width="158" Click="Button_Click"/>
+        <Button Content="Test" HorizontalAlignment="Left" Margin="79,148,0,0" VerticalAlignment="Top" Height="35" Width="158" Click="Button_Click2"/>
 
     </Grid>
 </Window>

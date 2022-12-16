@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,10 @@ namespace ListViewExample
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             new GridViewWindow().Show();
+        }
+        private void Button_Click2(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("1mmmmmm".TrimEnd('m'));
         }
     }
 }
