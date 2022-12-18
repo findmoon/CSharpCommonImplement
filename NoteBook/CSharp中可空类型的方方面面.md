@@ -21,7 +21,7 @@ b!.Length;
 
 可空值类型是通过泛型可空类型 [System.Nullable<T>](https://learn.microsoft.com/en-us/dotnet/api/system.nullable-1) 实现的。其声明的简写形式就是 `T?`。
 
-作为应用类型，`string?` 和 `string` 都由 `System.String` 类型表示。而值类型 `int?` 和 `int` 则由 `System.Nullable<System.Int32>` 和 `System.Int32` 表示。
+作为引用类型，`string?` 和 `string` 都由 `System.String` 类型表示。而值类型 `int?` 和 `int` 则由 `System.Nullable<System.Int32>` 和 `System.Int32` 表示。
 
 可空引用类型`T?`和`Nullable<T>`没有任何关系，可空引用类型`T?`只在编译时起作用，在运行时和T的作用是相同的。
 
@@ -33,7 +33,7 @@ b!.Length;
 
 可空上下文 用于表示所有默认类型不可为空，只有使用使用 `?` 显式声明的类型才是可空类型。
 
-可空上下文的启用可以有效避免`System.NullReferenceException`异常的问题，只有明确可为空的变量，才能为null值，否则 **所有引用类型的变量都被解释为不可为空**。除非显式设置为null，这就避免的null值和null引用。
+可空上下文的启用可以有效避免`System.NullReferenceException`异常的问题，只有明确可为空的变量，才能为null值，否则 **所有引用类型的变量都被解释为不可为空**。除非显式设置为null，这样避免了null值和null引用。
 
 可空上下文的启用取值有：disable、enable、warnings、annotations(注释)。
 
@@ -140,7 +140,11 @@ int? n = null;
 int n2 = (int)n; // 可以编译，但如果a为null，则抛出异常
 ```
 
-# GetUnderlyingType() 获取可空类型的基础类型、使用 typeof 获取可空值类型的类型（而不是 GetType()）、不使用 is 判断可空类型
+# 可空值类型的类型及基础类型
+
+**GetUnderlyingType() 获取可空类型的基础类型、使用 typeof 获取可空值类型的类型（而不是 GetType()）、不使用 is 判断可空类型**
+
+## GetUnderlyingType 获取基础类型
 
 `Nullable.GetUnderlyingType(type)` 获取可空(值)类型的基础类型，如果不为可空(值)类型（基础类型后面没有基础类型），则返回 `null`。
 
@@ -158,6 +162,8 @@ Debug.WriteLine(Nullable.GetUnderlyingType(typeof(MyTest)));    // [无]
 ```C#
 bool IsNullable(Type type) => Nullable.GetUnderlyingType(type) != null;
 ```
+
+## typeof 获取可空值类型的类型
 
 使用 `typeof` 获取可空值类型的 `System.Type` 实例，然后判断该类型是否为可空类型：
 
@@ -180,6 +186,8 @@ int b = 16;
 Type typeOfB = b.GetType();
 Debug.WriteLine(typeOfB.FullName);  // System.Int32
 ```
+
+## 不使用`is`判断可空类型实例
 
 同样，不要使用`is`操作符判断可空类型的实例。如下所示，`is int`和`is int?`都适用于`int`和`int?`类型，无法通过 `is` 操作符判断是否是可空值类型还是基础类型。 
 
@@ -210,9 +218,10 @@ if (b is int)
 // int instance is compatible with int
 ```
 
-> `underlying type` 基础类型（感觉也可以翻译为`原类型`），表示的是值类型。对应可空值类型原来的类型。
+> `underlying type` 基础类型（感觉也可以翻译为`原类型`），表示的是值类型、.NET CLS中规定的基础类型。对应可空值类型原来的类型。
 > 
 > `primitive types` 原始类型。 
+
 
 # `?.`、`?[]` 空条件运算符 `Null-conditional operators` 不为空时取值
 
@@ -237,7 +246,7 @@ if(A != null){
 }
 ```
 
-# `??` 和 `??=`
+# `??` 和 `??=` 空合并运算符
 
 - `??` 空合并运算符（`null-coalescing operator`，coalesce [ˌkəʊəˈles]）：如果表达式的值为`null`，则返回右边的值；如果不为`null`，则返回当前值。
 
