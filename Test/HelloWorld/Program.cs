@@ -26,7 +26,7 @@
 
             Console.WriteLine("Hello, World!---"+a);
 
-            Test.TestMethod();
+            EnumType.TestMethod();
             Console.ReadLine();
         }
     }

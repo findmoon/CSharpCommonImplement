@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HelloWorld
 {
-    internal class Test
+    internal class EnumType
     {
         public static void TestMethod()
         {
@@ -75,14 +75,18 @@ namespace HelloWorld
             permission = Permission.Unknown | Permission.Create | Permission.Update;
 
             Console.WriteLine(permission.ToString());
+
+            Console.WriteLine("-----");
+            
+            Console.WriteLine(Season.Autumn|Season.Winter);
         }
     }
     public enum Season
     {
-        Spring,
-        Summer,
-        Autumn,
-        Winter
+        Spring=0,
+        Summer=1,
+        Autumn=2,
+        Winter=4
     }
 
     public static class ExtenMethod
