@@ -251,11 +251,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListViewExample", "WPF\List
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinMaxCloseBtnAndCustom", "WPF\MinMaxCloseBtnAndCustom\MinMaxCloseBtnAndCustom.csproj", "{E42E1693-A8A4-4F62-8F0B-ADA1A20C12DE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Publish", "Publish", "{0CD5A246-2A9F-448B-8295-D63511AF68A2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishExample", "PublishExample", "{0CD5A246-2A9F-448B-8295-D63511AF68A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClickOnceWinformFx", "Publish\ClickOnceWinformFx\ClickOnceWinformFx.csproj", "{E7D062AA-7EC3-424B-8F48-C81E625930CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClickOnceWinformFx", "PublishExample\ClickOnceWinformFx\ClickOnceWinformFx.csproj", "{E7D062AA-7EC3-424B-8F48-C81E625930CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClickOnceWPFFx", "Publish\ClickOnceWPFFx\ClickOnceWPFFx.csproj", "{507B64A8-0D76-4B47-A5FE-323FBF54DD43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClickOnceWPFFx", "PublishExample\ClickOnceWPFFx\ClickOnceWPFFx.csproj", "{507B64A8-0D76-4B47-A5FE-323FBF54DD43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
