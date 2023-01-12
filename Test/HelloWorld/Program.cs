@@ -27,6 +27,19 @@
             Console.WriteLine("Hello, World!---"+a);
 
             EnumType.TestMethod();
+
+            StructureType structureType = new StructureType()
+            {
+                Id = 10
+            };
+            //structureType.Id = 10;
+            Console.WriteLine(structureType.Id);
+
+            StructureType1 structureType1 = new StructureType1();
+
+            Console.WriteLine(structureType1.Id);
+
+
             Console.ReadLine();
         }
     }
