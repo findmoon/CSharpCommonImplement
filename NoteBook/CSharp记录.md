@@ -127,3 +127,19 @@ More details regarding trace sources and listeners can be found [here](https://b
 
 
 # [3分钟带你了解PowerShell发展历程——PowerShell各版本资料整理](https://www.cnblogs.com/lavender000/p/6931405.html)
+
+# Any public static (Shared in Visual Basic) members of this type are thread safe. Any instance members are not guaranteed to be thread safe
+
+# [How to find out processor architecture (x86, x64) of dll and exe files?](https://port135.com/find-processor-architecture-dll-assembly/)
+
+# IIS性能
+
+[Troubleshooting IIS Performance Issues or Application Errors using LogParser](https://learn.microsoft.com/en-us/iis/troubleshoot/performance-issues/troubleshooting-iis-performance-issues-or-application-errors-using-logparser)
+
+[IIS Performance Counters](https://learn.microsoft.com/en-us/previous-versions/iis/6.0-sdk/ms524305(v=vs.90))
+
+[IIS Performance Monitoring and Logging – 7 Top Tools You Should Know](https://www.dnsstuff.com/iis-performance-monitor)
+
+# [web-frameworks - Which is the fastest ?](https://github.com/the-benchmarker/web-frameworks)
+
+# https://www.vyrazu.com/iis-vs-apache-vs-nginx/
