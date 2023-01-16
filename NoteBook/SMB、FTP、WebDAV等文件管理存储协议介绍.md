@@ -118,6 +118,28 @@ DLNA将其整个应用规定成5个功能组件。从下到上依次为：网络
 
 2017年2月20日，DLNA在其官网宣布：本组织的使命已经完成，已于2017年1月5日正式解散，相关的认证将移交给SpireSpark公司，未来不会再更新DLNA标准。
 
+> **总体来说smb协议的兼容性最好，windows/mac/linux均可支持，各个厂商的电视、盒子和各个手机端的播放器均支持smb协议传输，ftp和webdav原生支持的较少。**
+>
+> **但 smb协议 通常只用于局域网，像 Samba 要用于外网访问，可考虑设置`NetBIOS over TCP/IP`**
+> 
+> 对于外网共享和连接来说，相对推荐WebDAV。另外，Office 就可通过 WebDAV 编辑远程文档
+>
+> 在 Windows10/11 中，用于账号安全性的提升（默认禁用匿名访问、PIN账号、微软账号代替本地账号等），使得 Samba 访问并不理想，且有 Samba V1.0 和 V2.0 的支持设置。
+> 
+> FTP不适合修改文件，通常用于上传和下载。且 FTP 的速度并不友好。
+>
+> 
+
+# WebDav协议 连接 OneDriver 和 Windows 挂载 WebDav 服务器
+
+具体参见 [被抛弃的WebDAV，从未有过青春！](https://juejin.cn/post/6939309167974809614)
+
+Windows下映射网络驱动器连接WebDav。
+
+> 服务要开启WebClient，不过基本都会自动启动，不需要单独进入服务，执行启动操作
+> 
+> ![](img/20230114102255.png)  
+
 # WebDav 替代Samba
 
 ## WebDav
@@ -142,12 +164,13 @@ Caddy 是 Go 语言编写的 开源的web服务器，并且自动适配HTTPs，�
 
 ![](img/20230112184831.png)  
 
-
+> 后续待进一步了解
 
 # 参考
 
 - [SMB、FTP、WebDAV协议，傻傻分不清？5000字教程，教你快速上手](https://post.smzdm.com/p/ar6k932q/)
 - [NFS、FTP、SMB、WebDav、DLNA协议，傻傻分不清？](https://zhuanlan.zhihu.com/p/411161467)
+- [科普又来了：Samba、Ftp、Upnp（DLNA）、NFS 如何选？](https://www.right.com.cn/FORUM/thread-382893-1-1.html)
 
 
 另，对NAS介绍的文章，[入门NAS？一篇就够了](https://post.smzdm.com/p/a4wmxw98/)，整体还算不错，虽然内容有些碎...
