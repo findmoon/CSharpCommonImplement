@@ -34,20 +34,55 @@
             };
             //structureType.Id = 10;
             Console.WriteLine(structureType.Id);
+            //structureType.age = 10;
 
             StructureType1 structureType1 = new StructureType1();
 
             Console.WriteLine(structureType1.Id);
 
+            Location location = new Location("");
+            Console.WriteLine(Location.A);
+
+
+            Console.WriteLine(Person.age);
+
+            Console.WriteLine("---------------------");
+
+            ToLowerInvariantAndToLower.Test();
+
+            ToLowerInvariantAndToLower.StringCompare();
 
             Console.ReadLine();
         }
     }
+    public class Person
+    {
+        public static readonly int age = 10;
+        static Person()
+        {
+            age = 12;
+        }
+    }
+    //class Program
+    //{
+    //    static void Main(string[] args)
+    //    {
+    //        Person Person = new Person();
+    //        Console.WriteLine(Person.age);
+    //    }
+    //}
 
+
+    class Test
+    {
+
+    }
     public class Location
     {
         private string locationName;
 
+        //const StructureType1 t;
+        public const int A = 10;
         public Location(string name) => Name = name;
 
         public string Name
