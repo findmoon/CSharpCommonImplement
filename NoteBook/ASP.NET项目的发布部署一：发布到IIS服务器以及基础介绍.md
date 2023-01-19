@@ -2,7 +2,7 @@
 
 [toc]
 
-# VS2022 创建 ASP.NET Web 项目
+# VS2022 创建 `ASP.NET` Web 项目
 
 ## 安装 Web 开发 中的 .NET Framework 项目和项模板
 
@@ -20,7 +20,7 @@ VS 2022 默认安装的 web 项目只支持 ASP.NET Core，也就是没有 支�
 
 点击底部的 “修改”，等待下载安装完成。
 
-## 创建 ASP.NET(.NET Framework) 项目
+## 创建 `ASP.NET`(.NET Framework) 项目
 
 > 此处创建名为 `ASPNETWebInstall` 的 MVC 项目。
 
@@ -202,7 +202,7 @@ VS 2022 默认安装的 web 项目只支持 ASP.NET Core，也就是没有 支�
 
 ![](img/20230116152622.png)  
 
-解决办法是，找到提示的 Temporary ASP.NET Files 所在的 Framework 版本路径，并创建`Temporary ASP.NET Files` 文件夹，右键文件夹，在安全中，设置该文件夹的访问权限为 everyone（或者`IIS_IUSRS`用户）
+解决办法是，找到提示的 `Temporary ASP.NET Files` 所在的 Framework 版本路径，并创建`Temporary ASP.NET Files` 文件夹，右键文件夹，在安全中，设置该文件夹的访问权限为 everyone（或者`IIS_IUSRS`用户）
 
 # 参考
 
