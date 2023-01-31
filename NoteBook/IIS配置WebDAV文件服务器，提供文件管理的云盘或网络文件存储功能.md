@@ -137,11 +137,13 @@ IIS内置的WebDAV组件可以提供支持 WebDAV 协议，实现通过 HTTP访�
 
 输入一个Windows本地系统用户和密码，登陆成功。
 
-# 使用 基本身份验证 的 WebDAV 应该采用https
+# 使用 基本身份验证 的 WebDAV 应该(或必须)采用https
 
-正如上面介绍，IIS 基本身份验证 会采用明文传递 密码，可能正式处于安全方面的考虑，映射网络驱动器时，WebDAV需要采用https。通常大多数如 RaiDrive 之类的网络存储服务连接管理软件，在连接WebDAV时，默认都只能输入`https`的地址，且必须指定用户名密码。
+正如上面介绍，IIS 基本身份验证 会采用明文传递 密码，可能正式处于安全方面的考虑，映射网络驱动器时，要连接的WebDAV服务需要采用https。否则，连接时会报错：`发生系统错误 67`（比如命令行中使用 `NET USE * http://ip:port` 就会报改错，具体参见参考文章 [Using the WebDAV Redirector](https://learn.microsoft.com/en-us/iis/publish/using-webdav/using-the-webdav-redirector) 中的详细介绍）
 
+通常大多数如 RaiDrive 之类的网络存储服务连接管理软件，在连接WebDAV时，默认都只能输入`https`的地址，且必须指定用户名密码。
 
+> 直接在浏览器中访问没有这个限制（但功能无法和`网络驱动器`相比），且，非https确实不安全。
 
 # Windows 网络驱动映射 有身份验证的WebDAV
 
