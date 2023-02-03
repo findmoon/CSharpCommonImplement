@@ -1,0 +1,21 @@
+.footer>p {
+    display: none;
+}
+
+.footer::after {
+    content: "My Git Server For Test";
+    display: block;
+    margin: 1em 0;
+}
+
+label[for='Administrators'],
+a[title='admin'],
+a[href*='/3eb9995e-99e3-425a-b978-1409bdd61fb6'],
+body.Repository input[value='3eb9995e-99e3-425a-b978-1409bdd61fb6'],
+body.Repository input[value='3eb9995e-99e3-425a-b978-1409bdd61fb6']+label,
+form[action="/Account/Edit/3eb9995e-99e3-425a-b978-1409bdd61fb6"] input[value="Administrator"],
+form[action="/Account/Edit/3eb9995e-99e3-425a-b978-1409bdd61fb6"] input[value="Administrator"]+label {
+    display: none;
+}
+
+/* 3eb9995e-99e3-425a-b978-1409bdd61fb6  为初始化时，admin用户的id，可通过开发者工具查找确定。应该避免对它的删除、编辑等相关危险操作 */

@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.1;net452;net45</TargetFrameworks>
+    <Nullable>warnings</Nullable>
+    <LangVersion>8.0</LangVersion>
+
+    <!-- 生成xml注释文档 -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
+    <PackageReference Include="MySql.Data">
+      <Version>8.0.31</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
+    <PackageReference Include="MySql.Data">
+      <Version>8.0.31</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+    <Reference Include="MySql.Data">
+      <HintPath>MySql ADO.NET 类库\v45\mysql.data.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="MySql ADO.NET 类库\**" />
+    <EmbeddedResource Remove="MySql ADO.NET 类库\**" />
+    <None Remove="MySql ADO.NET 类库\**" />
+  </ItemGroup>
+
+</Project>
