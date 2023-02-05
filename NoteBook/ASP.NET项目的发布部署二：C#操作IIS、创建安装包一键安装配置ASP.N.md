@@ -16,7 +16,7 @@
 
 ![](img/20230119234955.png)  
 
-# 创建Web安装项目
+# Web安装项目
 
 在 解决方案资源管理器 中，右键添加新项目，选择“Web安装项目”，如下，可以安装安装VSIX Installer插件后，新增的项目模板`Setup Project`、`Web Setup Project`、`Setup Wizrd`、`Merge Module Project`、`CAB Project`等。
 
