@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net6.0;net461</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="SqlHelper\OdbcHelper.cs" />
+    <Compile Include="SqlHelper\OleDbHelper.cs" />
+    <Compile Include="SqlHelper\SQLHelper.cs" />
+    <Compile Include="SqlHelper\SqlHelperCE.cs" />
+    <Compile Include="SqlHelper\SqlHelperParameterCache.cs" />
+    <Compile Include="SqlHelper\XmlHelper.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+  </ItemGroup>
+
+</Project>

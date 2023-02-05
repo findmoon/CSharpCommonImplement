@@ -4,11 +4,12 @@ using System.Threading.Tasks;
 namespace System.Data
 {
     /// <summary>
-    /// MySql帮助类
+    /// MySql帮助类，不推荐使用，没多大帮助的帮助类。原本想直接参考一下网上的帮助类例子，看代码才发现写的真不太好。仅做保留
     /// </summary>
-    public class MySqlHelper
+    [Obsolete("不推荐使用，没多大帮助的帮助类")]
+    public class MySqlHelper_No
     {
-        #region async/await异步方法
+        #region 额外增加的 async/await异步方法
         /// <summary> 
         /// 给定连接的数据库用假设参数执行一个sql命令（不返回数据集） 
         /// </summary> 
@@ -30,8 +31,6 @@ namespace System.Data
                 }
             }
         }
-
-
         /// <summary> 
         /// 用现有的数据库连接执行一个sql命令（不返回数据集） 
         /// </summary> 
@@ -50,7 +49,6 @@ namespace System.Data
                 return val;
             }
         }
-
         /// <summary> 
         ///使用现有的SQL事务执行一个sql命令（不返回数据集） 
         /// </summary> 
@@ -73,7 +71,6 @@ namespace System.Data
                 return val;
             }
         }
-
         /// <summary> 
         /// 返回DataSet 
         /// </summary> 
@@ -99,7 +96,6 @@ namespace System.Data
                 }
             }
         }
-
         /// <summary>
         /// 用指定的数据库连接字符串执行一个命令并返回一个数据表 
         /// </summary>
@@ -107,28 +103,24 @@ namespace System.Data
         /// <param name="cmdType">命令类型(存储过程, 文本, 等等)</param> 
         /// <param name="cmdText">存储过程名称或者sql命令语句</param> 
         /// <param name="commandParameters">执行命令所用参数的集合</param> 
-        public static async DataTable GetDataTable(string connectionString, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
+        public static async Task<DataTable> GetDataTableAsync(string connectionString, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
         {
-            MySqlCommand cmd = new MySqlCommand();
-            MySqlConnection conn = new MySqlConnection(connectionString);
-            try
+            using (MySqlCommand cmd = new MySqlCommand())
             {
-                await PrepareCommandAsync(cmd, conn, null, cmdType, cmdText, commandParameters);
-                MySqlDataAdapter adapter = new MySqlDataAdapter();
-                adapter.SelectCommand = cmd;
-                DataTable ds = new DataTable();
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    await PrepareCommandAsync(cmd, conn, null, cmdType, cmdText, commandParameters);
+                    MySqlDataAdapter adapter = new MySqlDataAdapter();
+                    adapter.SelectCommand = cmd;
+                    DataTable ds = new DataTable();
 
-                adapter.Fill(ds);
-                cmd.Parameters.Clear();
-                conn.Close();
-                return ds;
-            }
-            catch (Exception e)
-            {
-                throw e;
+                    await adapter.FillAsync(ds);
+                    //cmd.Parameters.Clear();
+
+                    return ds;
+                }
             }
         }
-
         /// <summary> 
         /// 用指定的数据库连接字符串执行一个命令并返回一个数据集的第一列 
         /// </summary> 
@@ -141,18 +133,19 @@ namespace System.Data
         /// <param name="cmdText">存储过程名称或者sql命令语句</param> 
         /// <param name="commandParameters">执行命令所用参数的集合</param> 
         /// <returns>用 Convert.To{Type}把类型转换为想要的 </returns> 
-        public static async object ExecuteScalar(string connectionString, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
+        public static async Task<object> ExecuteScalarAsync(string connectionString, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
         {
-            MySqlCommand cmd = new MySqlCommand();
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlCommand cmd = new MySqlCommand())
             {
-                await PrepareCommandAsync(cmd, connection, null, cmdType, cmdText, commandParameters);
-                object val = cmd.ExecuteScalar();
-                cmd.Parameters.Clear();
-                return val;
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    await PrepareCommandAsync(cmd, connection, null, cmdType, cmdText, commandParameters);
+                    object val = await cmd.ExecuteScalarAsync();
+                    cmd.Parameters.Clear();
+                    return val;
+                }
             }
         }
-
         /// <summary>
         /// 返回插入值ID
         /// </summary>
@@ -161,19 +154,17 @@ namespace System.Data
         /// <param name="cmdText"></param>
         /// <param name="commandParameters"></param>
         /// <returns></returns>
-        public static async object ExecuteNonExist(string connectionString, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
+        public static async Task<object> ExecuteNonExistAsync(string connectionString, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
         {
-            MySqlCommand cmd = new MySqlCommand();
-
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlCommand cmd = new MySqlCommand())
             {
-                await PrepareCommandAsync(cmd, connection, null, cmdType, cmdText, commandParameters);
-                object val = cmd.ExecuteNonQuery();
-
-                return cmd.LastInsertedId;
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    await PrepareCommandAsync(cmd, connection, null, cmdType, cmdText, commandParameters);
+                    return await cmd.ExecuteNonQueryAsync();
+                }
             }
         }
-
         /// <summary> 
         /// 用指定的数据库连接执行一个命令并返回一个数据集的第一列 
         /// </summary> 
@@ -186,20 +177,15 @@ namespace System.Data
         /// <param name="cmdText">存储过程名称或者sql命令语句</param> 
         /// <param name="commandParameters">执行命令所用参数的集合</param> 
         /// <returns>用 Convert.To{Type}把类型转换为想要的 </returns> 
-        public static async object ExecuteScalar(MySqlConnection connection, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
+        public static async Task<object> ExecuteScalarAsync(MySqlConnection connection, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
         {
 
             MySqlCommand cmd = new MySqlCommand();
 
             await PrepareCommandAsync(cmd, connection, null, cmdType, cmdText, commandParameters);
-            object val = cmd.ExecuteScalar();
-            cmd.Parameters.Clear();
-            return val;
+            return await cmd.ExecuteScalarAsync();
+
         }
-
-
-
-
         /// <summary> 
         /// 准备执行一个命令 
         /// </summary> 
@@ -239,68 +225,6 @@ namespace System.Data
             MySqlConnection Connection = new MySqlConnection(connSting);
             return Connection;
         }
-
-        #region 旧的同步方法
-        /// <summary> 
-        /// 给定连接的数据库用假设参数执行一个sql命令（不返回数据集） 
-        /// </summary> 
-        /// <param name="connectionString">一个有效的连接字符串</param> 
-        /// <param name="cmdType">命令类型(存储过程, 文本, 等等)</param> 
-        /// <param name="cmdText">存储过程名称或者sql命令语句</param> 
-        /// <param name="commandParameters">执行命令所用参数的集合</param> 
-        /// <returns>执行命令所影响的行数</returns> 
-        public static int ExecuteNonQuery(string connectionString, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
-        {
-
-            MySqlCommand cmd = new MySqlCommand();
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
-            {
-                PrepareCommand(cmd, conn, null, cmdType, cmdText, commandParameters);
-                int val = cmd.ExecuteNonQuery();
-                cmd.Parameters.Clear();
-                return val;
-            }
-        }
-
-
-        /// <summary> 
-        /// 用现有的数据库连接执行一个sql命令（不返回数据集） 
-        /// </summary> 
-        /// <param name="connection">一个现有的数据库连接</param> 
-        /// <param name="cmdType">命令类型(存储过程, 文本, 等等)</param> 
-        /// <param name="cmdText">存储过程名称或者sql命令语句</param> 
-        /// <param name="commandParameters">执行命令所用参数的集合</param> 
-        /// <returns>执行命令所影响的行数</returns> 
-        public static int ExecuteNonQuery(MySqlConnection connection, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
-        {
-            MySqlCommand cmd = new MySqlCommand();
-            PrepareCommand(cmd, connection, null, cmdType, cmdText, commandParameters);
-            int val = cmd.ExecuteNonQuery();
-            cmd.Parameters.Clear();
-            return val;
-        }
-
-        /// <summary> 
-        ///使用现有的SQL事务执行一个sql命令（不返回数据集） 
-        /// </summary> 
-        /// <remarks> 
-        ///举例: 
-        /// int result = ExecuteNonQuery(connString, CommandType.StoredProcedure, "PublishOrders", new MySqlParameter("@prodid", 24)); 
-        /// </remarks> 
-        /// <param name="trans">一个现有的事务</param> 
-        /// <param name="cmdType">命令类型(存储过程, 文本, 等等)</param> 
-        /// <param name="cmdText">存储过程名称或者sql命令语句</param> 
-        /// <param name="commandParameters">执行命令所用参数的集合</param> 
-        /// <returns>执行命令所影响的行数</returns> 
-        public static int ExecuteNonQuery(MySqlTransaction trans, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
-        {
-            MySqlCommand cmd = new MySqlCommand();
-            PrepareCommand(cmd, trans.Connection, trans, cmdType, cmdText, commandParameters);
-            int val = cmd.ExecuteNonQuery();
-            cmd.Parameters.Clear();
-            return val;
-        }
-
         /// <summary> 
         /// 用执行的数据库连接执行一个返回数据集的sql命令 
         /// </summary> 
@@ -331,6 +255,63 @@ namespace System.Data
             }
         }
 
+        #region 旧的同步方法
+        /// <summary> 
+        /// 给定连接的数据库用假设参数执行一个sql命令（不返回数据集） 
+        /// </summary> 
+        /// <param name="connectionString">一个有效的连接字符串</param> 
+        /// <param name="cmdType">命令类型(存储过程, 文本, 等等)</param> 
+        /// <param name="cmdText">存储过程名称或者sql命令语句</param> 
+        /// <param name="commandParameters">执行命令所用参数的集合</param> 
+        /// <returns>执行命令所影响的行数</returns> 
+        public static int ExecuteNonQuery(string connectionString, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
+        {
+
+            MySqlCommand cmd = new MySqlCommand();
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                PrepareCommand(cmd, conn, null, cmdType, cmdText, commandParameters);
+                int val = cmd.ExecuteNonQuery();
+                cmd.Parameters.Clear();
+                return val;
+            }
+        }
+        /// <summary> 
+        /// 用现有的数据库连接执行一个sql命令（不返回数据集） 
+        /// </summary> 
+        /// <param name="connection">一个现有的数据库连接</param> 
+        /// <param name="cmdType">命令类型(存储过程, 文本, 等等)</param> 
+        /// <param name="cmdText">存储过程名称或者sql命令语句</param> 
+        /// <param name="commandParameters">执行命令所用参数的集合</param> 
+        /// <returns>执行命令所影响的行数</returns> 
+        public static int ExecuteNonQuery(MySqlConnection connection, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
+        {
+            MySqlCommand cmd = new MySqlCommand();
+            PrepareCommand(cmd, connection, null, cmdType, cmdText, commandParameters);
+            int val = cmd.ExecuteNonQuery();
+            cmd.Parameters.Clear();
+            return val;
+        }
+        /// <summary> 
+        ///使用现有的SQL事务执行一个sql命令（不返回数据集） 
+        /// </summary> 
+        /// <remarks> 
+        ///举例: 
+        /// int result = ExecuteNonQuery(connString, CommandType.StoredProcedure, "PublishOrders", new MySqlParameter("@prodid", 24)); 
+        /// </remarks> 
+        /// <param name="trans">一个现有的事务</param> 
+        /// <param name="cmdType">命令类型(存储过程, 文本, 等等)</param> 
+        /// <param name="cmdText">存储过程名称或者sql命令语句</param> 
+        /// <param name="commandParameters">执行命令所用参数的集合</param> 
+        /// <returns>执行命令所影响的行数</returns> 
+        public static int ExecuteNonQuery(MySqlTransaction trans, CommandType cmdType, string cmdText, params MySqlParameter[] commandParameters)
+        {
+            MySqlCommand cmd = new MySqlCommand();
+            PrepareCommand(cmd, trans.Connection, trans, cmdType, cmdText, commandParameters);
+            int val = cmd.ExecuteNonQuery();
+            cmd.Parameters.Clear();
+            return val;
+        }
         /// <summary> 
         /// 返回DataSet 
         /// </summary> 
@@ -360,7 +341,6 @@ namespace System.Data
                 throw e;
             }
         }
-
         /// <summary>
         /// 用指定的数据库连接字符串执行一个命令并返回一个数据表 
         /// </summary>
@@ -389,7 +369,6 @@ namespace System.Data
                 throw e;
             }
         }
-
         /// <summary> 
         /// 用指定的数据库连接字符串执行一个命令并返回一个数据集的第一列 
         /// </summary> 
@@ -413,7 +392,6 @@ namespace System.Data
                 return val;
             }
         }
-
         /// <summary>
         /// 返回插入值ID
         /// </summary>
@@ -434,7 +412,6 @@ namespace System.Data
                 return cmd.LastInsertedId;
             }
         }
-
         /// <summary> 
         /// 用指定的数据库连接执行一个命令并返回一个数据集的第一列 
         /// </summary> 
@@ -457,10 +434,6 @@ namespace System.Data
             cmd.Parameters.Clear();
             return val;
         }
-
-
-
-
         /// <summary> 
         /// 准备执行一个命令 
         /// </summary> 
@@ -489,7 +462,6 @@ namespace System.Data
                 cmd.Parameters.AddRange(cmdParms);
             }
         }
-
         #endregion
 
     }
