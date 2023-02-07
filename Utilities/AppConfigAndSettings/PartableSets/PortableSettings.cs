@@ -12,7 +12,7 @@ using System.Reflection;
 // 第二步：在程序main函数最开始。初始化 PortableSettings，传入自己的Settings设置，如：new PortableSettings(Properties.Settings.Default); 【只是初始化不需要接受或使用new的对象，后面可以修改为静态方法，而不是创建实例】
 // 之后  ：剩下就和平时使用 Properties.Settings 一样
 
-// 如果是应用 PortableSettings 类库，引用后，直接从上面的第一步开始
+// 如果是引用 PortableSettings 类库，引用后，直接从上面的第一步开始
 
 namespace System.Configuration
 {

@@ -41,6 +41,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="ISQLHelper.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\..\NoteBook\CodeMissing-Logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
