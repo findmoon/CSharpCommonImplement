@@ -85,6 +85,8 @@ ConfigurationManager是一个提供对客户端应用程序配置文件访问的
 
 > 实际测试，不用调用`ConfigurationManager.RefreshSection("appSettings"/"connectionStrings")`，也会获取到最新更新的值。
 
+> 官网介绍刷新节点的方法为：`ConfigurationManager.RefreshSection(configFile.AppSettings.SectionInformation.Name);`，这种方法感觉比 **直接写节点名** 方便且正确多了。
+
 ```C#
 using System;
 using System.Collections.Generic;
@@ -210,7 +212,8 @@ namespace AppConfigFile_Net46
                         config.AppSettings.Settings.Add(name, value);
                     }
                     config.Save(); //保存配置文件  // config.Save(ConfigurationSaveMode.Full);
-                    ConfigurationManager.RefreshSection("appSettings"); // 刷新，更新缓存。无需重启，获取最新的配置值
+                    //ConfigurationManager.RefreshSection("appSettings"); // 刷新，更新缓存。无需重启，获取最新的配置值
+                    ConfigurationManager.RefreshSection(config.AppSettings.SectionInformation.Name);
                     return true;
                 }
                 return false;
@@ -252,7 +255,8 @@ namespace AppConfigFile_Net46
                         }
                     }
                     config.Save(); //保存配置文件  // config.Save(ConfigurationSaveMode.Full);
-                    ConfigurationManager.RefreshSection("appSettings"); // 刷新，更新缓存。无需重启，获取最新的配置值
+                    //ConfigurationManager.RefreshSection("appSettings"); // 刷新，更新缓存。无需重启，获取最新的配置值
+                    ConfigurationManager.RefreshSection(config.AppSettings.SectionInformation.Name);
                     return true;
                 }
                 return false;
@@ -277,7 +281,8 @@ namespace AppConfigFile_Net46
                 //如果当前节点存在，则删除当前节点
                 config.AppSettings.Settings.Remove(key);
                 config.Save(ConfigurationSaveMode.Modified);
-                ConfigurationManager.RefreshSection("appSettings");
+                //ConfigurationManager.RefreshSection("appSettings");
+                ConfigurationManager.RefreshSection(config.AppSettings.SectionInformation.Name);
             }
             else
             {
@@ -399,7 +404,8 @@ private static void SetConnectionStrings(string connStrName, string connStr, str
         });
     }
     config.Save(); //保存配置文件  // config.Save(ConfigurationSaveMode.Full);
-    ConfigurationManager.RefreshSection("connectionStrings"); // 刷新，更新缓存。无需重启，获取最新的配置值
+    //ConfigurationManager.RefreshSection("connectionStrings"); // 刷新，更新缓存。无需重启，获取最新的配置值
+    ConfigurationManager.RefreshSection(config.ConnectionStrings.SectionInformation.Name);
 }
 ```
 
@@ -426,12 +432,27 @@ var serverT_connStr = ConfigurationManager.ConnectionStrings["SQLServer测试"].
 
 ![](img/20230205231327.png)  
 
-Data Source=.\FUJITRAX;Initial Catalog=ASPNETSimple;Persist Security Info=True;User ID=sa
-Data Source=.\FUJITRAX;Initial Catalog=ASPNETSimple;Persist Security Info=True;User ID=sa;Password=***********
+> 或者，点击“工具”->“连接数据库”：
+> 
+> ![](img/20230206090958.png)  
+
+![](img/20230206091757.png)  
+
+> **. 或 localhost 表示连接本地。也可以指定ip，或电脑名。**
+> 
+> **如果不是默认实例，需要指定实例名：`ip\InstanceName`，SQL Server Express 安装的实例名并不是默认实例，连接时需要指定。**
+
+选择数据库后，可以点击“测试连接”。点击“确定”。
+
+在“服务器资源管理器”中，“数据连接”下就可以看见已连接的数据库。
+
+右键该连接，点击“属性”，查看并复制链接字符串。
+
+![](img/20230206093412.png)  
+
+就可以将其复制到 App.config 的 `connectionStrings` 配置节下使用。
 
 # 附：Web.config的操作方式
-
-此代码未实际测试，似乎仍旧使用`ConfigurationManager`类也是可以的。
 
 ```C#
 Configuration config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
@@ -444,6 +465,8 @@ appsection.Settings[key].Value;  //读取某键值配置
 
 appsection.Settings[key].Value = value; //修改某键值配置
 ```
+
+> 除了`WebConfigurationManager`，似乎仍旧使用`ConfigurationManager`类也是可以的。
 
 # 附：关于修改数据后配置不生效的问题
 
@@ -478,3 +501,4 @@ void UpdateConfig(string key,string value)
 
 - [C# 动态获取、修改、更新配置文件 实现思路](https://blog.csdn.net/sean4m/article/details/51685990)
 - [c# 操作.config中AppSettings配置节](https://codeantenna.com/a/VlXlyu6cAC)
+- [Connection Strings and Configuration Files](https://learn.microsoft.com/en-us/dotnet/framework/data/adonet/connection-strings-and-configuration-files) ，推荐此篇好文

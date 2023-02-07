@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - 我的 ASP.NET 应用程序</title>
@@ -24,6 +24,32 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("关于", "About", "Home")</li>
                     <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
+                </ul>
+                <ul class="nav navbar-nav pull-right">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            @Html.ActionLink("用户中心", "Index", "Account")
+                        </li>
+                        <li>
+                            <a href="#" onclick="this.querySelector('#Logout').click()">
+                                @using (Html.BeginForm("Logout", "Account", FormMethod.Post))
+                                {
+                                    <label for="Logout" style="cursor: pointer; font-weight: normal;">登出</label>
+                                    <input id="Logout" type="submit" hidden name="Logout" value="登出" />
+                                }
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            @Html.ActionLink("登录", "Login", "Account")
+                        </li>
+                        <li>
+                            @Html.ActionLink("注册", "Register", "Account")
+                        </li>
+                    }
                 </ul>
             </div>
         </div>

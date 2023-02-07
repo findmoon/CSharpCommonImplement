@@ -8,6 +8,8 @@ namespace ASPNETWebInstall
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            // 添加全局 授权 过滤器
+            filters.Add(new AuthorizeAttribute());
         }
     }
 }

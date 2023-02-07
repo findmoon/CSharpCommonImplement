@@ -122,7 +122,8 @@ namespace AppConfigFile_Net46
                         config.AppSettings.Settings.Add(name, value);
                     }
                     config.Save(); //保存配置文件  // config.Save(ConfigurationSaveMode.Full);
-                    ConfigurationManager.RefreshSection("appSettings"); // 刷新，更新缓存。无需重启，获取最新的配置值
+                    //ConfigurationManager.RefreshSection("appSettings"); // 刷新，更新缓存。无需重启，获取最新的配置值
+                    ConfigurationManager.RefreshSection(config.AppSettings.SectionInformation.Name);
                     return true;
                 }
                 return false;
@@ -164,7 +165,8 @@ namespace AppConfigFile_Net46
                         }
                     }
                     config.Save(); //保存配置文件  // config.Save(ConfigurationSaveMode.Full);
-                    ConfigurationManager.RefreshSection("appSettings"); // 刷新，更新缓存。无需重启，获取最新的配置值
+                    //ConfigurationManager.RefreshSection("appSettings"); // 刷新，更新缓存。无需重启，获取最新的配置值
+                    ConfigurationManager.RefreshSection(config.AppSettings.SectionInformation.Name);
                     return true;
                 }
                 return false;
@@ -189,7 +191,8 @@ namespace AppConfigFile_Net46
                 //如果当前节点存在，则删除当前节点
                 config.AppSettings.Settings.Remove(key);
                 config.Save(ConfigurationSaveMode.Modified);
-                ConfigurationManager.RefreshSection("appSettings");
+                //ConfigurationManager.RefreshSection("appSettings");
+                ConfigurationManager.RefreshSection(config.AppSettings.SectionInformation.Name);
             }
             else
             {

@@ -55,8 +55,8 @@ namespace AppConfigFile_Net46
 
         private void button5_Click(object sender, EventArgs e)
         {
+            // 不会保存到文件
             ConfigurationManager.AppSettings.Set("key1", "修改!");
-
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -111,7 +111,8 @@ namespace AppConfigFile_Net46
                 });
             }
             config.Save(); //保存配置文件  // config.Save(ConfigurationSaveMode.Full);
-            ConfigurationManager.RefreshSection("connectionStrings"); // 刷新，更新缓存。无需重启，获取最新的配置值
+            //ConfigurationManager.RefreshSection("connectionStrings"); // 刷新，更新缓存。无需重启，获取最新的配置值
+            ConfigurationManager.RefreshSection(config.ConnectionStrings.SectionInformation.Name);
         }
     }
 }

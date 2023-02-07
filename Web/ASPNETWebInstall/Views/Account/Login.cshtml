@@ -1,0 +1,33 @@
+﻿@using ASPNETWebInstall.ViewModels
+@model LoginViewModel
+@{
+    ViewBag.Title = "Login";
+}
+
+<h1>Login</h1>
+<div>
+    @using (Html.BeginForm("DoLogin", "Account", FormMethod.Post))
+
+    {
+        @Html.TextBox("returnUrl", ViewData["returnUrl"], new { hidden = "true" });
+        <br />
+
+        @Html.LabelFor(c => c.Name)
+
+        @Html.TextBoxFor(x => x.Name)
+        <br />
+
+        @Html.LabelFor(c => c.Password)
+
+        @Html.PasswordFor(x => x.Password)
+
+        <br />
+        @*@ViewData["errMsg"]*@
+        @Html.ValidationMessage("CredentialError", new { style = "color:red;" })
+
+        <input type="submit" name="Login" value="登录" />
+
+    }
+
+</div>
+

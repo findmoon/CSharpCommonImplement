@@ -275,9 +275,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECSharp_Use", "OtherFramewo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IniOperaterAndUse", "Utilities\IniOperaterAndUse\IniOperaterAndUse.csproj", "{D9908BA7-56CE-4CB1-8A45-59A85140160B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppConfigFile", "Utilities\AppConfigFile\AppConfigFile.csproj", "{4E9A1A44-EDB7-419C-8D71-680FDE56C8DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppConfigFile", "Utilities\AppConfigFile\AppConfigFile.csproj", "{4E9A1A44-EDB7-419C-8D71-680FDE56C8DA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppConfigFile_Net46", "Utilities\AppConfigFile_Net46\AppConfigFile_Net46.csproj", "{1A571C42-A62C-4C97-9DE1-EAE07BEBA32F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{C934FAC2-A243-4ECA-B174-AC2096F021E6}"
+	ProjectSection(SolutionItems) = preProject
+		Examples\readme.md = Examples\readme.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentManagementPage_Winform", "Examples\StudentManagementPage_Winform\StudentManagementPage_Winform.csproj", "{E00FFC3E-ECF1-42AA-876C-23D6402640C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -2603,6 +2610,26 @@ Global
 		{1A571C42-A62C-4C97-9DE1-EAE07BEBA32F}.Release|x64.Build.0 = Release|Any CPU
 		{1A571C42-A62C-4C97-9DE1-EAE07BEBA32F}.Release|x86.ActiveCfg = Release|Any CPU
 		{1A571C42-A62C-4C97-9DE1-EAE07BEBA32F}.Release|x86.Build.0 = Release|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Debug|ARM.Build.0 = Debug|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Debug|x64.Build.0 = Debug|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Debug|x86.Build.0 = Debug|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Release|ARM.ActiveCfg = Release|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Release|ARM.Build.0 = Release|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Release|ARM64.Build.0 = Release|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Release|x64.ActiveCfg = Release|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Release|x64.Build.0 = Release|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Release|x86.ActiveCfg = Release|Any CPU
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2712,6 +2739,7 @@ Global
 		{D9908BA7-56CE-4CB1-8A45-59A85140160B} = {DA14378F-ABAD-42AE-8E97-F3BD479C8156}
 		{4E9A1A44-EDB7-419C-8D71-680FDE56C8DA} = {DA14378F-ABAD-42AE-8E97-F3BD479C8156}
 		{1A571C42-A62C-4C97-9DE1-EAE07BEBA32F} = {DA14378F-ABAD-42AE-8E97-F3BD479C8156}
+		{E00FFC3E-ECF1-42AA-876C-23D6402640C4} = {C934FAC2-A243-4ECA-B174-AC2096F021E6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7196056F-9EEC-4E68-9D5E-D7D197E35299}

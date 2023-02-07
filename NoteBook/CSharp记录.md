@@ -147,3 +147,10 @@ More details regarding trace sources and listeners can be found [here](https://b
 # https://www.bilibili.com/video/BV1Ss411D7DD/?spm_id_from=333.788.recommend_more_video.19
 
 
+# [C# 程序修改config文件后，不重启程序刷新配置ConfigurationManager](https://www.cnblogs.com/mq0036/p/10783842.html)这篇里面代码分析可以了解下
+
+# [已经可见的窗体不能显示为模式对话框](https://gcdn.grapecity.com.cn/showtopic-9346-1-1.html)
+
+[已经可的窗体不能显示为模式对话框，关闭弹出修改窗口后主窗口DATAGRIDVIEW的刷新](https://blog.csdn.net/kittenchen/article/details/79460663)
+
+# 

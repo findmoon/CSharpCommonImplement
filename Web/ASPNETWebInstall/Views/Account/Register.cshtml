@@ -1,0 +1,28 @@
+﻿@using ASPNETWebInstall.ViewModels
+@model RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<h1>Register</h1>
+<div>
+    @using (Html.BeginForm("DoRegister", "Account", FormMethod.Post))
+
+    {
+        @Html.TextBox("returnUrl", ViewData["returnUrl"], new { hidden = "true" });
+        <br />
+
+
+        @Html.LabelFor(c => c.Email)
+
+        @Html.TextBoxFor(x => x.Email)
+
+        <br />
+        @*@ViewData["errMsg"]*@
+        @Html.ValidationMessage("CredentialError", new { style = "color:red;" })
+
+        <input type="submit" name="Register" value="注册" />
+
+    }
+
+</div>
