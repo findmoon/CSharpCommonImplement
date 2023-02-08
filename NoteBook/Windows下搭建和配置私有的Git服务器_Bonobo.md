@@ -173,7 +173,34 @@ Bonobo Git Server 需要 IIS7+ 及 .NET Framework 4.6 的环境，目前最新�
 # 使用Hook对仓库进行的一些管控
 
 
-# Web.config 配置 SMTP 实现邮件发送
+# Bonobo 的 Web.config 配置 SMTP 实现邮件发送
+
+Bonobo 提供了找回密码功能，需要用到邮件发送。
+
+关于 SMTP 的配置，只需要在站点的 Web.config 中添加如下正确的信息，即可实现发送邮件。
+
+```xml
+<!--父元素：configuration(提供所有名称空间的配置）-->
+ <system.net>
+  <mailSettings>
+   <smtp from="xxx@yyy.com" deliveryMethod="Network">
+    <network
+                host="SMTP Server"
+                userName="userName"
+                password="password"
+                defaultCredentials="true"/>
+   </smtp>
+  </mailSettings>
+ </system.net>
+```
+
+> `defaultCredentials`属性指定`true`、`false`，或者取消该属性均不影响邮件发送。
+
+如果需要指定 port，或者 启用了ssl，可以按如下指定：
+
+```xml
+<network host="smtp.yyy.com" userName="xxx@yyy.com" password="zzzzzzz" port="587" enableSsl="true" />
+```
 
 # 其他
 

@@ -6,15 +6,15 @@
 
 ## 安装 Web 开发 中的 .NET Framework 项目和项模板
 
-VS 2022 默认安装的 web 项目只支持 ASP.NET Core，也就是没有 支持 .NET Framework 的模板项目，如下所示：
+VS 2022 默认安装的 web 项目只支持 `ASP.NET Core`，也就是没有 支持 .NET Framework 的模板项目，如下所示：
 
 ![](img/20230114232705.png)  
 
-要创建 ASP.NET 项目，需要在 VS2022 顶部菜单的 工具->获取工具和功能（**不建议，而是应该直接从开始菜单中，找到`Visual Studio Installer`程序并运行**） ，即 Visual Studio Installer 中，添加 早期版本的项目模板。
+要创建 `ASP.NET` 项目，需要在 VS2022 顶部菜单的 工具->获取工具和功能（**不建议，而是应该直接从开始菜单中，找到`Visual Studio Installer`程序并运行**） ，即 Visual Studio Installer 中，添加 早期版本的项目模板。
 
 ![](img/20230114232952.png)  
 
-在 安装的组件 中，勾选的 ASP.NET 和 Web 开发 下，勾选`.NET Framework 项目和项模板`和`其他项目模板(早期版本)`
+在 安装的组件 中，勾选的 “ASP.NET 和 Web 开发” 下，勾选`.NET Framework 项目和项模板`和`其他项目模板(早期版本)`
 
 ![](img/20230114233305.png)  
 
@@ -120,7 +120,7 @@ VS 2022 默认安装的 web 项目只支持 ASP.NET Core，也就是没有 支�
 
 # 关于 发布到文件夹
 
-关于将 ASP.NET 项目发布到文件夹，设置和此处的操作没有任何本质的区别，指定发布的文件夹，发布后，在 IIS管理器 中配置添加网站，指向正确路径即可。
+关于将 `ASP.NET` 项目发布到文件夹，设置和此处的操作没有任何本质的区别，指定发布的文件夹，发布后，在 IIS管理器 中配置添加网站，指向正确路径即可。
 
 # 关于 为IIS注册 v4.0 版本的 .NET CLR
 

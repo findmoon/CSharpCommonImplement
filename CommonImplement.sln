@@ -263,7 +263,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETWebInstall", "Web\ASP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETWebInstall1", "Web\ASPNETWebInstall1\ASPNETWebInstall1.csproj", "{28AC455B-FC13-44DE-9A67-942DCF501915}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WebSetup1", "Web\WebSetup1\WebSetup1.vdproj", "{D3165E2F-5CC0-4E25-B37B-E4B6A5AB312A}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MyWebSetup", "Web\WebSetup1\WebSetup1.vdproj", "{D3165E2F-5CC0-4E25-B37B-E4B6A5AB312A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MySqlHelper", "DBSQLHelper\MySqlHelper\MySqlHelper.csproj", "{DB252B97-ECBE-4DE8-8499-8F7548F3BDC7}"
 EndProject
@@ -284,7 +284,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{C9
 		Examples\readme.md = Examples\readme.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentManagementPage_Winform", "Examples\StudentManagementPage_Winform\StudentManagementPage_Winform.csproj", "{E00FFC3E-ECF1-42AA-876C-23D6402640C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentManagementPage_Winform", "Examples\StudentManagementPage_Winform\StudentManagementPage_Winform.csproj", "{E00FFC3E-ECF1-42AA-876C-23D6402640C4}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WebSetup_Test", "Web\WebSetup_Test\WebSetup_Test.vdproj", "{4C0978D9-8108-4428-A684-2D8C1946F6D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -2630,6 +2632,16 @@ Global
 		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Release|x64.Build.0 = Release|Any CPU
 		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Release|x86.ActiveCfg = Release|Any CPU
 		{E00FFC3E-ECF1-42AA-876C-23D6402640C4}.Release|x86.Build.0 = Release|Any CPU
+		{4C0978D9-8108-4428-A684-2D8C1946F6D8}.Debug|Any CPU.ActiveCfg = Debug
+		{4C0978D9-8108-4428-A684-2D8C1946F6D8}.Debug|ARM.ActiveCfg = Debug
+		{4C0978D9-8108-4428-A684-2D8C1946F6D8}.Debug|ARM64.ActiveCfg = Debug
+		{4C0978D9-8108-4428-A684-2D8C1946F6D8}.Debug|x64.ActiveCfg = Debug
+		{4C0978D9-8108-4428-A684-2D8C1946F6D8}.Debug|x86.ActiveCfg = Debug
+		{4C0978D9-8108-4428-A684-2D8C1946F6D8}.Release|Any CPU.ActiveCfg = Release
+		{4C0978D9-8108-4428-A684-2D8C1946F6D8}.Release|ARM.ActiveCfg = Release
+		{4C0978D9-8108-4428-A684-2D8C1946F6D8}.Release|ARM64.ActiveCfg = Release
+		{4C0978D9-8108-4428-A684-2D8C1946F6D8}.Release|x64.ActiveCfg = Release
+		{4C0978D9-8108-4428-A684-2D8C1946F6D8}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2740,6 +2752,7 @@ Global
 		{4E9A1A44-EDB7-419C-8D71-680FDE56C8DA} = {DA14378F-ABAD-42AE-8E97-F3BD479C8156}
 		{1A571C42-A62C-4C97-9DE1-EAE07BEBA32F} = {DA14378F-ABAD-42AE-8E97-F3BD479C8156}
 		{E00FFC3E-ECF1-42AA-876C-23D6402640C4} = {C934FAC2-A243-4ECA-B174-AC2096F021E6}
+		{4C0978D9-8108-4428-A684-2D8C1946F6D8} = {DB911DB9-96FA-47CB-AED4-6E0C4F0CDE64}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7196056F-9EEC-4E68-9D5E-D7D197E35299}
