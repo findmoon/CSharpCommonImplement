@@ -22,7 +22,7 @@
 
 # Web安装项目
 
-## 创建Web安装项目
+## 创建 Web Setup Project
 
 在 解决方案资源管理器 中，右键添加新项目，选择“Web安装项目”，如下，可以看到安装VSIX Installer插件后，新增的项目模板`Setup Project`、`Web Setup Project`、`Setup Wizrd`、`Merge Module Project`、`CAB Project`等。
 
@@ -32,13 +32,20 @@
 
 ![](img/20230120001549.png)  
 
-## 项目输出
+## 指定安装 ASP.NET项目
 
-右键 刚刚创建的Web安装项目，选择“添加”->“项目输出”。
+> 关于具体操作，可以参考 [How to Create a Web Setup for Your Published Web Service](https://learn.microsoft.com/en-us/biztalk/core/how-to-create-a-web-setup-for-your-published-web-service)、[Setup Project Deployment of an ASP.NET Web Forms Application](https://docs.devexpress.com/eXpressAppFramework/113247/deployment/deployment-tutorial/setup-project-deployment-of-an-aspnet-application) 这两篇文章。
 
-选择要安装的 `ASP.NET` 项目`ASPNETWebInstall`，选择“主输出”、配置为“Release”，点击确定：
 
-![](img/20230208152534.png)  
+右键 刚刚创建的Web安装项目，选择“查看”->“文件系统”。
+
+![](img/20230208215308.png)  
+
+在文件系统窗口中，右键`Web Application Folder`节点，点击 Add -> 项目输出。
+
+在项目输出组对话框中，选择要安装的 `ASP.NET` 项目`ASPNETWebInstall`，然后，分别选择“主输出”和“内容文件”，点击“确定”：
+
+![](img/20230208215624.png)  
 
 右击项目，点击“属性”：
 
@@ -55,6 +62,10 @@
 .NET Framework 的属性，修改下版本：
 
 ![](img/20230208154222.png)  
+
+> 官方文档的介绍中，有提到排除依赖，即：将 Web安装项目 下 `Detected Dependencies` 节点展开后的依赖，全选依赖，在属性窗口中，设置 Exclude（排除）为 True。
+> 
+> **极其不推荐这么做，很有可能导致最后生成安转的网站，在运行时报错找不到依赖项。**
 
 ## 安装界面
 
@@ -137,4 +148,17 @@ ERROR: 要在“系统必备”对话框中启用“从与我的应用程序相�
 然后，再次重新生成。即可正确打包，**生成安装包**。
 
 ## 安装包的安装测试
+
+实际运行安装，并不理想。
+
+# 关于尽量不要使用 VSIX 制作安装包的建议
+
+# 使用 Setup Project
+
+![](img/20230208221229.png)  
+
+
+已经安装了该产品的另一个版本，无法继续安装此版本。
+
+![](img/20230208222355.png)  
 

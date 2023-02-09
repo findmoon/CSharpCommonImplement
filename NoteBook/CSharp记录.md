@@ -153,4 +153,8 @@ More details regarding trace sources and listeners can be found [here](https://b
 
 [已经可的窗体不能显示为模式对话框，关闭弹出修改窗口后主窗口DATAGRIDVIEW的刷新](https://blog.csdn.net/kittenchen/article/details/79460663)
 
-# 
+# vs 扩展和更新下载的插件在什么位置
+
+C:\Users\Administrator\AppData\Local\Microsoft\VisualStudio\10.0\Extensions
+
+注意不同版本号
