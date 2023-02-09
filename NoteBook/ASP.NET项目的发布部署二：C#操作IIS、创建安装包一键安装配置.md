@@ -1,4 +1,4 @@
-**ASP.NET项目的发布部署二：使用VS Installer Projects创建安装包一键安装配置ASP.NET网站到IIS**
+**ASP.NET项目的发布部署二：使用VS Installer Projects创建安装包【相对比较失败的实现】**
 
 [toc]
 
@@ -24,7 +24,7 @@
 
 ## 创建 Web Setup Project
 
-在 解决方案资源管理器 中，右键添加新项目，选择“Web安装项目”，如下，可以看到安装VSIX Installer插件后，新增的项目模板`Setup Project`、`Web Setup Project`、`Setup Wizrd`、`Merge Module Project`、`CAB Project`等。
+在 解决方案资源管理器 中，右键添加新项目，选择“Web安装项目”，如下，可以看到安装`Visual Studio Installer Projects`扩展后，新增的项目模板`Setup Project`、`Web Setup Project`、`Setup Wizrd`、`Merge Module Project`、`CAB Project`等。
 
 ![](img/20230120001156.png)  
 
@@ -147,18 +147,38 @@ ERROR: 要在“系统必备”对话框中启用“从与我的应用程序相�
 
 然后，再次重新生成。即可正确打包，**生成安装包**。
 
-## 安装包的安装测试
+## 安装包的安装测试（Web Setup Project生成的安装包不能正常使用）
 
 实际运行安装，并不理想。
 
-# 关于尽量不要使用 VSIX 制作安装包的建议
+# 关于尽量不要使用 Visual Studio Installer Projects 制作安装包的建议
 
-# 使用 Setup Project
+之所以说不要使用，是因为 安装模板 项目微软从2012年停止支持，只是得益于强大的安装扩展支持，它一直到 VS2019、VS2022 仍然可以使用。
+
+但是，其易于操作性、问题疑难等，可想而知。
+
+# 关于 使用 Setup Project
 
 ![](img/20230208221229.png)  
 
+使用 Setup Project 在 文件系统 中，添加 项目输出时，主项目输出（项目生成的release/debug文件夹），在生成安装包时，无法将 主项目输出文件夹下 的 子文件夹及子文件夹中的内容 打包进安装包，安装后会缺少这部分的依赖。导致程序无法运行。
 
-已经安装了该产品的另一个版本，无法继续安装此版本。
+那么问题就可以有以下三种方案：
+
+1. 如何设置 Setup Project 的项目输出中，包含项目生成文件夹下的子文件夹。
+
+已经尝试找了很多资料和相关设置，没有这方面的介绍。
+
+【感觉要通过修改 Visual Studio Installer Projects 扩展源文件（VS扩展）才能解决这个问题，使其生成安装包时，包含子文件夹。】
+
+2. 是否可以通过添加自定义操作脚本，实现生成安装包时，将子文件夹一起读取并包含进安装包。
+
+3. 最笨的方法，将子文件夹，通过添加文件的形式，一一添加进来。
+
+![](img/20230209144423.png)  
+
+# 关于：已经安装了该产品的另一个版本，无法继续安装此版本。
 
 ![](img/20230208222355.png)  
 
+应该可以通过设置，实现覆盖安装，允许程序安装后再次运行安装包。暂未处理。
