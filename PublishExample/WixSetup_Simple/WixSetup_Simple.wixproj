@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" InitialTargets="EnsureWixToolsetInstalled" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-  <EnableProjectHarvesting>True</EnableProjectHarvesting>
+  <!-- <EnableProjectHarvesting>True</EnableProjectHarvesting> -->
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>3.10</ProductVersion>
@@ -20,10 +20,10 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <HeatProject Include="..\ClickOnceWPFFx\ClickOnceWPFFx.csproj">
+    <!-- <HeatProject Include="..\ClickOnceWPFFx\ClickOnceWPFFx.csproj">
       <Name>ClickOnceWPFFx</Name>
       <ProjectOutputGroups>Binaries;Sources</ProjectOutputGroups>
-    </HeatProject>
+    </HeatProject> -->
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Product.wxs" />

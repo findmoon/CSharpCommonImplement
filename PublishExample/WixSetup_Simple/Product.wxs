@@ -39,6 +39,7 @@
       <Component Id="ProductComponent">
         <!-- TODO: Insert files, registry keys, and other resources here. -->
         <File Source="$(var.ClickOnceWPFFx.TargetPath)" KeyPath="yes" />
+        <!--<File Source="$(var.ClickOnceWPFFx.TargetDir)" KeyPath="yes" />-->
       </Component>
     </ComponentGroup>
   </Fragment>
