@@ -15,14 +15,15 @@
       <ComponentGroupRef Id="ProductComponents" />
     </Feature>
 
-    
-      <!--<UIRef Id="WixUI_Advanced" />-->
-      <!--<UIRef Id="WixUI_FeatureTree" />-->
-      <!--<UIRef Id="WixUI_InstallDir" /> 直接生成的安装包报错-->
-      <UIRef Id="WixUI_Minimal" />
-      <!--<UIRef Id="WixUI_Mondo" />-->
-    
+
+    <!--<UIRef Id="WixUI_Advanced" />-->
+    <!--<UIRef Id="WixUI_FeatureTree" />-->
+    <!--<UIRef Id="WixUI_InstallDir" /> 直接生成的安装包报错-->
+    <UIRef Id="WixUI_Minimal" />
+    <!--<UIRef Id="WixUI_Mondo" />-->
+
   </Product>
+
   <Fragment>
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">

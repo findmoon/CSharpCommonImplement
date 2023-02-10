@@ -42,8 +42,13 @@ Powershell中启用成功：
 > 
 > `Uninstall-WindowsFeature -Remove Web-Server`
 
+> [Different ways for installing Windows features on the command line](https://peter.hahndorf.eu/blog/WindowsFeatureViaCmd.html)
+
 # 可能 参考
 
 IIS will not install on Windows 10：https://answers.microsoft.com/en-us/windows/forum/all/iis-will-not-install-on-windows-10/251699ca-627a-49e8-800e-a8d038f4b6c3
 
 
+# 参考
+
+[Use Command line to Enable IIS Web server on Windows 11](https://www.how2shout.com/how-to/use-command-line-to-enable-iis-web-server-on-windows-11.html)

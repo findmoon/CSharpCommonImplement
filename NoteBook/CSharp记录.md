@@ -155,6 +155,10 @@ More details regarding trace sources and listeners can be found [here](https://b
 
 # vs 扩展和更新下载的插件在什么位置
 
+【至少在VS2022下，这个位置不对】
+
 C:\Users\Administrator\AppData\Local\Microsoft\VisualStudio\10.0\Extensions
 
 注意不同版本号
+
+# [Automating IIS Feature Installation with Powershell](https://weblog.west-wind.com/posts/2017/May/25/Automating-IIS-Feature-Installation-with-Powershell)

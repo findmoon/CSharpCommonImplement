@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" InitialTargets="EnsureWixToolsetInstalled" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-  <EnableProjectHarvesting>True</EnableProjectHarvesting>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>3.10</ProductVersion>
-    <ProjectGuid>4b4f3ea7-227d-4fd5-9ccb-a3f92ecff292</ProjectGuid>
+    <ProjectGuid>57660912-3b32-464b-85bd-db87de23969e</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>WixSetup_Simple</OutputName>
-    <OutputType>Package</OutputType>
+    <OutputName>WixSetup_Bootstrapper_Test</OutputName>
+    <OutputType>Bundle</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -20,31 +19,12 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <HeatProject Include="..\ClickOnceWPFFx\ClickOnceWPFFx.csproj">
-      <Name>ClickOnceWPFFx</Name>
-      <ProjectOutputGroups>Binaries;Sources</ProjectOutputGroups>
-    </HeatProject>
+    <Compile Include="Bundle.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Product.wxs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="LicenseAgreement.rtf" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ClickOnceWPFFx\ClickOnceWPFFx.csproj">
-      <Name>ClickOnceWPFFx</Name>
-      <Project>{507b64a8-0d76-4b47-a5fe-323fbf54dd43}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WixExtension Include="WixUIExtension">
-      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
-      <Name>WixUIExtension</Name>
+    <WixExtension Include="WixBalExtension">
+      <HintPath>$(WixExtDir)\WixBalExtension.dll</HintPath>
+      <Name>WixBalExtension</Name>
     </WixExtension>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
