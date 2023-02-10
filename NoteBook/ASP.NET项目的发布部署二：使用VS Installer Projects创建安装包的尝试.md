@@ -2,6 +2,16 @@
 
 [toc]
 
+> 相对来说，本篇介绍的使用 Web Setup Project 创建安装包是一个很失败的尝试，其生成的安装包几乎无法使用。后续不要使用，而是应该使用 Setup Project 制作。
+> 
+> 由于 `Installer Projects` 的问题，还应该记住，不要使用 "项目输出->主输出" 的方式引入程序文件。而应该使用“内容文件”。
+> 
+> 比较较有价值的是，关于打包时，无法引入依赖组件时的报错的解决方法，如何下载DotNetFX，及放入 Microsoft SDK 所在路径下：
+>
+> ```
+> ERROR: 要在“系统必备”对话框中启用“从与我的应用程序相同的位置下载系统必备组件”，必须将“Microsoft .NET Framework 4.6.2 (x86 和 x64)”项的文件“DotNetFX462\NDP462-KB3151800-x86-x64-AllOS-ENU.exe”下载到本地计算机。有关详细信息，请参见 http://go.microsoft.com/fwlink/?LinkId=616018。
+> ```
+
 # 安装 Microsoft Visual Studio Installer Projects 2022
 
 [Microsoft Visual Studio Installer Projects 2022](https://marketplace.visualstudio.com/items?itemName=VisualStudioClient.MicrosoftVisualStudio2022InstallerProjects) 是专用于 VS2022 的扩展，用于制作安装项目。
@@ -163,7 +173,7 @@ ERROR: 要在“系统必备”对话框中启用“从与我的应用程序相�
 
 使用 Setup Project 在 文件系统 中，添加 项目输出时，主项目输出（项目生成的release/debug文件夹），在生成安装包时，无法将 主项目输出文件夹下 的 子文件夹及子文件夹中的内容 打包进安装包，安装后会缺少这部分的依赖。导致程序无法运行。
 
-那么问题就可以有以下三种方案：
+那么问题就可以有以下三种解决方案，以及 **绕过不使用此方法，从而避免该问题【下篇介绍使用`项目输出->内容文件`将项目生成的程序文件作为`内容文件`打包进安装包】**：
 
 1. 如何设置 Setup Project 的项目输出中，包含项目生成文件夹下的子文件夹。
 
@@ -177,8 +187,3 @@ ERROR: 要在“系统必备”对话框中启用“从与我的应用程序相�
 
 ![](img/20230209144423.png)  
 
-# 关于：已经安装了该产品的另一个版本，无法继续安装此版本。
-
-![](img/20230208222355.png)  
-
-应该可以通过设置，实现覆盖安装，允许程序安装后再次运行安装包。暂未处理。

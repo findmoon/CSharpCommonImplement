@@ -8,6 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Button Content="Button" HorizontalAlignment="Left" Margin="142,137,0,0" VerticalAlignment="Top" Height="64" Width="246" Click="Button_Click"/>
+        <Label Content="我是用于制作安装软件的WPF程序" FontSize="18" HorizontalAlignment="Left" Margin="86,296,0,0" VerticalAlignment="Top" Height="65" Width="314" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
     </Grid>
 </Window>
