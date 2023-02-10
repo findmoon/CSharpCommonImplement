@@ -5,7 +5,7 @@
 
     <!--<MajorUpgrade DowngradeErrorMessage="较新版本的 [ProductName] 已经安装了！" />-->
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-    <MediaTemplate />
+    <MediaTemplate EmbedCab="yes" />
 
 
     <WixVariable Id="WixUILicenseRtf" Value="LicenseAgreement.rtf" />
@@ -16,13 +16,17 @@
     </Feature>
 
     
+      <!--<UIRef Id="WixUI_Advanced" />-->
+      <!--<UIRef Id="WixUI_FeatureTree" />-->
+      <!--<UIRef Id="WixUI_InstallDir" /> 直接生成的安装包报错-->
       <UIRef Id="WixUI_Minimal" />
+      <!--<UIRef Id="WixUI_Mondo" />-->
     
   </Product>
   <Fragment>
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
-        <!--<Directory Id="INSTALLFOLDER" Name="[ProductName]" /> 不能使用变量[ProductName] -->
+        <!--<Directory Id="INSTALLFOLDER" Name="[ProductName]" /> 不能使用变量[ProductName] 安装的文件夹 -->
         <Directory Id="INSTALLFOLDER" Name="ClickOnceWPFFx" />
       </Directory>
     </Directory>

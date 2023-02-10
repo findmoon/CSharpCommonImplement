@@ -1,0 +1,23 @@
+﻿<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" UpgradeCode="12345678-1111-2222-3333-666666666666"
+          Name="My First Installer" Version="1.0.0.0" Manufacturer="My Company" Language="1033">
+    <Package InstallerVersion="200" Compressed="yes" Comments="Hello, this is my first installer"/>
+    
+    <MediaTemplate EmbedCab="yes" />
+
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLDIR" Name="MyFirstInstaller">
+          <Component Id="Files" Guid="11111111-2222-3333-4444-555555555555">
+            <File Id="File1" Source="Trace32.exe"/>
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="Feature1" Level="1" Title="First feature" Description="This is the one and only feature in this installation">
+      <ComponentRef Id="Files"/>
+    </Feature>
+  </Product>
+</Wix>

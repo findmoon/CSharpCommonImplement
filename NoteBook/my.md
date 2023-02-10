@@ -20,6 +20,7 @@
 - [【内网穿透服务器】公网环境访问内网服务器（以使用samba(smb)文件共享服务为例）](https://blog.csdn.net/deng_xj/article/details/88971573)
 - [基于samba的远程目录共享服务搭建简易指南](https://blog.csdn.net/lczdk/article/details/114639097)
 
+- 最终用户许可协议（End User Licence Agreement，EULA），指的是一家公司的软件与软件的使用者所达成的协议，此协议一般在软件安装时出现。
 
 - 记录 nginx 配置
 
