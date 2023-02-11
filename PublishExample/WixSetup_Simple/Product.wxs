@@ -13,6 +13,7 @@
     <!--<Feature Id="ProductFeature" Title="WixSetup_Simple安装包的标题" Level="1">-->
     <Feature Id="ProductFeature" Title="WixSetup_Simple_Setup" Level="1">
       <ComponentGroupRef Id="ProductComponents" />
+      <!--<ComponentGroupRef Id="ClickOnceWPFFx.Binaries" />-->
     </Feature>
 
 

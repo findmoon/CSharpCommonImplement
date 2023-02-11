@@ -1,27 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net462</TargetFramework>
   </PropertyGroup>
-  
   <ItemGroup>
+    <Compile Remove="Product\**" />
+    <EmbeddedResource Remove="Product\**" />
     <None Remove="*.msi" />
     <None Remove="*.exe" />
     <None Remove="*.wxs" />
     <None Remove="*.wixpdb" />
     <None Remove="*.wixobj" />
+    <None Remove="Product\**" />
+    <Compile Remove="Program - 副本.cs" />
     <None Remove="App.config" />
+    <None Include="wix\$(ProjectName).g.wxs" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="WixSharp" Version="1.19.0" />
     <PackageReference Include="WixSharp.bin" Version="1.19.0" />
     <PackageReference Include="WixSharp.wix.bin" Version="3.11.2" />
   </ItemGroup>
-
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
-
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="&quot;$(TargetPath)&quot;" />
+  </Target>
 </Project>

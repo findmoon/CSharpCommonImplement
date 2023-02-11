@@ -11,8 +11,6 @@ namespace WixSharp_Setup
 {
     internal class Program
     {
-        //static string useReplacePath;
-
         static void Main()
         {
 
@@ -33,7 +31,7 @@ namespace WixSharp_Setup
             var mainExeName = $"{product}.exe";
 
 
-            //WixSharp.File mainExeFile;
+            WixSharp.File mainExeFile;
             // @"%ProgramFiles%\My Company\My Product"
             var productDir = new Dir($@"%ProgramFiles%\{company}\{product}");
             //var currFiles=new WixSharp.File[] { mainExeFile=new WixSharp.File($"{productPath}{mainExeName}") };
@@ -44,7 +42,6 @@ namespace WixSharp_Setup
             #endregion
 
 
-            //useReplacePath = new DirectoryInfo(productPath).Parent.FullName;
             var wixFiles_Dirs = GetAllProductRequiredFiles(productPath);
 
 
@@ -84,7 +81,6 @@ namespace WixSharp_Setup
                               //)
                               );
 
-            // 查找mainExeFile，创建快捷方式
             project.FindFile(f => f.Name.EndsWith(mainExeName))
                    .First()
                    .Shortcuts = new[]
@@ -114,16 +110,14 @@ namespace WixSharp_Setup
         {
             // 获取绝对路径再递归处理，否则会有问题，比如Dirs获取不正确(多出)
             productPath = Path.GetFullPath(productPath);
-            //var useReplacePath = new DirectoryInfo(productPath).Parent.FullName;
-            var useReplacePath = productPath;
+            var useReplacePath= new DirectoryInfo(productPath).Parent.FullName;
 
             WixSharp.File[] wixFiles = new WixSharp.File[] { };
             // 循环获取文件、子文件夹
             var files = Directory.GetFiles(productPath, "*.*");
             if (files.Length > 0)
             {
-                //wixFiles = files.Select(f => new WixSharp.File(f.Replace(useReplacePath, ""))).ToArray();
-                wixFiles = files.Select(f => new WixSharp.File(f)).ToArray();
+                wixFiles = files.Select(f => new WixSharp.File(f.Replace(useReplacePath, ""))).ToArray();
             }
 
             var wixDirs = new List<Dir>();
@@ -133,11 +127,7 @@ namespace WixSharp_Setup
                 foreach (var dir in dirs)
                 {
                     // Any character except for the follow may be used: \ ? | > < : / * ". 替换去除非法字符
-                    //var wixDir = new Dir(dir.Replace(useReplacePath, "").TrimStart('\\'));
-                    var wixDir = new Dir(dir);
-
-                    // 无效字符，最终确认是名字违规，名字要对应替换和修改。 <Directory Id="Template" Name="Template"> Name不能有\，要对应实际的文件夹名，用于安装包安装时的生成
-                    wixDir.Name = wixDir.Name.Replace(useReplacePath, "").TrimStart('\\');
+                    var wixDir = new Dir(dir.Replace(useReplacePath, "").TrimStart('\\'));
 
                     var wixDirSubFiles_Dirs = GetAllProductRequiredFiles(dir);
 
