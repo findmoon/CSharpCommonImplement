@@ -288,7 +288,7 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WebSetup_Test_VSIX_Failed_W
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup_ForASP.NET_VSIX_MajorOutputNoSubFolder", "PublishExample\Setup_ForASP.NET_VSIX\Setup_ForASP.NET_VSIX.vdproj", "{8FB70EA9-75FC-4BC9-AA0A-58596E2F4534}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup_ForASP.NET_VSIX_2", "PublishExample\Setup_ForASP.NET_VSIX_2\Setup_ForASP.NET_VSIX_2.vdproj", "{0FA4DF9D-F011-403C-9210-7AC731B58851}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup_ForASP.NET_VSIX_ContentFile_WebSiteProjectOutput", "PublishExample\Setup_ForASP.NET_VSIX_2\Setup_ForASP.NET_VSIX_2.vdproj", "{0FA4DF9D-F011-403C-9210-7AC731B58851}"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "app.publish", "Web\ASPNETWebInstall\bin\app.publish\", "{4FAE4BEB-D528-4D0D-A051-E573B134E43C}"
 	ProjectSection(WebsiteProperties) = preProject
@@ -318,6 +318,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WixSharp_Setup", "PublishExample\WixSharp_Setup\WixSharp_Setup.csproj", "{6C9475C8-A48B-4FA5-997F-7E7550097CCA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WixSharp_Managed_Setup_CustomWPFUI", "PublishExample\WixSharp_Managed_Setup_CustomWPFUI\WixSharp_Managed_Setup_CustomWPFUI.csproj", "{2C1E3AE5-F430-481B-AC43-20E92C9364A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EasySetup", "EasySetup", "{D06F79D5-D897-457E-B7FF-F3043760E77E}"
+	ProjectSection(SolutionItems) = preProject
+		PublishExample\EasySetup\关于EasySetup.md = PublishExample\EasySetup\关于EasySetup.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -2900,6 +2905,7 @@ Global
 		{57660912-3B32-464B-85BD-DB87DE23969E} = {0CD5A246-2A9F-448B-8295-D63511AF68A2}
 		{6C9475C8-A48B-4FA5-997F-7E7550097CCA} = {0CD5A246-2A9F-448B-8295-D63511AF68A2}
 		{2C1E3AE5-F430-481B-AC43-20E92C9364A6} = {0CD5A246-2A9F-448B-8295-D63511AF68A2}
+		{D06F79D5-D897-457E-B7FF-F3043760E77E} = {0CD5A246-2A9F-448B-8295-D63511AF68A2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7196056F-9EEC-4E68-9D5E-D7D197E35299}

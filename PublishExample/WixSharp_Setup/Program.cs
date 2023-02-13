@@ -20,13 +20,13 @@ namespace WixSharp_Setup
 
             // Company Name 、Product Name 从程序中获取
 
-            // 要制作安装包的程序，默认固定放在 ..\Product\ 或 ..\..\Product\ 下。
+            // 要制作安装包的程序，默认固定放在 .\Product\ （Product\）下。不放在..\Product\或..\..\Product\，否则使用相对目录还需要在项目的上级目录和生成的Debug/Release上级目录中都复制一份；重点是不复制到项目的上级目录，而是当前目录
             // 编译当前安装包项目之前，应该将项目编译生成到此目录下。【构建/生成-事件-生成前事件 执行MSBuild命令行，待确认】
             // 或者，使用绝对路径【参见下面，搜索"绝对路径"】
 
-            // 安装包项目生成后，自动执行，生成安装包【属性-构建/生成-事件-生成后事件 中填写 `"$(TargetPath)"` 即可】。安装包目录默认为 Setup\ 
+            // 安装包项目生成后，自动执行，复制Product\，并 生成安装包【属性-构建/生成-事件-生成后事件 中填写 `"$(TargetPath)"` 即可】。安装包目录默认为 Setup\ 
 
-            var productPath = "..\\Product\\";
+            var productPath = "Product\\";
             var company = "CodeMissing";
             var product = "ClickOnceWPFFx";
 
@@ -100,6 +100,7 @@ namespace WixSharp_Setup
 
             // 指定当前项目的bin目录？。以查找bin下面的Product，即对应的 ..\..\Product\
             // 指定源基目录为绝对路径，上面需要绝对路径的地方，还可以继续使用相对路径。！！！？
+            //project.SourceBaseDir = Path.GetFullPath(productPath);
             //project.SourceBaseDir = Path.GetFullPath(productPath);
 
             // 也使用绝对路径 【生成后事件执行，将以安装项目文件所在目录为基础目录】

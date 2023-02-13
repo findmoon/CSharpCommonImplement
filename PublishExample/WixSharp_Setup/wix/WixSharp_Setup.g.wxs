@@ -13,10 +13,10 @@
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="INSTALLDIR" Name="ProgramFilesFolder">
 
-        <Component Id="Component.ClickOnceWPFFx.exe_2274514255" Guid="eb4f0307-1179-456e-bf83-41a7df917809">
-          <File Id="ClickOnceWPFFx.exe_2274514255" Source="..\Product\ClickOnceWPFFx.exe">
-            <Shortcut Id="Shortcut.ClickOnceWPFFx.exe_2274514255.ClickOnceWPFFx.exe" WorkingDirectory="INSTALLDIR" Directory="DesktopFolder" Name="ClickOnceWPFFx.exe.lnk" />
-            <Shortcut Id="Shortcut.ClickOnceWPFFx.exe_2274514255.ClickOnceWPFFx.exe.1" WorkingDirectory="INSTALLDIR" Directory="ProgramMenuFolder.ClickOnceWPFFx" Name="ClickOnceWPFFx.exe.lnk" />
+        <Component Id="Component.ClickOnceWPFFx.exe_1457632774" Guid="eb4f0307-1179-456e-bf83-41a73d8803ce">
+          <File Id="ClickOnceWPFFx.exe_1457632774" Source="Product\ClickOnceWPFFx.exe">
+            <Shortcut Id="Shortcut.ClickOnceWPFFx.exe_1457632774.ClickOnceWPFFx.exe" WorkingDirectory="INSTALLDIR" Directory="DesktopFolder" Name="ClickOnceWPFFx.exe.lnk" />
+            <Shortcut Id="Shortcut.ClickOnceWPFFx.exe_1457632774.ClickOnceWPFFx.exe.1" WorkingDirectory="INSTALLDIR" Directory="ProgramMenuFolder.ClickOnceWPFFx" Name="ClickOnceWPFFx.exe.lnk" />
           </File>
 
           <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
@@ -24,47 +24,43 @@
           </RegistryKey>
         </Component>
 
-        <Component Id="Component.ClickOnceWPFFx.exe.config_3919629872" Guid="eb4f0307-1179-456e-bf83-41a73e5e04c7">
-          <File Id="ClickOnceWPFFx.exe.config_3919629872" Source="..\Product\ClickOnceWPFFx.exe.config" />
+        <Component Id="Component.ClickOnceWPFFx.exe.config_3508776613" Guid="eb4f0307-1179-456e-bf83-41a734a5ea8e">
+          <File Id="ClickOnceWPFFx.exe.config_3508776613" Source="Product\ClickOnceWPFFx.exe.config" />
         </Component>
 
-        <Component Id="Component.ClickOnceWPFFx.pdb_3966283217" Guid="eb4f0307-1179-456e-bf83-41a7c390694f">
-          <File Id="ClickOnceWPFFx.pdb_3966283217" Source="..\Product\ClickOnceWPFFx.pdb" />
+        <Component Id="Component.Fleck.dll_1427485019" Guid="eb4f0307-1179-456e-bf83-41a797961858">
+          <File Id="Fleck.dll_1427485019" Source="Product\Fleck.dll" />
         </Component>
 
-        <Component Id="Component.Fleck.dll_948574828" Guid="eb4f0307-1179-456e-bf83-41a78ba52439">
-          <File Id="Fleck.dll_948574828" Source="..\Product\Fleck.dll" />
+        <Component Id="Component.ICSharpCode.SharpZipLib.dll_4194433095" Guid="eb4f0307-1179-456e-bf83-41a78483ac31">
+          <File Id="ICSharpCode.SharpZipLib.dll_4194433095" Source="Product\ICSharpCode.SharpZipLib.dll" />
         </Component>
 
-        <Component Id="Component.ICSharpCode.SharpZipLib.dll_2083363716" Guid="eb4f0307-1179-456e-bf83-41a7918da967">
-          <File Id="ICSharpCode.SharpZipLib.dll_2083363716" Source="..\Product\ICSharpCode.SharpZipLib.dll" />
+        <Component Id="Component.ICSharpCode.SharpZipLib.xml_4194498643" Guid="eb4f0307-1179-456e-bf83-41a7d7723383">
+          <File Id="ICSharpCode.SharpZipLib.xml_4194498643" Source="Product\ICSharpCode.SharpZipLib.xml" />
         </Component>
 
-        <Component Id="Component.ICSharpCode.SharpZipLib.xml_1318689669" Guid="eb4f0307-1179-456e-bf83-41a706df051f">
-          <File Id="ICSharpCode.SharpZipLib.xml_1318689669" Source="..\Product\ICSharpCode.SharpZipLib.xml" />
+        <Component Id="Component.Newtonsoft.Json.dll_2963643945" Guid="eb4f0307-1179-456e-bf83-41a707808bc7">
+          <File Id="Newtonsoft.Json.dll_2963643945" Source="Product\Newtonsoft.Json.dll" />
         </Component>
 
-        <Component Id="Component.Newtonsoft.Json.dll_4125023199" Guid="eb4f0307-1179-456e-bf83-41a792fc86a4">
-          <File Id="Newtonsoft.Json.dll_4125023199" Source="..\Product\Newtonsoft.Json.dll" />
+        <Component Id="Component.Newtonsoft.Json.xml_2963709469" Guid="eb4f0307-1179-456e-bf83-41a76848248f">
+          <File Id="Newtonsoft.Json.xml_2963709469" Source="Product\Newtonsoft.Json.xml" />
         </Component>
 
-        <Component Id="Component.Newtonsoft.Json.xml_301652958" Guid="eb4f0307-1179-456e-bf83-41a7c59ddccd">
-          <File Id="Newtonsoft.Json.xml_301652958" Source="..\Product\Newtonsoft.Json.xml" />
+        <Component Id="Component.PortableJsonSettingsProvider.dll_3045584247" Guid="eb4f0307-1179-456e-bf83-41a7c8be6ea9">
+          <File Id="PortableJsonSettingsProvider.dll_3045584247" Source="Product\PortableJsonSettingsProvider.dll" />
         </Component>
 
-        <Component Id="Component.PortableJsonSettingsProvider.dll_1692452292" Guid="eb4f0307-1179-456e-bf83-41a7ac9859e6">
-          <File Id="PortableJsonSettingsProvider.dll_1692452292" Source="..\Product\PortableJsonSettingsProvider.dll" />
-        </Component>
-
-        <Component Id="Component.PortableJsonSettingsProvider.xml_1692386784" Guid="eb4f0307-1179-456e-bf83-41a7d44670a3">
-          <File Id="PortableJsonSettingsProvider.xml_1692386784" Source="..\Product\PortableJsonSettingsProvider.xml" />
+        <Component Id="Component.PortableJsonSettingsProvider.xml_1480811026" Guid="eb4f0307-1179-456e-bf83-41a7a22dfe09">
+          <File Id="PortableJsonSettingsProvider.xml_1480811026" Source="Product\PortableJsonSettingsProvider.xml" />
         </Component>
 
         <Directory Id="Template" Name="Template">
           <Directory Id="Test" Name="Test">
 
-            <Component Id="Component.File.txt_2206469030" Guid="eb4f0307-1179-456e-bf83-41a7a4e463f1">
-              <File Id="File.txt_2206469030" Source="..\Product\Template\Test\File.txt" />
+            <Component Id="Component.File.txt_335470243" Guid="eb4f0307-1179-456e-bf83-41a71014ee89">
+              <File Id="File.txt_335470243" Source="Product\Template\Test\File.txt" />
             </Component>
 
           </Directory>
@@ -109,17 +105,16 @@
     <UIRef Id="WixUI_ErrorProgressText" />
 
     <Feature Id="Complete" Title="Complete" Absent="allow" Level="1">
-      <ComponentRef Id="Component.ClickOnceWPFFx.exe_2274514255" />
-      <ComponentRef Id="Component.ClickOnceWPFFx.exe.config_3919629872" />
-      <ComponentRef Id="Component.ClickOnceWPFFx.pdb_3966283217" />
-      <ComponentRef Id="Component.Fleck.dll_948574828" />
-      <ComponentRef Id="Component.ICSharpCode.SharpZipLib.dll_2083363716" />
-      <ComponentRef Id="Component.ICSharpCode.SharpZipLib.xml_1318689669" />
-      <ComponentRef Id="Component.Newtonsoft.Json.dll_4125023199" />
-      <ComponentRef Id="Component.Newtonsoft.Json.xml_301652958" />
-      <ComponentRef Id="Component.PortableJsonSettingsProvider.dll_1692452292" />
-      <ComponentRef Id="Component.PortableJsonSettingsProvider.xml_1692386784" />
-      <ComponentRef Id="Component.File.txt_2206469030" />
+      <ComponentRef Id="Component.ClickOnceWPFFx.exe_1457632774" />
+      <ComponentRef Id="Component.ClickOnceWPFFx.exe.config_3508776613" />
+      <ComponentRef Id="Component.Fleck.dll_1427485019" />
+      <ComponentRef Id="Component.ICSharpCode.SharpZipLib.dll_4194433095" />
+      <ComponentRef Id="Component.ICSharpCode.SharpZipLib.xml_4194498643" />
+      <ComponentRef Id="Component.Newtonsoft.Json.dll_2963643945" />
+      <ComponentRef Id="Component.Newtonsoft.Json.xml_2963709469" />
+      <ComponentRef Id="Component.PortableJsonSettingsProvider.dll_3045584247" />
+      <ComponentRef Id="Component.PortableJsonSettingsProvider.xml_1480811026" />
+      <ComponentRef Id="Component.File.txt_335470243" />
       <ComponentRef Id="Component.DesktopFolder.EmptyDirectory" />
       <ComponentRef Id="Component.ProgramMenuFolder.ClickOnceWPFFx.EmptyDirectory" />
       <ComponentRef Id="TARGETDIR" />
