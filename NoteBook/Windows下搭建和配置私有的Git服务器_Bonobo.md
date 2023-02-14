@@ -224,6 +224,8 @@ a[title='admin'],
 a[href*='/3eb9995e-99e3-425a-b978-1409bdd61fb6'],
 body.Repository input[value='3eb9995e-99e3-425a-b978-1409bdd61fb6'],
 body.Repository input[value='3eb9995e-99e3-425a-b978-1409bdd61fb6']+label,
+body.Team input[value='3eb9995e-99e3-425a-b978-1409bdd61fb6'],
+body.Team input[value='3eb9995e-99e3-425a-b978-1409bdd61fb6']+label,
 form[action="/Account/Edit/3eb9995e-99e3-425a-b978-1409bdd61fb6"] input[value="Administrator"],
 form[action="/Account/Edit/3eb9995e-99e3-425a-b978-1409bdd61fb6"] input[value="Administrator"]+label {
     display: none;
