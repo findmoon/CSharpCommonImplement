@@ -22,7 +22,7 @@ VS 2022 默认安装的 web 项目只支持 `ASP.NET Core`，也就是没有 支
 
 ## 创建 `ASP.NET`(.NET Framework) 项目
 
-> 此处创建名为 `ASPNETWebInstall` 的 MVC 项目。
+> 此处创建名为 `ASPNETWebInstall` 的 MVC 项目。后续改为`ASPNETWebMVCBasic`。
 
 安装完成后，在 创建新项目 中就可以选择 ASP.NET Web 应用程序
 

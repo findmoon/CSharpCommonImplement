@@ -259,7 +259,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClickOnceWPFFx", "PublishEx
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{DB911DB9-96FA-47CB-AED4-6E0C4F0CDE64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETWebInstall", "Web\ASPNETWebInstall\ASPNETWebInstall.csproj", "{E738E14A-C3AC-4D03-BB78-C64E8241ACB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETWebMVCBasic", "Web\ASPNETWebInstall\ASPNETWebMVCBasic.csproj", "{E738E14A-C3AC-4D03-BB78-C64E8241ACB3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETWebInstall1", "Web\ASPNETWebInstall1\ASPNETWebInstall1.csproj", "{28AC455B-FC13-44DE-9A67-942DCF501915}"
 EndProject
@@ -284,11 +284,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{C9
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentManagementPage_Winform", "Examples\StudentManagementPage_Winform\StudentManagementPage_Winform.csproj", "{E00FFC3E-ECF1-42AA-876C-23D6402640C4}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WebSetup_Test_VSIX_Failed_WebSetupCanNotUse", "PublishExample\WebSetup_Test\WebSetup_Test.vdproj", "{4C0978D9-8108-4428-A684-2D8C1946F6D8}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "WebSetup_Test_SPVSIX_Failed_WebSetupCanNotUse", "PublishExample\WebSetup_Test\WebSetup_Test.vdproj", "{4C0978D9-8108-4428-A684-2D8C1946F6D8}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup_ForASP.NET_VSIX_MajorOutputNoSubFolder", "PublishExample\Setup_ForASP.NET_VSIX\Setup_ForASP.NET_VSIX.vdproj", "{8FB70EA9-75FC-4BC9-AA0A-58596E2F4534}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup_ForASP.NET_SPVSIX_MajorOutputNoSubFolder", "PublishExample\Setup_ForASP.NET_VSIX\Setup_ForASP.NET_VSIX.vdproj", "{8FB70EA9-75FC-4BC9-AA0A-58596E2F4534}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup_ForASP.NET_VSIX_ContentFile_WebSiteProjectOutput", "PublishExample\Setup_ForASP.NET_VSIX_2\Setup_ForASP.NET_VSIX_2.vdproj", "{0FA4DF9D-F011-403C-9210-7AC731B58851}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup_ForASP.NET_SPVSIX_ContentFile_WebSiteProjectOutput", "PublishExample\Setup_ForASP.NET_VSIX_2\Setup_ForASP.NET_VSIX_2.vdproj", "{0FA4DF9D-F011-403C-9210-7AC731B58851}"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "app.publish", "Web\ASPNETWebInstall\bin\app.publish\", "{4FAE4BEB-D528-4D0D-A051-E573B134E43C}"
 	ProjectSection(WebsiteProperties) = preProject
