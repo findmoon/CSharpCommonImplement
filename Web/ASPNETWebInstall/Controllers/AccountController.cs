@@ -75,8 +75,8 @@ namespace ASPNETWebInstall.Controllers
             //    return View("Register", r);
             //}
 
-            return RedirectToAction("Login");
-
+            //return RedirectToAction("Login");
+            return Redirect(returnUrl); // 注册成功后登陆
         }
         [HttpPost]
         public ActionResult Logout()

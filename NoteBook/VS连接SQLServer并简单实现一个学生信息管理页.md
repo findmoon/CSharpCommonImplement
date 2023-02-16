@@ -20,7 +20,7 @@
 
 ![](img/20230205231327.png)  
 
-数据源选择`Microsoft SQL Server数据库文件（SqlClient）`。该选项将会把一个数据库文件附加到本地的SQLServer实例，由于是本地实例，后续可以选择**Windows身份验证**。
+数据源中，点击“更改”，选择`Microsoft SQL Server 数据库文件（SqlClient）`。该选项将会把一个数据库文件附加到本地的SQLServer实例，由于是本地实例，后续可以选择**Windows身份验证**。
 
 数据库文件名输入`StudentManagementPage` 不存在将创建的数据库
 
