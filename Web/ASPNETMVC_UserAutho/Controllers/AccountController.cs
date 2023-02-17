@@ -1,14 +1,14 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
+﻿using ASPNETMVC_UserAutho.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using ASPNETMVC_UserAutho.Models;
+using SendGrid.Helpers.Mail;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Configuration;
+using System.Web.Mvc;
 
 namespace ASPNETMVC_UserAutho.Controllers
 {
@@ -22,7 +22,7 @@ namespace ASPNETMVC_UserAutho.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -34,9 +34,9 @@ namespace ASPNETMVC_UserAutho.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -72,10 +72,30 @@ namespace ASPNETMVC_UserAutho.Controllers
             {
                 return View(model);
             }
+            ApplicationUser user;
+            var emailValid = new EmailAddressAttribute();
+            if (emailValid.IsValid(model.EmailOrUserName))
+            {
+                user = await UserManager.FindByEmailAsync(model.EmailOrUserName);
+            }
+            else
+            {
+                user = await UserManager.FindByNameAsync(model.EmailOrUserName);
+            }
+            // Require the user to have a confirmed email before they can log on.
+            // var user = await UserManager.FindByNameAsync(model.EmailOrUserName) ?? await UserManager.FindByEmailAsync(model.EmailOrUserName);
+            if (user != null)
+            {
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                {
+                    ViewBag.LoginErrorMsg = "必须确认邮箱后才能登陆";
+                    return View(model);
+                }
+            }
 
             // 这不会计入到为执行帐户锁定而统计的登录失败次数中
             // 若要在多次输入错误密码的情况下触发帐户锁定，请更改为 shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -120,7 +140,7 @@ namespace ASPNETMVC_UserAutho.Controllers
             // 如果用户输入错误代码的次数达到指定的次数，则会将
             // 该用户帐户锁定指定的时间。
             // 可以在 IdentityConfig 中配置帐户锁定设置
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -140,6 +160,7 @@ namespace ASPNETMVC_UserAutho.Controllers
         public ActionResult Register(string returnUrl = null)
         {
             ViewBag.ReturnUrl = returnUrl;
+            //var d = default(RegisterViewModel); // == null
             return View(new RegisterViewModel());
         }
 
@@ -150,22 +171,30 @@ namespace ASPNETMVC_UserAutho.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
+            ViewBag.ReturnUrl = returnUrl;
+
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    //  Comment the following line to prevent log in until the user is confirmed.
+                    //  await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // 有关如何启用帐户确认和密码重置的详细信息，请访问 https://go.microsoft.com/fwlink/?LinkID=320771
                     // 发送包含此链接的电子邮件
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "确认你的帐户", "请通过单击<a href=\"" + callbackUrl + "\">此处</a>来确认你的帐户");
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id, "用户注册确认", "请通过单击<a href=\"" + callbackUrl + "\">此处</a>来确认你的帐户");
 
+                    ViewBag.LoginErrorMsg = $"检查你的邮箱 {model.Email}  并确认账户, 必须在邮箱确认后才能登陆！";
+
+                    // 提示信息：验证邮箱后登陆
+                    return View("Login", new LoginViewModel());
+                    //return RedirectToAction("Login");
                     //return RedirectToAction("Index", "Home");
-                    RedirectToLocal(returnUrl); // 注册登录成功后
+                    //RedirectToLocal(returnUrl); // 注册登录成功后
                 }
                 AddErrors(result);
             }

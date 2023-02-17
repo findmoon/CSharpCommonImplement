@@ -48,10 +48,10 @@ namespace ASPNETMVC_UserAutho.Models
 
     public class LoginViewModel
     {
-        [Required]
-        [Display(Name = "电子邮件")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Required(ErrorMessage ="请提供用户名或邮箱")]
+        [Display(Name = "电子邮件/用户名")]
+        //[EmailAddress]
+        public string EmailOrUserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -64,6 +64,13 @@ namespace ASPNETMVC_UserAutho.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [StringLength(100, MinimumLength = 1)]
+        [Display(Name = "用户名")]
+        public string UserName { get; set; }
+
+        // 昵称
+
         [Required]
         [EmailAddress]
         [Display(Name = "电子邮件")]

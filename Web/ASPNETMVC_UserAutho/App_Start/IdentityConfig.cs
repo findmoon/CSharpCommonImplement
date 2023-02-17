@@ -1,27 +1,79 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
+﻿using ASPNETMVC_UserAutho.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using ASPNETMVC_UserAutho.Models;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using System;
+using System.Configuration;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Web.Configuration;
 
 namespace ASPNETMVC_UserAutho
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        // 没有 async 仅 Task 关键字，可以return。
+        //public Task TestSendAsync(IdentityMessage message)
+        //{
+        //    // 在此处插入电子邮件服务可发送电子邮件。
+        //    return Task.FromResult(0);
+        //}
+        public async Task SendAsync(IdentityMessage message)
         {
             // 在此处插入电子邮件服务可发送电子邮件。
-            return Task.FromResult(0);
+            await ConfigSendGridasync(message);
+        }
+
+        // Use NuGet to install SendGrid (Basic C# client lib) 
+        private async Task ConfigSendGridasync(IdentityMessage message)
+        {
+            var apiKey= WebConfigurationManager.AppSettings["SendGridApiKey"];
+            var client = new SendGridClient(apiKey);
+            var msg = MailHelper.CreateSingleEmail(from: new EmailAddress("MyEmail@abc.com", "MyName"),
+                to: new EmailAddress(message.Destination),
+                subject: message.Subject,
+                plainTextContent: message.Body,
+                htmlContent: message.Body);
+            #region SendGridMessage
+            // new SendGridMessage()
+            //{
+            //    From = new EmailAddress("MyEmail@abc.com", "MyName"),
+            //    Subject = message.Subject,
+            //    PlainTextContent = message.Body,
+            //    HtmlContent = message.Body
+            //};
+            //msg.AddTo(new EmailAddress(message.Destination)); 
+            #endregion
+
+            // Disable click tracking.
+            // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
+            msg.SetClickTracking(false, false);
+            var response = await client.SendEmailAsync(msg);
+            var result = response.Body.ToString();
+            if (response.IsSuccessStatusCode)
+            {
+
+            }
+            else
+            {
+                //using (var txtSM=new )
+                //{
+
+                //}
+                //response.Body.CopyToAsync()
+                throw new Exception($"邮件发送失败{response.StatusCode}");
+            }
+            // 记录返回信息？
         }
     }
+    
 
     public class SmsService : IIdentityMessageService
     {
@@ -40,7 +92,7 @@ namespace ASPNETMVC_UserAutho
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
             // 配置用户名的验证逻辑
@@ -81,7 +133,7 @@ namespace ASPNETMVC_UserAutho
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = 
+                manager.UserTokenProvider =
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;

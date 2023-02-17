@@ -1,12 +1,11 @@
-﻿using System;
+﻿using ASPNETMVC_UserAutho.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using ASPNETMVC_UserAutho.Models;
 
 namespace ASPNETMVC_UserAutho.Controllers
 {
@@ -32,9 +31,9 @@ namespace ASPNETMVC_UserAutho.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -333,7 +332,7 @@ namespace ASPNETMVC_UserAutho.Controllers
             base.Dispose(disposing);
         }
 
-#region 帮助程序
+        #region 帮助程序
         // 用于在添加外部登录名时提供 XSRF 保护
         private const string XsrfKey = "XsrfId";
 
@@ -384,6 +383,6 @@ namespace ASPNETMVC_UserAutho.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }
