@@ -1,8 +1,7 @@
-**ASP.NET MVC 5 基础实战：使用 Individual User Accounts 创建具有登陆注册、[SendGrid发送]邮箱验证、密码重置、字符图形验证码功能的网站**
+**ASP.NET MVC 5 基础实战：使用 Individual User Accounts 创建具有登陆注册、[SendGrid发送]邮箱验证、密码重置功能的网站**
 
 [toc]
 
-> 主要翻译参考自官网的 [Create a secure ASP.NET MVC 5 web app with log in, email confirmation and password reset (C#)](https://learn.microsoft.com/en-us/aspnet/mvc/overview/security/create-an-aspnet-mvc-5-web-app-with-email-confirmation-and-password-reset)
 
 通过在创建ASP.NET MVC网站项目时指定 `Individual User Accounts` Authentication，即使用 **ASP.NET Identity membership system** 实现具有最基础的资源保护（即授权认证）功能的网站。
 
@@ -48,9 +47,11 @@
 
 在 Visual Studio 的服务器资源管理器(`Server Explorer`)中，导航到`Data Connections\DefaultConnection\Table`可以看到创建的表。
 
-默认站点没有任何用户数据。当第一次注册时，会在连接字符串中指定的`|DataDirectory|`（项目的`App_Data`）路径下创建数据库、表和第一个用户数据。
+默认站点没有任何用户数据。当第一次注册时，会在连接字符串中指定的`|DataDirectory|`（项目的`App_Data\`）路径下创建数据库、表和第一个用户数据。
 
-> 只有注册用户后，`App_Data/`路径下才会创建默认的Identity用到的用户数据库文件。默认附加到`MSSQLLocalDB`中。
+> 只有注册用户后，`App_Data\`路径下才会创建默认的Identity用到的用户数据库文件。默认附加到`MSSQLLocalDB`中。
+
+> 也可以在数据连接中新建连接，选择数据库文件，查看创建的数据库。
 
 ![](img/20230217111446.png)  
 
@@ -96,7 +97,7 @@
 Install-Package SendGrid
 ```
 
-在`App_Start/IdentityConfig.cs`下找到`EmailService`，添加类似如下的代码：
+在`App_Start/IdentityConfig.cs`下找到`EmailService`，添加类似如下的代码使用 SendGrid 发送邮件（借助SendGrid提供的帮助类`MailHelper`）：
 
 ```C#
 public class EmailService : IIdentityMessageService
@@ -112,24 +113,32 @@ public class EmailService : IIdentityMessageService
     {
         var apiKey= WebConfigurationManager.AppSettings["SendGridApiKey"];
         var client = new SendGridClient(apiKey);
-        var msg = new SendGridMessage()
-        {
-            From = new EmailAddress("MyEmail@abc.com", "MyName"),
-            Subject = message.Subject,
-            PlainTextContent = message.Body,
-            HtmlContent = message.Body
-        };
-        msg.AddTo(new EmailAddress(message.Destination));
+        var msg = MailHelper.CreateSingleEmail(from: new EmailAddress("abc@xyz.com", "MyName"),
+            to: new EmailAddress(message.Destination),
+            subject: message.Subject,
+            plainTextContent: message.Body,
+            htmlContent: message.Body);
 
         // Disable click tracking.
         // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
         msg.SetClickTracking(false, false);
         var response = await client.SendEmailAsync(msg);
+        var result = response.Body.ToString();
+        if (response.IsSuccessStatusCode)
+        {
 
+        }
+        else
+        {
+            var content = await response.Body.ReadAsStringAsync();
+            throw new Exception($"邮件发送失败，状态码：{response.StatusCode}，返回内容：{content}");
+        }
         // 记录返回信息？
     }
 }
 ```
+
+> from 要和创建Sender时的一致。
 
 `Web.config`文件中`SendGridApiKey`配置项如下（使用了机密数据存储）：
 
@@ -233,9 +242,75 @@ public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
 
 在 Home 控制器的 Contact 方法上添加 `[Authorize]` 特性。测试访问“联系方式”页面，会返回到登陆页面。
 
+然后进行用户注册：
+
 ![](img/20230217172311.png)  
 
 在未验证邮箱前，尝试登陆，提示“必须确认邮箱”：
 
 ![](img/20230217173017.png)  
 
+登陆邮箱确认发送的邮件：
+
+![](img/20230217192736.png)  
+
+然后即可登陆成功！
+
+# 密码恢复/重置
+
+移除 Account 控制器中的 `HttpPost ForgotPassword` action 方法内的注释：
+
+```C#
+//
+// POST: /Account/ForgotPassword
+[HttpPost]
+[AllowAnonymous]
+[ValidateAntiForgeryToken]
+public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
+{
+    if (ModelState.IsValid)
+    {
+        var user = await UserManager.FindByEmailAsync(model.Email);
+        if (user == null)
+        {
+            ModelState.AddModelError(nameof(model.Email), "邮箱不存在！");
+            return View(model);
+        }
+        if ( !await UserManager.IsEmailConfirmedAsync(user.Id))
+        {
+            ModelState.AddModelError(nameof(model.Email), "邮箱未确认，请先登陆邮箱确认用户注册！(尝试登陆可以获得再次发送确认邮件的机会)");
+            return View(model);
+            //// 请不要显示该用户不存在或者未经确认
+            //return View("ForgotPasswordConfirmation");
+        }
+
+        // 有关如何启用帐户确认和密码重置的详细信息，请访问 https://go.microsoft.com/fwlink/?LinkID=320771
+        // 发送包含此链接的电子邮件
+        string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+        var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+        await UserManager.SendEmailAsync(user.Id, "重置密码", "请通过单击<a href=\"" + callbackUrl + "\">此处</a>来重置你的密码");
+        ModelState.AddModelError("", "邮件已发送，请查看你的电子邮件以重置密码！");
+        return View(model);
+    }
+
+    // 如果我们进行到这一步时某个地方出错，则重新显示表单
+    return View(model);
+}
+```
+
+`Views\Account\Login.cshtml` 中移除关于 `ForgotPassword` 忘记密码相关部分的代码注释：
+
+```CSHTML
+    @* 在为密码重置功能启用了帐户确认后，启用此项 *@
+    <p>
+        @Html.ActionLink("忘记了密码?", "ForgotPassword")
+    </p>
+```
+
+在登陆页面测试“忘记密码”的功能。
+
+# 参考或推荐
+
+主要参考自官网的 [Create a secure ASP.NET MVC 5 web app with log in, email confirmation and password reset (C#)](https://learn.microsoft.com/en-us/aspnet/mvc/overview/security/create-an-aspnet-mvc-5-web-app-with-email-confirmation-and-password-reset)
+
+推荐 [Account confirmation and password recovery in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/accconfirm?view=aspnetcore-7.0&tabs=visual-studio#configure-email-provider) 对于 ASP.NET Core 邮箱确认的介绍，可以修改验证邮件的有效期、账户不激活的有效期、data protection token的生命周期等更有用的功能。

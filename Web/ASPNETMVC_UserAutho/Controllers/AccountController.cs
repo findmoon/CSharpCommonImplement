@@ -68,6 +68,7 @@ namespace ASPNETMVC_UserAutho.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -88,9 +89,14 @@ namespace ASPNETMVC_UserAutho.Controllers
             {
                 if (!await UserManager.IsEmailConfirmedAsync(user.Id))
                 {
-                    ViewBag.LoginErrorMsg = "必须确认邮箱后才能登陆";
+                    ViewBag.UnEmailConfirm = "邮箱未确认，请先确认后再登陆。";
                     return View(model);
                 }
+            }
+            else
+            {
+                ModelState.AddModelError(nameof(model.EmailOrUserName), "用户或邮箱不存在！");
+                return View(model);
             }
 
             // 这不会计入到为执行帐户锁定而统计的登录失败次数中
@@ -109,6 +115,59 @@ namespace ASPNETMVC_UserAutho.Controllers
                     ModelState.AddModelError("", "无效的登录尝试。");
                     return View(model);
             }
+        }
+
+        //
+        // POST: /Account/EmailConfirmationAgain
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EmailConfirmationAgain(string EmailOrUserName, string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            var loginVM=new LoginViewModel() { EmailOrUserName=EmailOrUserName };
+            if (!ModelState.IsValid)
+            {
+                return View("Login", loginVM);
+            }
+            ApplicationUser user;
+            var emailValid = new EmailAddressAttribute();
+            if (emailValid.IsValid(EmailOrUserName))
+            {
+                user = await UserManager.FindByEmailAsync(EmailOrUserName);
+            }
+            else
+            {
+                user = await UserManager.FindByNameAsync(EmailOrUserName);
+            }
+            // Require the user to have a confirmed email before they can log on.
+            // var user = await UserManager.FindByNameAsync(model.EmailOrUserName) ?? await UserManager.FindByEmailAsync(model.EmailOrUserName);
+            if (user != null)
+            {
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                {
+                    #region // 发送注册确认邮件
+                    try
+                    {
+                        await HandleEmailConfirmSend(user.Email, user);
+                    }
+                    catch (System.Exception ex)
+                    {
+                        ModelState.AddModelError("", ex.Message);
+ 
+                    }
+                    #endregion
+                }
+                else
+                {
+                    ModelState.AddModelError(nameof(EmailOrUserName), "邮箱已经确认过，可直接登陆！");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(nameof(EmailOrUserName), "用户或邮箱不存在，请先注册！");           
+            }
+            return View("Login", loginVM);
         }
 
         //
@@ -183,15 +242,19 @@ namespace ASPNETMVC_UserAutho.Controllers
                     //  await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // 有关如何启用帐户确认和密码重置的详细信息，请访问 https://go.microsoft.com/fwlink/?LinkID=320771
-                    // 发送包含此链接的电子邮件
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "用户注册确认", "请通过单击<a href=\"" + callbackUrl + "\">此处</a>来确认你的帐户");
+                    #region // 发送包含此链接的电子邮件
+                    try
+                    {
+                        await HandleEmailConfirmSend(model.Email, user);
 
-                    ViewBag.LoginErrorMsg = $"检查你的邮箱 {model.Email}  并确认账户, 必须在邮箱确认后才能登陆！";
-
-                    // 提示信息：验证邮箱后登陆
-                    return View("Login", new LoginViewModel());
+                        return View("Login", new LoginViewModel());
+                    }
+                    catch (System.Exception ex)
+                    {
+                        ModelState.AddModelError("", ex.Message);
+                        return View(model);
+                    }
+                    #endregion
                     //return RedirectToAction("Login");
                     //return RedirectToAction("Index", "Home");
                     //RedirectToLocal(returnUrl); // 注册登录成功后
@@ -221,7 +284,7 @@ namespace ASPNETMVC_UserAutho.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
-            return View();
+            return View(new ForgotPasswordViewModel());
         }
 
         //
@@ -233,19 +296,28 @@ namespace ASPNETMVC_UserAutho.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                var user = await UserManager.FindByEmailAsync(model.Email);
+                if (user == null)
                 {
-                    // 请不要显示该用户不存在或者未经确认
-                    return View("ForgotPasswordConfirmation");
+                    ModelState.AddModelError(nameof(model.Email), "邮箱不存在！");
+                    return View(model);
+                }
+                if ( !await UserManager.IsEmailConfirmedAsync(user.Id))
+                {
+                    ModelState.AddModelError(nameof(model.Email), "邮箱未确认，请先登陆邮箱确认用户注册！(尝试登陆可以获得再次发送确认邮件的机会)");
+                    return View(model);
+                    //// 请不要显示该用户不存在或者未经确认
+                    //return View("ForgotPasswordConfirmation");
                 }
 
                 // 有关如何启用帐户确认和密码重置的详细信息，请访问 https://go.microsoft.com/fwlink/?LinkID=320771
                 // 发送包含此链接的电子邮件
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "重置密码", "请通过单击<a href=\"" + callbackUrl + "\">此处</a>来重置你的密码");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "重置密码", "请通过单击<a href=\"" + callbackUrl + "\">此处</a>来重置你的密码");
+                ModelState.AddModelError("", "邮件已发送，请查看你的电子邮件以重置密码！");
+                return View(model);
+                //return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // 如果我们进行到这一步时某个地方出错，则重新显示表单
@@ -265,7 +337,7 @@ namespace ASPNETMVC_UserAutho.Controllers
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
-            return code == null ? View("Error") : View();
+            return code == null ? View("Error") : View(new ResetPasswordViewModel() { Code=code});
         }
 
         //
@@ -279,7 +351,7 @@ namespace ASPNETMVC_UserAutho.Controllers
             {
                 return View(model);
             }
-            var user = await UserManager.FindByNameAsync(model.Email);
+            var user = await UserManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
                 // 请不要显示该用户不存在
@@ -455,6 +527,25 @@ namespace ASPNETMVC_UserAutho.Controllers
         }
 
         #region 帮助程序
+        /// <summary>
+        /// 处理发送邮箱确认的功能
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        private async Task HandleEmailConfirmSend(string email, ApplicationUser user)
+        {
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+            await UserManager.SendEmailAsync(user.Id, "用户注册确认", "请通过单击<a href=\"" + callbackUrl + "\">此处</a>来确认你的帐户");
+
+            //ViewBag.LoginErrorMsg = $"检查你的邮箱 {model.Email} 并确认账户, 必须在邮箱确认后才能登陆！";
+
+            // 提示信息：验证邮箱后登陆
+            ModelState.AddModelError("", $"注册的确认邮件已发送 {email}, 必须在邮箱确认后才能登陆！");
+        }
+
+
         // 用于在添加外部登录名时提供 XSRF 保护
         private const string XsrfKey = "XsrfId";
 

@@ -62,3 +62,38 @@ var password = WebConfigurationManager.AppSettings["password"];
 
 
 [Store application secrets safely during development](https://learn.microsoft.com/en-us/dotnet/architecture/microservices/secure-net-microservices-web-applications/developer-app-secrets-storage)
+
+
+# net471版本之前的机密/敏感数据、密码的保护实现
+
+具体参见 [Best practices for deploying passwords and other sensitive data to ASP.NET and Azure App Service](https://learn.microsoft.com/en-us/aspnet/identity/overview/features-api/best-practices-for-deploying-passwords-and-other-sensitive-data-to-aspnet-and-azure) 的介绍。
+
+通过`file`指定额外的不包含代码库中的密码配置文件【file中的配置将和此处的配置合并】：
+
+```xml
+   <appSettings file="..\..\AppSettingsSecrets.config">      
+      <add key="webpages:Version" value="3.0.0.0" />
+      <add key="webpages:Enabled" value="false" />
+      <add key="ClientValidationEnabled" value="true" />
+      <add key="UnobtrusiveJavaScriptEnabled" value="true" />      
+   </appSettings>
+```
+
+使用 `configSource` 属性替换整个`<connectionStrings>`标签【`configSource`会将当前整个`<connectionStrings>`替换掉，而不是合并】
+
+```xml
+<connectionStrings configSource="ConnectionStrings.config">
+</connectionStrings>
+```
+
+控制台应用程序的`appSettings`的`file`属性不支持相对路径，因此可指定绝对路径。
+
+```xml
+<configuration>
+  <appSettings file="C:\secrets\AppSettingsSecrets.config">
+    <add key="TwitterMaxThreads" value="24" />
+    <add key="StackOverflowMaxThreads" value="24" />
+    <add key="MaxDaysForPurge" value="30" />
+  </appSettings>
+</configuration>
+```

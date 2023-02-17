@@ -8,20 +8,24 @@
 <div class="row">
     <div class="col-md-8">
         <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "login-form" }))
             {
                 @Html.AntiForgeryToken()
                 <h4>用户登录。</h4>
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                if (!string.IsNullOrEmpty(ViewBag.LoginErrorMsg))
+
+                //邮箱未确认
+                //using (Html.BeginForm("EmailConfirmationAgain", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+
+                if (!string.IsNullOrEmpty(ViewBag.UnEmailConfirm))
                 {
-                    <h6 class="text-danger">@ViewBag.LoginErrorMsg</h6>
+                    <h5 class="text-danger">@ViewBag.UnEmailConfirm 如注册确认的邮件未收到，请点击 <input type="submit" id="send-confirm-email" value="再次发送" class="btn btn-xs btn-success" /></h5>
                 }
                 <div class="form-group">
                     @Html.LabelFor(m => m.EmailOrUserName, new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.EmailOrUserName, new { @class = "form-control",placeholder= Html.DisplayNameFor(m => m.EmailOrUserName) })
+                        @Html.TextBoxFor(m => m.EmailOrUserName, new { @class = "form-control", placeholder = Html.DisplayNameFor(m => m.EmailOrUserName) })
                         @Html.ValidationMessageFor(m => m.EmailOrUserName, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -48,10 +52,10 @@
                 <p>
                     @Html.ActionLink("注册为新用户", "Register", new { ReturnUrl = ViewBag.ReturnUrl })
                 </p>
-                @* 在为密码重置功能启用了帐户确认后，启用此项
-            <p>
-                @Html.ActionLink("忘记了密码?", "ForgotPassword")
-            </p>*@
+                @* 在为密码重置功能启用了帐户确认后，启用此项 *@
+                <p>
+                    @Html.ActionLink("忘记了密码?", "ForgotPassword")
+                </p>
             }
         </section>
     </div>
@@ -64,4 +68,19 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        window.addEventListener('load', function () {
+            const confirmSubmit = document.getElementById('send-confirm-email')
+            if (confirmSubmit) {
+                confirmSubmit.addEventListener('click', function () {
+                    // 仅修改下form的action地址即可
+                    const loginForm = document.getElementById('login-form');
+                    // 解除前端的密码验证
+                    loginForm.querySelector('input[name="Password"]').setAttribute('name','Password-NO')
+                    let url = loginForm.getAttribute('action');
+                    loginForm.setAttribute("action", url.replace('Login', 'EmailConfirmationAgain'));
+                })
+            } 
+        });
+    </script>
 }

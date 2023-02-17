@@ -35,8 +35,10 @@ namespace ASPNETMVC_UserAutho
         private async Task ConfigSendGridasync(IdentityMessage message)
         {
             var apiKey= WebConfigurationManager.AppSettings["SendGridApiKey"];
+            var sendGridFrom = WebConfigurationManager.AppSettings["SendGridFrom"];
+            var emailSendName = WebConfigurationManager.AppSettings["EmailSendName"];
             var client = new SendGridClient(apiKey);
-            var msg = MailHelper.CreateSingleEmail(from: new EmailAddress("MyEmail@abc.com", "MyName"),
+            var msg = MailHelper.CreateSingleEmail(from: new EmailAddress(sendGridFrom, emailSendName),
                 to: new EmailAddress(message.Destination),
                 subject: message.Subject,
                 plainTextContent: message.Body,
@@ -63,12 +65,8 @@ namespace ASPNETMVC_UserAutho
             }
             else
             {
-                //using (var txtSM=new )
-                //{
-
-                //}
-                //response.Body.CopyToAsync()
-                throw new Exception($"邮件发送失败{response.StatusCode}");
+                var content = await response.Body.ReadAsStringAsync();
+                throw new Exception($"邮件发送失败，状态码：{response.StatusCode}，返回内容：{content}");
             }
             // 记录返回信息？
         }

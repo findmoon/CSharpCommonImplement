@@ -207,6 +207,9 @@ public ActionResult UserExit()
 }
 ```
 
+> FormsAuthentication.SignOut();  
+> Session.Abandon();  
+
 # 四、身份授权
 
 ## Authorize特性实现授权
