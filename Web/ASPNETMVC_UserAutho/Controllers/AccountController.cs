@@ -150,11 +150,11 @@ namespace ASPNETMVC_UserAutho.Controllers
                     try
                     {
                         await HandleEmailConfirmSend(user.Email, user);
+                        
                     }
                     catch (System.Exception ex)
                     {
-                        ModelState.AddModelError("", ex.Message);
- 
+                        ModelState.AddModelError("", ex.Message); 
                     }
                     #endregion
                 }

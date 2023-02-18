@@ -11,7 +11,7 @@
 - 新用户注册
 - 邮箱验证
 - 密码重置
-- 登录注册时输入图形验证码中的字符串或数学运算结果。
+
 
 # 创建 个人账户 认证的`ASP.NET MVC`项目
 
@@ -66,6 +66,15 @@
 > 表定义中的 UserName 为 `nvarchar(256)`，这个256感觉有些没必要这么大。
 
 选择注册的用户这一行，并删除。后续会重新创建一个需要邮箱验证的用户。
+
+> LocalDB 是 SQL Server Express 数据库引擎的轻型版本，可按需启动并在用户模式下运行。 
+> 
+> LocalDB 在 SQL Server Express 的特殊执行模式下运行，数据库作为 `.mdf` 文件。
+> 
+> **通常，`LocalDB` 数据库文件保存在 Web 项目的 `App_Data` 文件夹中**。
+
+
+> **不建议在生产环境中使用`SQL Server Express`，特别是`LocalDB`。**
 
 # 使用 SendGrid 发送邮件
 
@@ -256,6 +265,16 @@ public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
 
 然后即可登陆成功！
 
+## 无网络时发送的异常
+
+发送邮件的方法`var response = await client.SendEmailAsync(msg);`，如果在无网络时，执行在此处会发生全局的异常。
+
+重点，重点时这个异常无法通过简单的`Try...Catch`直接捕获，应该是`await`异步导致的。
+
+![](img/20230218102035.png)  
+
+当然，不应该出现网络不可用的情况。
+
 # 密码恢复/重置
 
 移除 Account 控制器中的 `HttpPost ForgotPassword` action 方法内的注释：
@@ -308,6 +327,21 @@ public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
 ```
 
 在登陆页面测试“忘记密码”的功能。
+
+# 密码重置功能扩展-倒计时60秒后重发
+
+目前重置密码发送邮件后结果如下，如果再次点击“电子邮件链接”按钮，仍然会立即发送邮件。如何实现重置邮件至少倒计时60秒后才能重发的功能呢？显示频繁发送。
+
+![](img/20230218102141.png)  
+
+要实现需要解决两部分问题：
+
+- 一是后端的计时，保存发送时间，如果再次出现重置请求，需要验证当前邮箱上次的发送时间是否超时，超过时间才能再次重置发送。【需要在用户表添加时间记录的字段】
+
+- 二是前端的计时，显示倒计时，倒计时过后才允许点击发送。
+
+
+> 另一个需要倒计时发送的地方是，注册后的邮箱确认。
 
 # 参考或推荐
 
