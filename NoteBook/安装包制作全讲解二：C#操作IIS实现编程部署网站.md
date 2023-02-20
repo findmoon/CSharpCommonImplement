@@ -135,7 +135,7 @@
   
 ![](img/20230218130424.png)  
 
-属性框中的`CustomActionData`就是指定要传递到安装程序类库中的自定义数据：`/serverInstance="[SERVERINSTANCE]"  /user="[USER]" /pwd="[PWD]" /iisServer="[IISSERVER]"  /siteIp="[SITEIP]" /sitePort="[SITEPORT]"  /iisSiteName="[IISSITENAME]" /targetdir="[TARGETDIR]\"`
+属性框中的`CustomActionData`就是指定要传递到安装程序类库中的自定义数据：`/serverInstance="[SERVERINSTANCE]"  /user="[USER]" /pwd="[PWD]" /iisServer="[IISSERVER]"  /siteIp="[SITEIP]" /sitePort="[SITEPORT]"  /iisSiteName="[IISSITENAME]" /useDefaultAppPool=[USEDEFAULTAPPPOOL_CHECKBOX] /targetdir="[TARGETDIR]\"`
 
 > `[USER]` 方括号中的名称即为 用户界面 中添加的文本框属性中`Edit1Property`、`Edit2Property`等的属性名.
 
@@ -192,12 +192,8 @@ public partial class Installer : System.Configuration.Install.Installer
    
 2. 如何检查 IIS 是否安装了 `ASP.NET` ？
 
+# 卸载时的额外删除
 
-# 关于：已经安装了该产品的另一个版本，无法继续安装此版本。
-
-![](img/20230208222355.png)  
-
-应该可以通过设置，实现覆盖安装，允许程序安装后再次运行安装包。暂未处理。
 
 
 # 安装项目 的 启动条件【非必须】
