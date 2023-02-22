@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
-    <Compile Include="IIS\IISSiteHelper.cs" />
+    <Compile Include="IIS\IISSiteHelper_MWA.cs" />
     <Compile Include="IIS\Model\SiteInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IIS\IISSiteHelper_DirectoryServices.cs" />

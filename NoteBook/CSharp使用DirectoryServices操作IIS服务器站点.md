@@ -1,4 +1,41 @@
-﻿using HelperCollections.IIS.Model;
+**C#使用DirectoryServices操作IIS服务器站点【IIS6】**
+
+[toc]
+
+> 更多的使用介绍参见 [Creating Sites and Virtual Directories Using System.DirectoryServices](https://learn.microsoft.com/en-us/previous-versions/iis/6.0-sdk/ms524896(v=vs.90)) 及与之相关的一系列介绍。
+
+`System.DirectoryServices`主要是 IIS6中 用于配置服务器站点、虚拟目录的API，通过`DirectoryEntry`完成创建站点、应用程序和虚拟目录、操作应用程序池、修改获取各种属性等。
+
+> 需要引用`System.DirectoryServices.dll`。
+
+# IIS7+ 使用报错`System.Runtime.InteropServices.COMException:“未知错误(0x80005000)”`
+
+如果在 IIS7+ 中使用`DirectoryServices`的`DirectoryEntry`，会发生异常报错：
+
+`[System.Runtime.InteropServices.COMException] {"Unknown error (0x80005000)"} `
+
+这是因为该操作的API主要用于 IIS6 ，错误原因在于缺少 IIS6的兼容编程 支持。IIS7+ 默认并没有安装。
+
+如果想在 IIS7及以上版本中 使用，解决这个问题，需要安装 **“IIS 元数据库和IIS 6配置兼容性”**。
+
+“控制面板”->“程序和功能”->面板左侧“启用或关闭 Windows 功能”->“Internet信息服务”->“Web管理工具”->“IIS 6管理兼容性”->“IIS 元数据库和IIS 6 配置兼容性”：
+
+![](img/20230220142032.png)  
+
+> IIS7+版本推荐使用`Microsoft.Web.Administration`相关API管理。
+
+# 帮助类代码
+
+参考了很多地方，所有代码基本都经过了测试。具体的实现直接参考代码内的注释。
+
+> `ADSI`默认创建的应用程序池的托管管道模式为“经典模式”。`newpool.Properties["ManagedPipelineMode"][0] = "0"` 实现创建的为“集成模式”。
+> 
+> 0-集成模式；1-经典模式。
+
+> 此外，还可以考虑添加在创建站点时是否可以创建的代码。比如判断是否存在网站名称、绑定信息(ip、port、hostName)是否存在，存在则不能创建。
+
+```C#
+using HelperCollections.IIS.Model;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +46,7 @@ using System.Linq;
 namespace HelperCollections
 {
     /// <summary>
-    /// 主要用于 IIS6 的配置操作。严格来说只是操作IIS中的Web
+    /// 主要用于 IIS6 的配置操作。严格来说只是IIS中的Web
     /// 
     /// 由于IIS6，不推荐使用
     /// 更多参见 https://learn.microsoft.com/en-us/previous-versions/iis/6.0-sdk/ms524896(v=vs.90)
@@ -88,7 +125,7 @@ namespace HelperCollections
                     var MinorIIsVersionNumber = entry.Properties["MajorIISVersionNumber"].Value?.ToString();
                     return entry.Properties["MajorIISVersionNumber"].Value.ToString() + (string.IsNullOrEmpty(MinorIIsVersionNumber) ? "" : ($".{MinorIIsVersionNumber}"));
                 }
-                catch (Exception)
+                catch (Exception se)
                 {
                     //说明一点:IIS5.0中没有(int)entry.Properties["MajorIISVersionNumber"].Value;属性，  
                     //将抛出异常 证明版本为 5.0  
@@ -96,8 +133,6 @@ namespace HelperCollections
                 }
             }
         }
-
-
 
         /// <summary>  
         /// 创建 IIS网站  
@@ -107,7 +142,7 @@ namespace HelperCollections
         /// <param name="ip">ip</param>  
         /// <param name="port">端口，不能为空，1024~65534</param>  
         /// <param name="hostName">主机名，即 域名</param>  
-        /// <param name="isStart">WEB启动状态【该参数无效】</param>  
+        /// <param name="isStart">WEB启动状态</param>  
         /// <param name="appPoolName">应用程序池，如果为空将使用默认DefaultAppPool</param>
         /// <returns></returns>  
         public void CreateWebSite(string webSiteName, string physicalPath, string ip = "", int port = 80, string hostName = "", bool isStart = true, string appPoolName = "")
@@ -123,9 +158,9 @@ namespace HelperCollections
                 }
             }
 
-            ////是否应该创建目录  
-            //System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(physicalPath);
-            //if (!dir.Exists) { dir.Create(); }
+            //是否应该创建目录  
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(physicalPath);
+            if (!dir.Exists) { dir.Create(); }
 
             DirectoryEntry newSite = IISEntry.Children.Add(siteID.ToString(), "IIsWebServer");
             newSite.Properties["ServerComment"].Value = webSiteName;
@@ -319,14 +354,14 @@ namespace HelperCollections
         }
 
         /// <summary>
-        /// 创建虚拟路径/应用程序 【创建或更新，可重复执行】
+        /// 创建虚拟路径/应用程序
         /// </summary>
         /// <param name="webSiteNameOrAppName">serverComment-站点名称 或 (应用程序/虚拟目录名称)，在该站点下创建虚拟路径</param>
-        /// <param name="vDirName">虚拟路径/应用程序名称</param>
-        /// <param name="physicalPath">物理路径</param>
+        /// <param name="vDirName"></param>
+        /// <param name="physicalPath"></param>
         /// <param name="isApplication">是否是应用程序</param>
         /// <param name="appPoolName">应用程序池，如果为空将使用默认的DefaultAppPool;当为应用程序时，可指定应用程序池</param>
-        public void CreateUpdateVDirApplication(string webSiteNameOrAppName, string vDirName, string physicalPath, bool isApplication = true, string appPoolName = "")
+        public void CreateVDirApplication(string webSiteNameOrAppName, string vDirName, string physicalPath, bool isApplication = true, string appPoolName = "")
         {
             //  metabasePath is of the form "IIS://<servername>/<service>/<siteID>/Root[/<vdir>]"
             //    for example "IIS://localhost/W3SVC/1/Root" 
@@ -338,93 +373,76 @@ namespace HelperCollections
             {
                 return;
             }
-            //try
-            //{
-
-            string className = siteEntry.SchemaClassName;
-            if ((className.EndsWith("Server")) || (className.EndsWith("VirtualDir")))
+            try
             {
-                // 如果是站点下创建
-                if (className.EndsWith("Server"))
+
+                string className = siteEntry.SchemaClassName;
+                if ((className.EndsWith("Server")) || (className.EndsWith("VirtualDir")))
                 {
-                    // 必须在虚拟目录下创建，否则Children.Add不成功，会有问题
-                    // vDirName = $"Root{vDirName}"; // 取巧的处理，但最终会出现一下name上的混乱。
-                    foreach (DirectoryEntry vDir in siteEntry.Children)
+                    // 如果是站点下创建
+                    if (className.EndsWith("Server"))
                     {
-                        if (vDir.SchemaClassName == "IIsWebVirtualDir")
+                        // 必须在虚拟目录下创建，否则Children.Add不成功，会有问题
+                        // vDirName = $"Root{vDirName}"; // 取巧的处理，但最终会出现一下name上的混乱。
+                        foreach (DirectoryEntry vDir in siteEntry.Children)
                         {
-                            siteEntry = vDir;
-                            break;
+                            if (vDir.SchemaClassName == "IIsWebVirtualDir")
+                            {
+                                siteEntry = vDir;
+                                break;
+                            }
                         }
                     }
-                }
-                DirectoryEntry newVDir = null;
-                foreach (DirectoryEntry virDEntry in siteEntry.Children)
-                {
-                    if (virDEntry.SchemaClassName.Equals("IIsWebVirtualDir", StringComparison.OrdinalIgnoreCase))
+                    DirectoryEntry newVDir = siteEntry.Children.Add(vDirName, "IIsWebVirtualDir");
+                    newVDir.Properties["Path"].Value = physicalPath;
+
+                    // 会报错
+                    //DirectoryEntry newVDir = siteEntry.Children.Add(vDirName, (className.Replace("Service", "VirtualDir")));
+
+                    if (isApplication)
                     {
-                        if (virDEntry.Name
-                            .Equals(vDirName, StringComparison.OrdinalIgnoreCase))
+                        newVDir.Properties["AccessScript"][0] = true;
+                        // These properties are necessary for an application to be created.
+                        //newVDir.Properties["AppFriendlyName"][0] = vDirName+"Name_ServerComment"; // 显示的名称,似乎无效
+
+                        // AppIsolated 和 AppRoot 均不应该设置
+                        // The AppIsolated property indicates whether an application is to run in-process, out-of-process, or in a pooled-process.
+                        // A value of 0 indicates that the application is to run in-process,
+                        // a value of 1 indicates out-of-process,
+                        // and a value of 2 indicates a pooled-process.
+                        // Use the application management methods of the IIsWebVirtualDir and IIsWebDirectory objects to set the process space for your application.
+                        // Because this property is internally configured by IIS, you should consider it to be read-only. Do not configure this property.
+                        //newVDir.Properties["AppIsolated"][0] = "1";
+
+                        // The AppRoot property contains the metabase path to the application root. For example, the metabase path for the application root of your Default Web Site is:
+                        // /LM/W3SVC/1/ROOT
+                        // Because this property is internally configured by IIS, you should consider it to be read-only. Do not configure this property.
+                        // webPath = webPath.Trim('/');
+                        // newVDir.Properties["AppRoot"][0] = string.IsNullOrWhiteSpace(webPath) ? $"/{webSiteNameOrAppName}" : $"/{webPath}"; // 必须指定，否则会生成虚拟目录。但指定其他名称无效
+                        newVDir.Properties["AppRoot"][0] = $"/{webSiteNameOrAppName}"; // 必须指定，否则会生成虚拟目录。但指定其他名称无效
+
+                        #region other
+                        //virEntry.Properties["AccessFlags"][0] = MD_ACCESS_READ | MD_ACCESS_SCRIPT;
+                        //virEntry.Properties["AppFriendlyName"][0] = siteName;
+                        //virEntry.Properties["AppIsolated"][0] = "2";
+                        //virEntry.Properties["AppRoot"][0] = "/LM/W3SVC/" + siteID.ToString() + "/Root";
+                        //virEntry.Properties["AuthFlags"][0] = 1 | 7;// 设置目录的安全性，0表示不允许匿名访问，1为允许，3为基本身份验证，7为windows继承身份验证    
+                        #endregion
+
+                        if (!string.IsNullOrWhiteSpace(appPoolName))
                         {
-                            newVDir = virDEntry;
-                            break;
+                            AssignVDir2AppPool(newVDir, appPoolName);
                         }
                     }
+                    newVDir.CommitChanges();
                 }
-                if (newVDir == null)
-                {
-                    newVDir = siteEntry.Children.Add(vDirName, "IIsWebVirtualDir");
-                }
-
-                newVDir.Properties["Path"].Value = physicalPath;
-
-                // 会报错
-                //DirectoryEntry newVDir = siteEntry.Children.Add(vDirName, (className.Replace("Service", "VirtualDir")));
-
-                if (isApplication)
-                {
-                    newVDir.Properties["AccessScript"][0] = true;
-                    // These properties are necessary for an application to be created.
-                    //newVDir.Properties["AppFriendlyName"][0] = vDirName+"Name_ServerComment"; // 显示的名称,似乎无效
-
-                    // AppIsolated 和 AppRoot 均不应该设置
-                    // The AppIsolated property indicates whether an application is to run in-process, out-of-process, or in a pooled-process.
-                    // A value of 0 indicates that the application is to run in-process,
-                    // a value of 1 indicates out-of-process,
-                    // and a value of 2 indicates a pooled-process.
-                    // Use the application management methods of the IIsWebVirtualDir and IIsWebDirectory objects to set the process space for your application.
-                    // Because this property is internally configured by IIS, you should consider it to be read-only. Do not configure this property.
-                    //newVDir.Properties["AppIsolated"][0] = "1";
-
-                    // The AppRoot property contains the metabase path to the application root. For example, the metabase path for the application root of your Default Web Site is:
-                    // /LM/W3SVC/1/ROOT
-                    // Because this property is internally configured by IIS, you should consider it to be read-only. Do not configure this property.
-                    // webPath = webPath.Trim('/');
-                    // newVDir.Properties["AppRoot"][0] = string.IsNullOrWhiteSpace(webPath) ? $"/{webSiteNameOrAppName}" : $"/{webPath}"; // 必须指定，否则会生成虚拟目录。但指定其他名称无效
-                    newVDir.Properties["AppRoot"][0] = $"/{webSiteNameOrAppName}"; // 必须指定，否则会生成虚拟目录。但指定其他名称无效
-
-                    #region other
-                    //virEntry.Properties["AccessFlags"][0] = MD_ACCESS_READ | MD_ACCESS_SCRIPT;
-                    //virEntry.Properties["AppFriendlyName"][0] = siteName;
-                    //virEntry.Properties["AppIsolated"][0] = "2";
-                    //virEntry.Properties["AppRoot"][0] = "/LM/W3SVC/" + siteID.ToString() + "/Root";
-                    //virEntry.Properties["AuthFlags"][0] = 1 | 7;// 设置目录的安全性，0表示不允许匿名访问，1为允许，3为基本身份验证，7为windows继承身份验证    
-                    #endregion
-
-                    if (!string.IsNullOrWhiteSpace(appPoolName))
-                    {
-                        AssignVDir2AppPool(newVDir, appPoolName);
-                    }
-                }
-                newVDir.CommitChanges();
+                else
+                    Debug.WriteLine(" Failed. A virtual directory can only be created in a site or virtual directory node.");
             }
-            else
-                Debug.WriteLine(" Failed. A virtual directory can only be created in a site or virtual directory node.");
-            //}
-            //catch (Exception ex)
-            //{
-            //    Debug.WriteLine("Failed in CreateUpdateVDirApplication with the following exception: \n{0}", ex.Message);
-            //}
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Failed in CreateVDirApplication with the following exception: \n{0}", ex.Message);
+            }
         }
 
         #region IISWeb 启动/停止/删除 
@@ -584,7 +602,7 @@ namespace HelperCollections
                 }
                 if (entry.SchemaClassName.Equals("IIsWebVirtualDir", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (entry.Name
+                    if (entry.Properties["ServerComment"].Value.ToString()
                         .Equals(serverComment, StringComparison.OrdinalIgnoreCase))
                     {
                         return entry;
@@ -687,14 +705,14 @@ namespace HelperCollections
         {
             if (!string.IsNullOrWhiteSpace(appPoolName))
             {
-                var exist = AppPoolExists(appPoolName);
+                    var exist = AppPoolExists(appPoolName);
 
-                // 不存在则创建
-                if (!exist)
-                {
-                    CreateAppPool(appPoolName);
-                }
-
+                    // 不存在则创建
+                    if (!exist)
+                    {
+                        CreateAppPool(appPoolName);
+                    }
+                
 
                 // 分配虚拟目录(Application)到AppPool
                 string className = vDir.SchemaClassName.ToString();
@@ -1280,4 +1298,77 @@ namespace HelperCollections
         }
     }
 
+        /// <summary>
+    /// 站点信息
+    /// </summary>
+    public class SiteInfo
+    {
+        public string Id { get; set; }
+        /// <summary>
+        /// 如果是IIS网站，Properties["ServerComment"]为其名称
+        /// </summary>
+        public string Name_ServerComment { get; set; }
+        public string Path { get; set; }
+        public string[] ServerBindings { get; set; }
+        public List<ServerBindingData> ServerBindingDatas { get; set; }
+        public bool IsApp { get; set; }
+
+        public string AppPoolId { get; set; }
+
+        public List<SiteInfo> Children { get; set; }
+        public string  SiteState { get; set; }
+
+        public string PhysicalPath { get; set; }
+    }
+
+    public class ServerBindingData {
+        public string HostName { get; set; }
+        public string Ip { get; set; }
+        public string Port { get; set; }
+        //public string Type { get; set; }
+    }
+
 }
+```
+
+# 测试
+
+![](img/20230221164007.png)  
+
+# 重要：IIS Programmatic Administration SDK 
+
+[IIS Programmatic Administration SDK](https://learn.microsoft.com/en-us/previous-versions/iis/6.0-sdk/ms525644(v=vs.90)) 
+
+从这里面可以查看所需要编程用到的修改属性名和值，以实现更多更准确的控制、修改IIS的配置。
+
+![](img/20230221163858.png)  
+
+# 其他
+
+```C#
+string[] serverBind = ppC["ServerBindings"][0].ToString().Split(':');//获取网站绑定的IP，端口，主机头
+string EnableDeDoc = ppC["EnableDefaultDoc"][0].ToString();
+string DefaultDoc = ppC["DefaultDoc"][0].ToString();//默认文档
+string MaxConnections = ppC["MaxConnections"][0].ToString();//iis连接数,-1为不限制
+string ConnectionTimeout = ppC["ConnectionTimeout"][0].ToString();//连接超时时间
+string MaxBandwidth = ppC["MaxBandwidth"][0].ToString();//最大绑定数
+string ServerState = ppC["ServerState"][0].ToString();//运行状态    
+```
+
+# 参考
+
+- [DirectoryEntry配置IIS7出现ADSI Error：未知错误(0x80005000)](https://blog.csdn.net/ts1030746080/article/details/8741399)
+
+- [C#获取IIS所有站点及虚拟目录和应用程序(包含名称及详细信息)](https://www.cnblogs.com/nanfei/p/6296825.html)
+
+- [Creating Application Pools Using System.DirectoryServices](https://learn.microsoft.com/en-us/previous-versions/iis/6.0-sdk/ms525598(v=vs.90))
+
+- [Deleting Metabase Nodes Using System.DirectoryServices](https://learn.microsoft.com/en-us/previous-versions/iis/6.0-sdk/ms525865(v=vs.90))
+
+- [IIsWebDirectory.AppCreate3 (ADSI)](https://learn.microsoft.com/en-us/previous-versions/iis/6.0-sdk/ms525258(v=vs.90))
+
+- [VC,C#创建IIS站点，应用程序池 ADSI](https://www.cnblogs.com/ytjjyy/archive/2012/04/09/2438559.html)
+
+- [C#操作IIS程序池及站点的创建配置](https://www.bbsmax.com/A/6pdDrgMkJw/)
+
+- [DirectoryEntry 类](https://learn.microsoft.com/zh-cn/dotnet/api/system.directoryservices.directoryentry?view=windowsdesktop-7.0)

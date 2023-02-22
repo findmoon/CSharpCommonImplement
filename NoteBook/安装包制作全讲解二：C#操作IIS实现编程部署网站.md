@@ -188,7 +188,27 @@ public partial class Installer : System.Configuration.Install.Installer
 
 # C#创建IIS站点
 
-1. 检查是否安装了IIS？
+
+
+# 判断IIS是否安装
+
+
+```C#
+public static bool IisInstalled()
+{
+    try
+    {
+        using (RegistryKey iisKey = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\InetStp"))
+        {
+            return (int)iisKey.GetValue("MajorVersion") >= 6;
+        }
+    }
+    catch
+    {
+        return false;
+    }
+}
+```
    
 2. 如何检查 IIS 是否安装了 `ASP.NET` ？
 

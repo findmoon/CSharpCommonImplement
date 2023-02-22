@@ -6,18 +6,27 @@ using System.Threading.Tasks;
 
 namespace HelperCollections.IIS.Model
 {
+    /// <summary>
+    /// 站点信息
+    /// </summary>
     public class SiteInfo
     {
         public string Id { get; set; }
         /// <summary>
         /// 如果是IIS网站，Properties["ServerComment"]为其名称
         /// </summary>
-        public string Name { get; set; }
+        public string Name_ServerComment { get; set; }
         public string Path { get; set; }
         public string[] ServerBindings { get; set; }
         public List<ServerBindingData> ServerBindingDatas { get; set; }
         public bool IsApp { get; set; }
+
+        public string AppPoolId { get; set; }
+
         public List<SiteInfo> Children { get; set; }
+        public string  SiteState { get; set; }
+
+        public string PhysicalPath { get; set; }
     }
 
     public class ServerBindingData {
