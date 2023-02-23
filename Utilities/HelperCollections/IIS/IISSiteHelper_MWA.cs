@@ -73,11 +73,11 @@ namespace HelperCollections
         /// <param name="physicalPath">物理路径</param>  
         /// <param name="ip">ip</param>  
         /// <param name="port">端口，不能为空，1024~65534；如果是更新，将会新增绑定</param>  
-        /// <param name="hostName">主机名，即 域名</param>  
-        /// <param name="isStart">WEB启动状态</param>  
+        /// <param name="hostName">主机名，即 域名</param> 
         /// <param name="appPoolName">应用程序池，如果为空将使用默认DefaultAppPool</param>
+        /// <param name="enable32BitAppOnWin64">默认启用32位应用程序，如果为64位网站则不需要启用</param>
         /// <returns></returns>  
-        public void CreateUpdateWebSite(string webSiteName, string physicalPath, string ip = "", int port = 80, string hostName = "", string appPoolName = "")
+        public void CreateUpdateWebSite(string webSiteName, string physicalPath, string ip = "", int port = 80, string hostName = "", string appPoolName = "", bool enable32BitAppOnWin64 = true)
         {
             //SetFileRole();
 
@@ -123,7 +123,7 @@ namespace HelperCollections
                 //apppool.ManagedPipelineMode = ManagedPipelineMode.Integrated;
 
                 //apppool.ManagedRuntimeVersion = "v4.0";
-                //apppool.Enable32BitAppOnWin64 = true;
+                apppool.Enable32BitAppOnWin64 = enable32BitAppOnWin64;
 
                 mySite.Applications[0].ApplicationPoolName = appPoolName;
 
@@ -196,7 +196,8 @@ namespace HelperCollections
         /// <param name="isApplication">是否创建更新应用程序</param>
         /// <param name="parentAppName">webSiteName下的应用程序名称，实际为`path路径，如'/a/b'`。当创建更新虚拟目录时如果不指定，将在默认App下操作</param>
         /// <param name="appPoolName">应用程序池，如果为空将使用默认的DefaultAppPool;当创建、更新应用程序时，可指定应用程序池；虚拟目录指定AppPool无效</param>
-        public void CreateUpdateVDirApplication(string webSiteName, string app_vDir_Name, string physicalPath, bool isApplication = true, string parentAppName = "", string appPoolName = "")
+        /// <param name="enable32BitAppOnWin64">默认启用32位应用程序，如果为64位网站则不需要启用</param>
+        public void CreateUpdateVDirApplication(string webSiteName, string app_vDir_Name, string physicalPath, bool isApplication = true, string parentAppName = "", string appPoolName = "", bool enable32BitAppOnWin64 = true)
         {
             var site = serverManager.Sites[webSiteName];
             if (site == null)
@@ -239,6 +240,7 @@ namespace HelperCollections
                     //apppool.ManagedPipelineMode = ManagedPipelineMode.Integrated;
 
                     //apppool.ManagedRuntimeVersion = "v4.0";
+                    apppool.Enable32BitAppOnWin64 = enable32BitAppOnWin64;
 
                     app.ApplicationPoolName = appPoolName;
                 }

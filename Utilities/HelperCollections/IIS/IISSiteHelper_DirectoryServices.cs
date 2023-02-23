@@ -692,7 +692,7 @@ namespace HelperCollections
                 // 不存在则创建
                 if (!exist)
                 {
-                    CreateAppPool(appPoolName);
+                    CreateUpdateAppPool(appPoolName);
                 }
 
 
@@ -724,35 +724,52 @@ namespace HelperCollections
         }
 
         /// <summary>
-        /// appPoolEntry 下 创建 appPoolName 应用程序池 【集成托管管道模式】
+        /// appPoolEntry 下 创建 appPoolName 应用程序池 【集成托管管道模式】，存在则更新
         /// </summary>
         /// <param name="appPoolName"></param>
-        public DirectoryEntry CreateAppPool(string appPoolName)
+        /// <param name="enable32BitAppOnWin64">默认启用32位应用程序，如果为64位网站则不需要启用</param>
+        public DirectoryEntry CreateUpdateAppPool(string appPoolName, bool enable32BitAppOnWin64=true)
         {
             DirectoryEntry appPoolEntry = GetAppPoolsEntry();
-            return CreateAppPool(appPoolEntry, appPoolName);
+            return CreateUpdateAppPool(appPoolEntry, appPoolName, enable32BitAppOnWin64);
         }
         /// <summary>
-        /// appPoolEntry 下 创建 appPoolName 应用程序池 【集成托管管道模式】
+        /// appPoolEntry 下 创建 appPoolName 应用程序池 【集成托管管道模式】，存在则更新
         /// </summary>
         /// <param name="appPoolName"></param>
-        public void CreateAppPoolWithOutReturn(string appPoolName)
+        /// <param name="enable32BitAppOnWin64">默认启用32位应用程序，如果为64位网站则不需要启用</param>
+        public void CreateUpdateAppPoolWithOutReturn(string appPoolName, bool enable32BitAppOnWin64 = true)
         {
             DirectoryEntry appPoolEntry = GetAppPoolsEntry();
-            CreateAppPool(appPoolEntry, appPoolName);
+            CreateUpdateAppPool(appPoolEntry, appPoolName,enable32BitAppOnWin64);
         }
         /// <summary>
-        /// appPoolEntry 下 创建 appPoolName 应用程序池 【集成托管管道模式】
+        /// appPoolEntry 下 创建 appPoolName 应用程序池 【集成托管管道模式】，存在则更新
         /// </summary>
         /// <param name="appPoolsEntry"></param>
         /// <param name="appPoolName"></param>
+        /// <param name="enable32BitAppOnWin64">默认启用32位应用程序，如果为64位网站则不需要启用</param>
         /// <returns>新建的 poolEntry</returns>
-        public static DirectoryEntry CreateAppPool(DirectoryEntry appPoolsEntry, string appPoolName)
+        public static DirectoryEntry CreateUpdateAppPool(DirectoryEntry appPoolsEntry, string appPoolName, bool enable32BitAppOnWin64 =true)
         {
-            DirectoryEntry newpool = appPoolsEntry.Children.Add(appPoolName, "IIsApplicationPool");
+            DirectoryEntry newpool = null;
+            foreach (DirectoryEntry pool in appPoolsEntry.Children)
+            {
+                if (pool.Name.Equals(appPoolName, StringComparison.OrdinalIgnoreCase))
+                {
+                    newpool = pool;
+                    break;
+                }
+            }
+            if (newpool==null)
+            {
+                newpool= appPoolsEntry.Children.Add(appPoolName, "IIsApplicationPool");
+            }
+             
             // 默认创建的是 经典托管管道模式。此处改为集成
             // 0-集成模式；1-经典模式
             newpool.Properties["ManagedPipelineMode"][0] = "0";
+            newpool.Properties["Enable32BitAppOnWin64"][0]= enable32BitAppOnWin64;
             newpool.CommitChanges();
             return newpool;
         }

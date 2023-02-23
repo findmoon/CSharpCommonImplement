@@ -139,7 +139,11 @@
 
 > `[USER]` 方括号中的名称即为 用户界面 中添加的文本框属性中`Edit1Property`、`Edit2Property`等的属性名.
 
-> **注意：`/targetdir="[TARGETDIR]\"` 中的 `\` 记得不要丢了**
+> **注意：`/targetdir="[TARGETDIR]\"` 中的 `\` 记得不要丢了**【表示路径结尾，但测试不可以省略，需要在自定义的类库中替换结尾多余的`\\`】
+> 
+> 此外，还可以传递生产商、产品名、作者名、版本信息等：`/manufacturer="[Manufacturer]" /productName="[ProductName]" /author="[Author]" productVersion="[ProductVersion]"`（Author和ProductVersion未测试）
+>
+> **注意不要大写**
 
 
 回到安装类库`Set_SQlServer_IIS_Lib`下的`Installer.cs`文件，查看代码，获取输入的自定义数据。

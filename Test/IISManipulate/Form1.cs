@@ -140,7 +140,7 @@ namespace IISManipulate
         private void button7_Click(object sender, EventArgs e)
         {
             var iisHelper = new IISSiteHelper_DirectoryServices();
-            iisHelper.CreateAppPoolWithOutReturn("AppPoolCreate");
+            iisHelper.CreateUpdateAppPoolWithOutReturn("AppPoolCreate");
 
             MessageBox.Show("结束");
         }
