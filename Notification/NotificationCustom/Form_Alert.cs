@@ -81,6 +81,20 @@ namespace NotificationCustom
             {
                 alertFormNum = Screen.PrimaryScreen.WorkingArea.Height / (Height + 5);
             }
+
+            // 关闭按钮 显示小手、背景变化
+            closePictureBox.Cursor = Cursors.Hand;
+            closePictureBox.MouseEnter += ClosePictureBox_MouseEnter;
+            closePictureBox.MouseLeave += ClosePictureBox_MouseLeave;
+        }
+        private void ClosePictureBox_MouseLeave(object sender, EventArgs e)
+        {
+            closePictureBox.BackColor = Color.Transparent;
+        }
+
+        private void ClosePictureBox_MouseEnter(object sender, EventArgs e)
+        {
+            closePictureBox.BackColor = Color.FromArgb(Math.Min(BackColor.R + 60, 255), Math.Min(BackColor.G + 60, 255), Math.Min(BackColor.B + 60, 255));
         }
 
         private NotificationFormAction action = NotificationFormAction.start;

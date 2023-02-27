@@ -42,10 +42,11 @@
             this.lblMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblMsg.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMsg.ForeColor = System.Drawing.Color.White;
             this.lblMsg.Location = new System.Drawing.Point(59, 3);
             this.lblMsg.Name = "lblMsg";
-            this.lblMsg.Size = new System.Drawing.Size(236, 69);
+            this.lblMsg.Size = new System.Drawing.Size(429, 132);
             this.lblMsg.TabIndex = 0;
             this.lblMsg.Text = "Message Text";
             this.lblMsg.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -54,26 +55,27 @@
             // 
             this.msgTypePictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.msgTypePictureBox.Image = global::NotificationCustom.Properties.Resources.success;
+            this.msgTypePictureBox.Image = global::AlwaysShowCustom_NetfxWinfrom.Properties.Resources.success;
             this.msgTypePictureBox.Location = new System.Drawing.Point(11, 17);
             this.msgTypePictureBox.Name = "msgTypePictureBox";
-            this.msgTypePictureBox.Size = new System.Drawing.Size(41, 40);
+            this.msgTypePictureBox.Size = new System.Drawing.Size(41, 103);
             this.msgTypePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.msgTypePictureBox.TabIndex = 2;
             this.msgTypePictureBox.TabStop = false;
             // 
             // execStateTimer
             // 
+            this.execStateTimer.Interval = 1000;
             this.execStateTimer.Tick += new System.EventHandler(this.StateTimer_Tick);
             // 
             // closePictureBox
             // 
             this.closePictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.closePictureBox.Image = global::NotificationCustom.Properties.Resources.icons8_cancel_25px;
-            this.closePictureBox.Location = new System.Drawing.Point(304, 23);
+            this.closePictureBox.Image = global::AlwaysShowCustom_NetfxWinfrom.Properties.Resources.icons8_cancel_25px;
+            this.closePictureBox.Location = new System.Drawing.Point(494, 55);
             this.closePictureBox.Name = "closePictureBox";
-            this.closePictureBox.Size = new System.Drawing.Size(26, 30);
+            this.closePictureBox.Size = new System.Drawing.Size(29, 29);
             this.closePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.closePictureBox.TabIndex = 3;
             this.closePictureBox.TabStop = false;
@@ -83,7 +85,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Highlight;
-            this.ClientSize = new System.Drawing.Size(350, 75);
+            this.ClientSize = new System.Drawing.Size(543, 138);
             this.Controls.Add(this.closePictureBox);
             this.Controls.Add(this.msgTypePictureBox);
             this.Controls.Add(this.lblMsg);
