@@ -85,5 +85,21 @@
 
 > 参考自 [The compiler failed with error code -532462766](https://9to5answer.com/compiler-error-message-the-compiler-failed-with-error-code-532462766)
 
+# 附：无法创建单个 setup.exe 安装文件
 
+安装项目创建生成的安装包为`xxx.msi`，以及一个附带的`setup.exe`可执行文件。
+
+`setup.exe`运行本质上也是调用`xxx.msi`，无法单独使用。
+
+但是，实际上无法创建单个 `setup.exe` 的安装文件
+
+参见 [Creating single setup.exe file for setup project](https://social.msdn.microsoft.com/Forums/windows/en-US/5bb12361-a387-4096-981b-7c578e95e534/creating-single-setupexe-file-for-setup-project?forum=winformssetup)
+
+# 附：.NET Core / .NET6 + 项目的问题
+
+> 参考 [Why I get a DLL installed by the setup project instead of an EXE and how to fix it?](https://stackoverflow.com/questions/67521475/why-i-get-a-dll-installed-by-the-setup-project-instead-of-an-exe-and-how-to-fix)
+
+.NET Core 项目制作安装包时，似乎应该选择`published items`，而不是`primary output`。
+
+具体说明参见：[Visual Studio Installer Projects Extension and .NET 6.0](https://learn.microsoft.com/en-us/visualstudio/deployment/installer-projects-net-core?view=vs-2019)
 

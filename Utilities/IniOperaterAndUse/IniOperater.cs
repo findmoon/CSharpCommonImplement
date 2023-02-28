@@ -8,7 +8,7 @@ namespace System.Text
 {
     /// <summary>
     /// ini文件操作类。
-    /// 使用 win32 的 GetPrivateProfileString、WritePrivateProfileString。无法读写操作 没有section 的配置项，未指定section时，默认为[程序名]
+    /// 使用 win32 API 的 GetPrivateProfileString、WritePrivateProfileString。无法读写操作 没有section 的配置项。未指定section时，默认为[程序名]
     /// </summary>
     public class IniOperater
     {
