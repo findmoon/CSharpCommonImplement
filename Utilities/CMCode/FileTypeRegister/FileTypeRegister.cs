@@ -132,9 +132,9 @@ namespace CMCode.Register
             DetectExtendName(extendName);
             using (RegistryKey softwareKey = Registry.ClassesRoot.OpenSubKey(extendName))
             {
-                if (softwareKey != null)
+                if (softwareKey == null)
                 {
-                    return true;
+                    return false;
                 }
                 var value = (string)softwareKey.GetValue("");
                 if (strictDetect)
@@ -185,7 +185,7 @@ namespace CMCode.Register
             }
             set
             {
-                FileTypeRegister.DetectExtendName(extendName);
+                FileTypeRegister.DetectExtendName(value);
                 extendName = value;
             }
         }

@@ -34,7 +34,7 @@ namespace FileTypeRegisterTest
                     #region 关联文件
                     var filetypeRegInfo = new FileTypeRegInfo(extendName, Application.ExecutablePath);
                     filetypeRegInfo.Description = Application.ExecutablePath + "打开程序";
-                    FileTypeRegister.RegisterFileType(filetypeRegInfo);
+                    FileTypeRegister.RegisterFileType(filetypeRegInfo,false);
                     #endregion
                 }
                 else

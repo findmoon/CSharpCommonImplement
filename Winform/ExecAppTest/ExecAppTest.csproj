@@ -81,7 +81,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CMCode\CMCode.csproj">
+    <ProjectReference Include="..\..\Utilities\CMCode\CMCode.csproj">
       <Project>{2386e444-cca0-4ee1-85e7-b727b25c1af6}</Project>
       <Name>CMCode</Name>
     </ProjectReference>

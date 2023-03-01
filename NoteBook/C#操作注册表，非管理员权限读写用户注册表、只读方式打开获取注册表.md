@@ -2,7 +2,13 @@
 
 [toc]
 
-# 非管理员权限读写用户注册表
+# 基本介绍
+
+- `Registry.CurrentConfig`：表示`HKEY_CURRENT_CONFIG`基项，存放计算机当前的硬件配置信息。
+- `HKEY_CURRENT_USER`：当前用户的信息
+- `HKEY_LOCAL_MACHINE`：当前机器的信息
+
+# 非管理员权限读写用户注册表（HKEY_CURRENT_USER）
 
 
 

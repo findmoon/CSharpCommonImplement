@@ -101,7 +101,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CMControls\CMControls.csproj">
+    <ProjectReference Include="..\CMControls\CMControls.csproj">
       <Project>{a4a1639e-68f0-451c-9ede-ce665fd5c820}</Project>
       <Name>CMControls</Name>
     </ProjectReference>

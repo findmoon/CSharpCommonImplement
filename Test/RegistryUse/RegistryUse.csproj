@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F8040EDA-C4B7-472F-87FF-C291A9C3EC98}</ProjectGuid>
+    <ProjectGuid>{496C24D3-6782-469B-85F7-3C1B7819AA85}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>DragDropUse</RootNamespace>
-    <AssemblyName>DragDropUse</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>RegistryUse</RootNamespace>
+    <AssemblyName>RegistryUse</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -52,19 +52,10 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="OnLayerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="OnLayerForm.Designer.cs">
-      <DependentUpon>OnLayerForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OnLayerForm.resx">
-      <DependentUpon>OnLayerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -87,12 +78,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CMControls\CMControls.csproj">
-      <Project>{a4a1639e-68f0-451c-9ede-ce665fd5c820}</Project>
-      <Name>CMControls</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

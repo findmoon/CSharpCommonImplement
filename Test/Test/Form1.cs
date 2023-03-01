@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 
@@ -16,6 +11,15 @@ namespace MiscellaneousTest
         public Form1()
         {
             InitializeComponent();
+
+            timer1.Tick += Timer1_Tick;
+
+        }
+
+
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            Debug.WriteLine($"秒：{DateTime.Now.Second}");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -53,6 +57,14 @@ namespace MiscellaneousTest
         {
             string @int = "你好";
             int @string = 10;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            // 多次启动运行，并不会多次调用。
+            // 两者等同，启动一个即可。
+            //timer1.Start();
+            timer1.Enabled = true;
         }
     }
 }

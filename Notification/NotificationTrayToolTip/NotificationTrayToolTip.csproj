@@ -80,7 +80,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CMControls\CMControls.csproj">
+    <ProjectReference Include="..\..\Winform\CMControls\CMControls.csproj">
       <Project>{A4A1639E-68F0-451C-9EDE-CE665FD5C820}</Project>
       <Name>CMControls</Name>
     </ProjectReference>
