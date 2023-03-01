@@ -46,7 +46,7 @@ namespace NotificationCustom
             closePictureBox.MouseEnter += ClosePictureBox_MouseEnter;
             closePictureBox.MouseLeave += ClosePictureBox_MouseLeave;
 
-            ShowInTaskbar = false;
+            //ShowInTaskbar = false;
             
             StartPosition = FormStartPosition.CenterScreen;
 
@@ -160,6 +160,7 @@ namespace NotificationCustom
         {
             Show();
             execStateTimer.Start();
+            ShowInTaskbar = false;
         }
 
     }

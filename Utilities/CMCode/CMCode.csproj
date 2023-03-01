@@ -56,7 +56,7 @@
     <Compile Include="MIWMIUtilities\WMIUtilities.cs" />
     <Compile Include="ProcessExt\ProcessExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Register\FileTypeRegister.cs" />
+    <Compile Include="FileTypeRegister\FileTypeRegister.cs" />
     <Compile Include="WndHelper\MouseClickSimulator_ref.cs" />
     <Compile Include="WndHelper\SimulateKeyboardMouse_ref.cs" />
     <Compile Include="WndHelper\WndHelper.cs" />

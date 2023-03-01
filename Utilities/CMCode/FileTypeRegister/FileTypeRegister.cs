@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace CMCode.Register
 {
     /// <summary>
-    /// 注册文件类型，关联打开程序 【管理员权限】
+    /// 注册文件类型，关联打开程序 【管理员权限】， 文件类型注册
     /// </summary>
     public static class FileTypeRegister
     {
@@ -18,11 +18,11 @@ namespace CMCode.Register
         /// 使文件类型与对应的图标及应用程序关联起来
         /// CreateSubKey(subKey, true) 从NF 4.6 开始支持创建或打开现有
         /// </summary>
-        /// <param name="regInfo"></param>
+        /// <param name="regInfo">文件类型注册信息类</param>
         /// <param name="detectExist">是否检测存在，如果检测并存在，将不执行创建</param>
         public static void RegisterFileType(FileTypeRegInfo regInfo, bool detectExist = true)
         {
-            if (detectExist && FileTypeRegistered(regInfo.ExtendName))
+            if (detectExist && FileTypeRegistered(regInfo.ExtendName,true))
             {
                 return;
             }
@@ -30,7 +30,7 @@ namespace CMCode.Register
             //HKEY_CLASSES_ROOT/{ExtendName}
             using (RegistryKey fileTypeKey = Registry.ClassesRoot.CreateSubKey(regInfo.ExtendName))
             {
-                string relationName = regInfo.ExtendName.Substring(1).ToUpper() + "_FileType"; // ExtendName关联到打开该后缀的{relationName}注册表信息【原则上名称可以任意，"_FileType"后缀也不必须】
+                string relationName = regInfo.RelationName; // ExtendName关联到打开该后缀的{relationName}注册表信息【原则上名称可以任意，"_FileType"后缀也不必须】
                 fileTypeKey.SetValue("", relationName); // 注册表默认值
                 fileTypeKey.Close();
 
@@ -62,7 +62,8 @@ namespace CMCode.Register
 
         /// <summary>  
         /// 更新指定文件类型关联信息  
-        /// </summary>      
+        /// </summary>
+        /// <param name="regInfo">文件类型注册信息类</param>
         public static bool RegisterFileTypeUpdate(FileTypeRegInfo regInfo)
         {
             if (!FileTypeRegistered(regInfo.ExtendName))
@@ -71,8 +72,7 @@ namespace CMCode.Register
             }
             else
             {
-                string extendName = regInfo.ExtendName;
-                string relationName = extendName.Substring(1, extendName.Length - 1).ToUpper() + "_FileType";
+                string relationName = regInfo.RelationName;
                 using (RegistryKey relationKey = Registry.ClassesRoot.CreateSubKey(relationName, true))
                 {
                     relationKey.SetValue("", regInfo.Description);
@@ -92,7 +92,8 @@ namespace CMCode.Register
 
         /// <summary>  
         /// 获取指定文件类型关联信息  
-        /// </summary>          
+        /// </summary>
+        /// <param name="extendName">扩展名 必须是.开头的后缀名</param>
         public static FileTypeRegInfo GetFileTypeRegInfo(string extendName)
         {
             if (!FileTypeRegistered(extendName))
@@ -100,7 +101,7 @@ namespace CMCode.Register
                 return null;
             }
 
-            string relationName = extendName.Substring(1, extendName.Length - 1).ToUpper() + "_FileType";
+            string relationName = FileTypeRegInfo.GetRelationName(extendName);
             using (RegistryKey relationKey = Registry.ClassesRoot.OpenSubKey(relationName))
             {
                 RegistryKey iconKey = relationKey.OpenSubKey("DefaultIcon");
@@ -120,21 +121,52 @@ namespace CMCode.Register
 
         /// <summary>  
         /// 指定文件类型是否已经注册  
-        /// </summary>          
-        public static bool FileTypeRegistered(string extendName)
+        /// </summary>
+        /// <param name="extendName">扩展名 必须是.开头的后缀名</param>
+        /// <param name="strictDetect">是否严格判断，推荐true</param>
+        /// <returns></returns>
+        public static bool FileTypeRegistered(string extendName,bool strictDetect=false)
         {
-            RegistryKey softwareKey = Registry.ClassesRoot.OpenSubKey(extendName);
-            if (softwareKey != null)
+            // 重复执行问题，比如检查extendName、FileTypeRegistered，在很多地方都会检查，这些地方再调用它就会有重复再次执行检查。
+            // 应该分离出来，对外公开的方法加入检查方法；对内，则考虑适当使用 无检查的方法 等等。
+            DetectExtendName(extendName);
+            using (RegistryKey softwareKey = Registry.ClassesRoot.OpenSubKey(extendName))
             {
-                return true;
+                if (softwareKey != null)
+                {
+                    return true;
+                }
+                var value = (string)softwareKey.GetValue("");
+                if (strictDetect)
+                {
+                    return value == FileTypeRegInfo.GetRelationName(extendName);
+                }
+                return !string.IsNullOrWhiteSpace(value);
             }
-            return false;
         }
 
         [DllImport("shell32.dll")]
         public static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
 
-        
+        /// <summary>
+        /// 检测后缀名是否正确合法
+        /// </summary>
+        /// <param name="extendName">扩展名 必须是.开头的后缀名</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="FormatException"></exception>
+        internal static bool DetectExtendName(string extendName)
+        {
+            if (string.IsNullOrWhiteSpace(extendName))
+            {
+                throw new ArgumentNullException(nameof(extendName));
+            }
+            if (!extendName.StartsWith("."))
+            {
+                throw new FormatException("当前后缀名不正确，必须是.开头的后缀名");
+            }
+            return true;
+        }
     }
 
     /// <summary>
@@ -148,24 +180,19 @@ namespace CMCode.Register
         public string ExtendName
         {
             get {
-                if (!extendName.StartsWith("."))
-                {
-                    throw new FormatException("当前后缀名不正确，必须是.开头的后缀名");
-                }
+                // FileTypeRegister.DetectExtendName(extendName);
                 return extendName;
             }
             set
             {
-                if (value != null && value.StartsWith("."))
-                {
-                    extendName = value;
-                }
-                else
-                {
-                    throw new FormatException("必须是.开头的后缀名");
-                }
+                FileTypeRegister.DetectExtendName(extendName);
+                extendName = value;
             }
         }
+        /// <summary>
+        /// 后缀类型在注册表中的关联注册表项的名字。此处统一为 '无.扩展名大写_FileType'
+        /// </summary>
+        public string RelationName => GetRelationName(extendName);
         /// <summary>  
         /// 说明  
         /// </summary>  
@@ -223,11 +250,16 @@ namespace CMCode.Register
         /// <param name="exePath">关联的可执行程序路径</param>
         public FileTypeRegInfo(string extendName, string exePath)
         {
-            if (extendName != null)// 不应该在构造函数中发生异常，但赋值仍可能异常
-            {
+            //if (extendName != null)// 不应该在构造函数中发生异常，但赋值仍可能异常
                 this.ExtendName = extendName;
-            }
+
             ExePath = exePath;
         }
+        /// <summary>
+        /// 获取 FileTypeRegInfo 标准的关联注册表项的名字。统一为 '无.扩展名大写_FileType'
+        /// </summary>
+        /// <param name="extendName">必须是.开头的后缀名</param>
+        /// <returns></returns>
+        public static string GetRelationName(string extendName)=>extendName.Substring(1).ToUpper() + "_FileType";
     }
 }

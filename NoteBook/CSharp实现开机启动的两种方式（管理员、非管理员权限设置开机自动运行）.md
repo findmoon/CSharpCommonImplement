@@ -16,3 +16,6 @@
 
 **多一个请求管理员权限确认，本身就阻止了直接运行。**
 
+# 参考
+
+[C#开机自启动实现(分析无法启动情况)](https://blog.csdn.net/ErErFei/article/details/50629189)

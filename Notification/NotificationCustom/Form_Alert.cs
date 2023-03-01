@@ -75,7 +75,7 @@ namespace NotificationCustom
 
             Name = name;
             this.Opacity = 0.0;
-            ShowInTaskbar = false;
+            //ShowInTaskbar = false;
             StartPosition = FormStartPosition.Manual;
             if (!(alertFormNum <= Screen.PrimaryScreen.WorkingArea.Height / (Height + 5) && alertFormNum > 0)) // 调整可能的高度不正确
             {
@@ -187,6 +187,7 @@ namespace NotificationCustom
 
             Show();
             execStateTimer.Start();
+            ShowInTaskbar = false;
         }
         /// <summary>
         /// 显示自定义通知框

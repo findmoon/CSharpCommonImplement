@@ -40,7 +40,7 @@ namespace HelperCollections
                     }
                 }
 
-                return new Version(0, 0);
+                return null;// new Version(0, 0);
             }
         }
         /// <summary>
