@@ -1,0 +1,38 @@
+{
+    "sqltools.connections": [
+        {
+            "name": "虚拟机MSSQL2014",
+            "server": "192.168.64.128\\NEXIM",
+            "driver": "MSSQL",
+            "port": 1433,
+            "database": "master",
+            "username": "sa",
+            "askForPassword": false,
+            "password": "xuniSQL2014",
+            "connectionTimeout": 15
+        },
+        {
+            "name": "sqlite",
+            "driver": "SQLite",
+            "askForPassword": true,
+            "password": "ask",
+            "database": "/D/SoftWareDevelope/CSharp/Exicel转换/Exicel转换1/Exicel转换1/bin/Debug/data/ConvertDB",
+            "connectionTimeout": 15
+        },
+        {
+            "mssqlOptions": {
+                "appName": "SQLTools",
+                "useUTC": true,
+                "encrypt": true
+            },
+            "previewLimit": 50,
+            "server": "localhost\\FUJITRAX",
+            "port": 1433,
+            "driver": "MSSQL",
+            "name": "本地",
+            "database": "master",
+            "username": "sa",
+            "password": "xuniSQL2016"
+        }
+    ]
+}

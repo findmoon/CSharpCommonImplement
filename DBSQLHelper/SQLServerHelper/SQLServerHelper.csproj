@@ -35,9 +35,9 @@
     <PackageReadmeFile>Readme.md</PackageReadmeFile>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <Compile Include="SQLServerHelper.cs" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup>
     <None Include="..\..\NoteBook\CodeMissing-Logo.png">

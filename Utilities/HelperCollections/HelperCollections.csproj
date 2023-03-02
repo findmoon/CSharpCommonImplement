@@ -47,7 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgumentGuardHandle\ArgumentGuard.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="FileDirRight\FileDirRightHelper.cs" />
     <Compile Include="IIS\IISSiteHelper_MWA.cs" />
     <Compile Include="IIS\Model\SiteInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -2,11 +2,37 @@
 
 [toc]
 
+> **在一个子线程中直接创建显示一个Winform窗体，很可能不会显示。最好的统一解决办法是调用`Control.BeginInvoke`**，交由UI线程实现创建和显示窗体的处理。
+> 
+> 比如：
+> 
+> ```C#
+> BeginInvoke(new Action(() =>
+> {
+>     // do UI handling ...
+> }));
+> ```
+
 首先要明确，强制在UI主线程初始化Form是否有必要？因为后续操作要考虑到UI线程操作的安全性和限制。
 
 如果Form可以正常使用（除非，非UI线程下使用有问题，这个可能性基本没有），则没必要强制在UI线程下操作。
 
 本篇主要介绍，如何判断当前的线程是否为UI主线程。以及，略有些多余的强制用户在主线程下初始化一次实例。
+
+# 应该由调用者判断是否为UI线程，并决定如何处理
+
+如下是相关描述：
+
+I would suggest that it's the kind of decision the caller should make. You could always write wrapper methods to make it easier - but it means that you won't have problems with the caller being in an "odd" situation (e.g. a UI framework you don't know about, or something else with an event loop) and you making the wrong decision for them.
+
+If the method ever needs to provide feedback in the right thread, I'd pass in an ISynchronizeInvoke (implemented by Control) to do that in a UI-agnostic way.
+ 
+[how-to-detect-if-were-on-a-ui-thread#answer-1149408](https://stackoverflow.com/questions/1149402/how-to-detect-if-were-on-a-ui-thread#answer-1149408)
+
+调用者应该了解自己调用的情况或可能的问题，并且决定如何使用。而不是由 类库(控件库) 内部决定（防止错误决策，或者，不了解实际情况）。
+
+如描述所言，如果真的需要在正确的线程中反馈，则应该以 UI无关 的方式实现。比如传入`ISynchronizeInvoke`。
+
 
 # 判断当前线程是否为UI主线程
 
@@ -193,11 +219,6 @@ bool isUIThread2 = Application.MessageLoop;
 bool isUIThread3 = Thread.CurrentThread.GetApartmentState() == ApartmentState.STA;
 ```
 
-> I would suggest that it's the kind of decision the caller should make. You could always write wrapper methods to make it easier - but it means that you won't have problems with the caller being in an "odd" situation (e.g. a UI framework you don't know about, or something else with an event loop) and you making the wrong decision for them.
-> 
-> If the method ever needs to provide feedback in the right thread, I'd pass in an ISynchronizeInvoke (implemented by Control) to do that in a UI-agnostic way.
-> 
-> [how-to-detect-if-were-on-a-ui-thread#answer-1149408](https://stackoverflow.com/questions/1149402/how-to-detect-if-were-on-a-ui-thread#answer-1149408)
 
 ## 借助 [ThreadStatic] 记录是否主线程
 

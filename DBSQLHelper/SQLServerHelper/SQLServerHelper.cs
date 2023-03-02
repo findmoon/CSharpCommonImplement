@@ -431,5 +431,53 @@ namespace System.Data
             _password = null;
             _dbName = null;
         }
+
+        #region SQL Server的单独方法
+        /// <summary>
+        /// 使用 sp_attach_db 存储过程执行SQL，附加数据库
+        /// </summary>
+        /// <param name="dbName"></param>
+        /// <param name="mdfFileName"></param>
+        /// <param name="otherLdfMdfFileNames"></param>
+        /// <returns></returns>
+        public async Task<bool> AttachDBAsync(string dbName,string mdfFileName,params string[] otherLdfMdfFileNames) {
+
+            var sqlParams = new List<SqlParameter>()
+                {
+                    new SqlParameter("@dbname",dbName),
+                    new SqlParameter("@filename1",mdfFileName)
+                };
+            for (int i = 0; i < otherLdfMdfFileNames.Length; i++)
+            {
+                sqlParams.Add(new SqlParameter("@filename"+(2+i), otherLdfMdfFileNames[i]));
+            }
+            var result = await ExecuteScalarAsync("sp_attach_db", sqlParams.ToArray(), CommandType.StoredProcedure);
+            return result == "0"; // 1 失败
+        }
+        /// <summary>
+        /// 使用 sp_detach_db 分离数据库 执行sql语句
+        /// </summary>
+        /// <param name="dbName"></param>
+        /// <returns></returns>
+        public async Task<bool> DetachDBAsync(string dbName) {
+
+            var result = await ExecuteScalarAsync(@"USE master; ALTER DATABASE @dbname SET SINGLE_USER; EXEC sp_detach_db @dbname1;", new SqlParameter[]
+                {
+                    new SqlParameter("@dbname",dbName),
+                    new SqlParameter("@dbname1",dbName)
+                });
+            return result == "0"; // 1 失败
+        }
+        /// <summary>
+        /// 获取默认的数据库文件路径
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> DefaultDataPathAsync() {
+            return await ExecuteScalarAsync("SELECT SERVERPROPERTY('InstanceDefaultDataPath');");
+            // SERVERPROPERTY('InstanceDefaultLogPath')
+        }
+
+
+        #endregion
     }
 }

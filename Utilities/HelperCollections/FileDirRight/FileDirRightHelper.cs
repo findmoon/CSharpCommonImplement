@@ -1,10 +1,14 @@
-**C#中的DirectorySecurity、FileSystemAccessRule处理目录、文件的用户权限**
+﻿using HelperCollections.ArgumentGuardHandle;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Security.AccessControl;
+using System.Text;
+using System.Threading.Tasks;
 
-
-
-如下，简单的设置文件、文件夹权限的帮助类`FileDirRightHelper`：
-
-```C#
+namespace HelperCollections.FileDirRight
+{
     /// <summary>
     /// 文件文件夹权限设置帮助类
     /// </summary>
@@ -41,4 +45,4 @@
             File.SetAccessControl(filePath, fSec);
         }
     }
-```
+}

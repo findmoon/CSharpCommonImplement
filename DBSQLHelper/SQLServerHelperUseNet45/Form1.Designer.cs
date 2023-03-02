@@ -38,6 +38,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.dbTxt = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // pwdTxt
@@ -131,11 +132,22 @@
             this.label5.TabIndex = 16;
             this.label5.Text = "数据库(DBName)：";
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(42, 343);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(138, 50);
+            this.button2.TabIndex = 18;
+            this.button2.Text = "分离附加数据库";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(516, 435);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.dbTxt);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.pwdTxt);
@@ -165,6 +177,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox dbTxt;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button button2;
     }
 }
 

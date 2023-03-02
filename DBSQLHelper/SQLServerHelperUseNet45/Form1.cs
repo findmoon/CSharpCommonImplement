@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,10 +17,30 @@ namespace SQLServerHelperUseNet45
         public Form1()
         {
             InitializeComponent();
+
+            Load += Form1_Load;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            serverTxt.Text = Properties.Settings.Default.serverNameIp;
+            userTxt.Text = Properties.Settings.Default.user;
+            pwdTxt.Text=Properties.Settings.Default.pwd;
+            dbTxt.Text=Properties.Settings.Default.dbName;
+        }
+        void SaveSetting()
+        {
+            Properties.Settings.Default.serverNameIp= serverTxt.Text.Trim();
+            Properties.Settings.Default.user= userTxt.Text.Trim();
+            Properties.Settings.Default.pwd= pwdTxt.Text.Trim();
+            Properties.Settings.Default.dbName= dbTxt.Text.Trim();
+
+            Properties.Settings.Default.Save();
         }
 
         private async void button1_Click(object sender, EventArgs e)
         {
+            SaveSetting();
             var ip = serverTxt.Text.Trim();
             var user = userTxt.Text.Trim();
             var pwd = pwdTxt.Text.Trim();
@@ -81,6 +102,37 @@ namespace SQLServerHelperUseNet45
                 Console.WriteLine($"product_id: {resuleValue}");
             }
             #endregion
+        }
+
+        private async void button2_Click(object sender, EventArgs e)
+        {
+            SaveSetting();
+
+            var ip = serverTxt.Text.Trim();
+            var user = userTxt.Text.Trim();
+            var pwd = pwdTxt.Text.Trim();
+            var dbname = dbTxt.Text.Trim();
+            try
+            {
+
+                var sqlHelper = SQLServerHelper.Init(ip, user, pwd, dbname);
+
+                //var resule = sqlHelper.ExecuteQuery("select * from t");
+
+
+                // 获取数据路径
+                var dbDir = await sqlHelper.DefaultDataPathAsync();
+                // 分离
+                var detach_reulst = await sqlHelper.DetachDBAsync("t");
+                // 附加
+                var attach_reulst = await sqlHelper.AttachDBAsync("t", Path.Combine(dbDir, "t.mdf"), Path.Combine(dbDir, "t_log.ldf"));
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            MessageBox.Show("结束");
         }
     }
 }

@@ -58,5 +58,11 @@
       <DependentUpon>Installer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DBSQLHelper\SQLServerHelper\SQLServerHelper.csproj">
+      <Project>{2a882443-027e-4fa0-b73c-56b3ce33e881}</Project>
+      <Name>SQLServerHelper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

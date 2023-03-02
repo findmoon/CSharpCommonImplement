@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HelperCollections.FileDirRight;
+using System;
 using System.Data;
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -65,6 +66,12 @@ namespace MiscellaneousTest
             // 两者等同，启动一个即可。
             //timer1.Start();
             timer1.Enabled = true;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            //FileDirRightHelper.SetDirRights(null);
+            FileDirRightHelper.SetDirRights(@"D:\SoftWareDevelope\CSharp\csharp-common-implement");
         }
     }
 }

@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration.Install;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -49,6 +51,29 @@ namespace Set_SQlServer_IIS_Lib
             //安装路径
             string targetdir = Context.Parameters["targetdir"].Replace(@"\\", @"\");
 
+            #region 连接附加数据库
+            #region 附加前设置权限是否必要？
+            //给文件添加"Authenticated Users,Everyone,Users"用户组的完全控制权限 ，要附加的数据库文件必须加权限否则无法附加
+            //if (File.Exists(Context.Parameters["targetdir"].ToString() + "App_Data\\ceshi.mdf"))
+            //{
+            //    FileInfo fi = new FileInfo(Context.Parameters["targetdir"].ToString() + "App_Data\\ceshi.mdf");
+            //    System.Security.AccessControl.FileSecurity fileSecurity = fi.GetAccessControl();
+            //    fileSecurity.AddAccessRule(new FileSystemAccessRule("Everyone", FileSystemRights.FullControl, AccessControlType.Allow));
+            //    fileSecurity.AddAccessRule(new FileSystemAccessRule("Authenticated Users", FileSystemRights.FullControl, AccessControlType.Allow));
+            //    fileSecurity.AddAccessRule(new FileSystemAccessRule("Users", FileSystemRights.FullControl, AccessControlType.Allow));
+            //    fi.SetAccessControl(fileSecurity);
+            //    FileInfo fi1 = new FileInfo(Context.Parameters["targetdir"].ToString() + "App_Data\\ceshi.ldf");
+            //    System.Security.AccessControl.FileSecurity fileSecurity1 = fi1.GetAccessControl();
+            //    fileSecurity1.AddAccessRule(new FileSystemAccessRule("Everyone", FileSystemRights.FullControl, AccessControlType.Allow));
+            //    fileSecurity1.AddAccessRule(new FileSystemAccessRule("Authenticated Users", FileSystemRights.FullControl, AccessControlType.Allow));
+            //    fileSecurity1.AddAccessRule(new FileSystemAccessRule("Users", FileSystemRights.FullControl, AccessControlType.Allow));
+            //    fi1.SetAccessControl(fileSecurity1);
+            //} 
+            #endregion
+
+
+
+            #endregion
 
             ////实例化IIS站点配置信息
             //NewWebSiteInfo nwsif = new NewWebSiteInfo(ip, port, isname.Trim(), (isname.Trim().Length > 0 ? isname : "anjiesigudingzichan"), targetdir);
