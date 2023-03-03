@@ -234,6 +234,10 @@ IsIisInstalled = ServiceController.GetServices().Any(s => s.ServiceName.Equals("
 
 ## 运行`services.msc`，在服务中查看是否存在 IIS ADMIN 服务
 
+# 检查 IIS 是否安装了某一模块
+
+## 如何检查 IIS 是否安装了 `ASP.NET` ？
+
 # 参考出处
 
 [How to detect IIS version using C#?](https://stackoverflow.com/questions/446390/how-to-detect-iis-version-using-c)

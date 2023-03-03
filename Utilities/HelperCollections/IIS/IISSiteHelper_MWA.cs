@@ -77,7 +77,7 @@ namespace HelperCollections
         /// <param name="appPoolName">应用程序池，如果为空将使用默认DefaultAppPool</param>
         /// <param name="enable32BitAppOnWin64">默认启用32位应用程序，如果为64位网站则不需要启用</param>
         /// <returns></returns>  
-        public void CreateUpdateWebSite(string webSiteName, string physicalPath, string ip = "", int port = 80, string hostName = "", string appPoolName = "", bool enable32BitAppOnWin64 = true)
+        public void CreateUpdateWebSite(string webSiteName, string physicalPath, string ip = "", ushort port = 80, string hostName = "", string appPoolName = "", bool enable32BitAppOnWin64 = true)
         {
             //SetFileRole();
 

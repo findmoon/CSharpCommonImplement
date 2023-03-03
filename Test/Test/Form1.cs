@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 
 
@@ -72,6 +73,26 @@ namespace MiscellaneousTest
         {
             //FileDirRightHelper.SetDirRights(null);
             FileDirRightHelper.SetDirRights(@"D:\SoftWareDevelope\CSharp\csharp-common-implement");
+
+            MessageBox.Show("结束");
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            var targetdir = @"D:\SoftWareDevelope\CSharp\csharp-common-implement\Web\ASPNETMVC_UserAutho\App_Data\";
+            var app_DataDir = Path.Combine(targetdir, "App_Data");
+            var mdf_Files = Directory.GetFiles(app_DataDir, "*.mdf");
+            var ldf_Files = Directory.GetFiles(app_DataDir, "*.ldf");
+            if (mdf_Files.Length>0)
+            {
+                
+            }
+            if (ldf_Files.Length>0)
+            {
+                
+            }
+
+            MessageBox.Show("结束");
         }
     }
 }

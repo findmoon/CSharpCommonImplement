@@ -15,8 +15,38 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_0D1EB355295B2BA8719249BDC71B73FA"
+        "OwnerKey" = "8:_9CFE9EF6D28F4072BFF272893DBB1A1A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0D1EB355295B2BA8719249BDC71B73FA"
+        "OwnerKey" = "8:_F23314D04E3BB741EDC5932FE45657D0"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1448548E727A4CF8948E46A77B6AAD5C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2B705FD432024658B337F7D16E4E0DA5"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_43246AF946A6FA9F0AFD3FCB5F5D72BD"
+        "OwnerKey" = "8:_ABDEEFAF11645496CC4E15872B8E0741"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_43246AF946A6FA9F0AFD3FCB5F5D72BD"
+        "OwnerKey" = "8:_9CFE9EF6D28F4072BFF272893DBB1A1A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -45,8 +75,50 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_ABDEEFAF11645496CC4E15872B8E0741"
+        "OwnerKey" = "8:_9CFE9EF6D28F4072BFF272893DBB1A1A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C9D7588DB75E40DBACA01EFDAF0D8796"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F23314D04E3BB741EDC5932FE45657D0"
+        "OwnerKey" = "8:_9CFE9EF6D28F4072BFF272893DBB1A1A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_9CFE9EF6D28F4072BFF272893DBB1A1A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_ABDEEFAF11645496CC4E15872B8E0741"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_43246AF946A6FA9F0AFD3FCB5F5D72BD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_0D1EB355295B2BA8719249BDC71B73FA"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_F23314D04E3BB741EDC5932FE45657D0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -69,7 +141,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\Setup_ForASP.NET_VSIX_2.msi"
+        "OutputFilename" = "8:Debug\\Setup_MyInstalledWeb.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -145,7 +217,7 @@
             "Sequence" = "3:1"
             "Identifier" = "8:_509AB124_BE8A_4594_817C_96C8ED3C6B8A"
             "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:/serverInstance=\"[SERVERINSTANCE]\"  /user=\"[USER]\" /pwd=\"[PWD]\" /iisServer=\"[IISSERVER]\"  /siteIp=\"[SITEIP]\" /sitePort=\"[SITEPORT]\"  /iisSiteName=\"[IISSITENAME]\" /useDefaultAppPool=[USEDEFAULTAPPPOOL_CHECKBOX] /targetdir=\"[TARGETDIR]\\\""
+            "CustomActionData" = "8:/sqlServerInstance=\"[SQLSERVERINSTANCE]\"  /sqlServerUser=\"[SQLSERVERUSER]\" /sqlServerPwd=\"[SQLSERVERPWD]\" /sqlServerPort=\"[SQLSERVERPORT]\" /siteHost=\"[SITEHOST]\"  /siteIp=\"[SITEIP]\" /sitePort=\"[SITEPORT]\"  /iisSiteName=\"[IISSITENAME]\" /useDefaultAppPool=[USEDEFAULTAPPPOOL_CHECKBOX] /targetdir=\"[TARGETDIR]\\\" /manufacturer=\"[Manufacturer]\" /productName=\"[ProductName]\""
             }
             "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_B640DBD8D79F40FB96852FA7B32B1AFF"
             {
@@ -184,6 +256,57 @@
         }
         "File"
         {
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0D1EB355295B2BA8719249BDC71B73FA"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:DBSQLHelper, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_0D1EB355295B2BA8719249BDC71B73FA"
+                    {
+                    "Name" = "8:DBSQLHelper.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:DBSQLHelper.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1448548E727A4CF8948E46A77B6AAD5C"
+            {
+            "SourcePath" = "8:..\\..\\..\\open.vbs"
+            "TargetName" = "8:open.vbs"
+            "Tag" = "8:"
+            "Folder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2B705FD432024658B337F7D16E4E0DA5"
             {
             "SourcePath" = "8:License.rtf"
@@ -204,6 +327,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_43246AF946A6FA9F0AFD3FCB5F5D72BD"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_43246AF946A6FA9F0AFD3FCB5F5D72BD"
+                    {
+                    "Name" = "8:Microsoft.Web.Administration.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.Web.Administration.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5F8F77E8CEDD0CA8E26BC2F50193A06A"
             {
             "AssemblyRegister" = "3:1"
@@ -218,6 +372,88 @@
                     }
                 }
             "SourcePath" = "8:System.Net.Http.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_ABDEEFAF11645496CC4E15872B8E0741"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:HelperCollections, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_ABDEEFAF11645496CC4E15872B8E0741"
+                    {
+                    "Name" = "8:HelperCollections.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:HelperCollections.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C9D7588DB75E40DBACA01EFDAF0D8796"
+            {
+            "SourcePath" = "8:..\\..\\Web\\ASPNETMVC_UserAutho\\bin\\ASPNETMVC_UserAutho_Web\\favicon.ico"
+            "TargetName" = "8:favicon.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F23314D04E3BB741EDC5932FE45657D0"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:SQLServerHelper, Version=0.9.0.2, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_F23314D04E3BB741EDC5932FE45657D0"
+                    {
+                    "Name" = "8:SQLServerHelper.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:SQLServerHelper.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
@@ -301,26 +537,26 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Setup_ForASP.NET_VSIX_2"
-        "ProductCode" = "8:{EB66E487-D610-43DF-B159-1AD27DC3094B}"
-        "PackageCode" = "8:{EE1C5197-9085-4BDE-87F0-CB3949676EA3}"
+        "ProductName" = "8:MyInstalledWeb"
+        "ProductCode" = "8:{554A803D-10E7-4935-BC77-5BE86A560D92}"
+        "PackageCode" = "8:{F85C5739-D92C-453A-BA7C-4E9C85A9DDDE}"
         "UpgradeCode" = "8:{A93FC3C0-31A6-4606-8BB9-1296AAAEE090}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Default Company Name"
+        "ProductVersion" = "8:1.0.1"
+        "Manufacturer" = "8:CodeMissing"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:Setup_ForASP.NET_VSIX_2"
+        "Title" = "8:ASP.NET MVC项目安装到IIS"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Default Company Name"
+        "ARPCONTACT" = "8:CodeMissing"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:"
+        "ARPCOMMENTS" = "8:使用VS Setup Projects引入Web项目的内容文件，自定义项目和设置的安装包"
         "ARPURLINFOABOUT" = "8:"
-        "ARPPRODUCTICON" = "8:"
+        "ARPPRODUCTICON" = "8:_C9D7588DB75E40DBACA01EFDAF0D8796"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -423,6 +659,34 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_4A70F4BCAF334935AEC8F1645AD1156A"
+            {
+            "Name" = "8:MyInstalledWeb"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_1448548E727A4CF8948E46A77B6AAD5C"
+            "Folder" = "8:_AD305740ED414282AD8F419EC140A50C"
+            "WorkingFolder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
+            "Icon" = "8:_C9D7588DB75E40DBACA01EFDAF0D8796"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_F9FD5A3CD9B3470AA98B872D4F16BC10"
+            {
+            "Name" = "8:MyInstalledWeb"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_1448548E727A4CF8948E46A77B6AAD5C"
+            "Folder" = "8:_C0AB29F95E2244FC885021A4CD875060"
+            "WorkingFolder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
+            "Icon" = "8:_C9D7588DB75E40DBACA01EFDAF0D8796"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
@@ -525,7 +789,7 @@
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
                             "Setting" = "3:2"
-                            "Value" = "8:IIS服务器:"
+                            "Value" = "8:Host（域名）:"
                             "DefaultValue" = "8:#1246"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -538,7 +802,7 @@
                             "ContextData" = "8:Public"
                             "Attributes" = "3:2"
                             "Setting" = "3:2"
-                            "Value" = "8:IISSERVER"
+                            "Value" = "8:SITEHOST"
                             "DefaultValue" = "8:EDITB1"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -681,7 +945,7 @@
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
                             "Setting" = "3:2"
-                            "Value" = "8:网站名称:"
+                            "Value" = "8:IIS网站名称:"
                             "DefaultValue" = "8:#1249"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -911,7 +1175,7 @@
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
                             "Setting" = "3:2"
-                            "Value" = "8:IP或ServerName\\InstanceName:"
+                            "Value" = "8:IP或ServerName[\\InstanceName]:"
                             "DefaultValue" = "8:#1246"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -924,7 +1188,7 @@
                             "ContextData" = "8:Public"
                             "Attributes" = "3:2"
                             "Setting" = "3:2"
-                            "Value" = "8:SERVERINSTANCE"
+                            "Value" = "8:SQLSERVERINSTANCE"
                             "DefaultValue" = "8:EDITA1"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -976,7 +1240,7 @@
                             "ContextData" = "8:Public"
                             "Attributes" = "3:2"
                             "Setting" = "3:2"
-                            "Value" = "8:USER"
+                            "Value" = "8:SQLSERVERUSER"
                             "DefaultValue" = "8:EDITA2"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -1028,7 +1292,7 @@
                             "ContextData" = "8:Public"
                             "Attributes" = "3:2"
                             "Setting" = "3:2"
-                            "Value" = "8:PWD"
+                            "Value" = "8:SQLSERVERPWD"
                             "DefaultValue" = "8:EDITA3"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -1066,8 +1330,8 @@
                             "Type" = "3:3"
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
-                            "Setting" = "3:1"
-                            "Value" = "8:#1249"
+                            "Setting" = "3:2"
+                            "Value" = "8:SQL Server端口:"
                             "DefaultValue" = "8:#1249"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -1080,7 +1344,7 @@
                             "ContextData" = "8:Public"
                             "Attributes" = "3:2"
                             "Setting" = "3:2"
-                            "Value" = "8:EDITA4"
+                            "Value" = "8:SQLSERVERPORT"
                             "DefaultValue" = "8:EDITA4"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -1092,8 +1356,8 @@
                             "Type" = "3:3"
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
-                            "Setting" = "3:1"
-                            "Value" = "8:"
+                            "Setting" = "3:2"
+                            "Value" = "8:1433"
                             "DefaultValue" = "8:"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -1106,7 +1370,7 @@
                             "ContextData" = "8:1;True=1;False=0"
                             "Attributes" = "3:0"
                             "Setting" = "3:0"
-                            "Value" = "3:0"
+                            "Value" = "3:1"
                             "DefaultValue" = "3:1"
                             "UsePlugInResources" = "11:TRUE"
                             }

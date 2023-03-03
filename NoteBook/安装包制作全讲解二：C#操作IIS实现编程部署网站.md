@@ -164,22 +164,25 @@ public partial class Installer : System.Configuration.Install.Installer
         //接收 CustomActionData 传入的参数
 
         //数据库服务器地址
-        string sqlServer_IPInstance = Context.Parameters["serverInstance"].ToString();
+        string sqlServer_IPInstance = Context.Parameters["serverInstance"];
         //账号
-        string sqlServer_user = Context.Parameters["user"].ToString();
+        string sqlServer_user = Context.Parameters["user"];
         //密码
-        string sqlServer_pwd = Context.Parameters["pwd"].ToString();
-        //安装路径
-        string targetdir = Context.Parameters["targetdir"].ToString().Replace(@"\\", @"\");
-        //IIS服务器地址【通常应该为本地地址，如果为远程IIS地址，可能还需要用户名密码】
-        string iisServer = this.Context.Parameters["iisServer"].ToString();
-        //ip
-        string siteIp = this.Context.Parameters["siteIp"].ToString();
-        //端口
-        string sitePort = this.Context.Parameters["sitePort"].ToString();
-        //网站名
-        string iisSiteName = this.Context.Parameters["iisSiteName"].ToString();
+        string sqlServer_pwd = Context.Parameters["pwd"];
 
+        //IIS服务器地址【通常应该为本地地址，如果为远程IIS地址，可能还需要用户名密码】
+        string iisServer = this.Context.Parameters["iisServer"];
+        //ip
+        string siteIp = this.Context.Parameters["siteIp"];
+        //端口
+        string sitePort = this.Context.Parameters["sitePort"];
+        //网站名
+        string iisSiteName = this.Context.Parameters["iisSiteName"];
+        //是否使用默认应用程序池
+        var useDefaultAppPool = !string.IsNullOrEmpty(Context.Parameters["useDefaultAppPool"]);
+
+        //安装路径
+        string targetdir = Context.Parameters["targetdir"].Replace(@"\\", @"\"); // .TrimEnd('\\')竟然对结尾多余的\\无效
 
         // SQL Server 和 IIS 操作....
     }
@@ -188,13 +191,43 @@ public partial class Installer : System.Configuration.Install.Installer
 
 # C#操作SQL Server
 
+## 关于对SQL Server数据库的处理【不推荐安装时处理】
+
+其实要实现对SQL Server数据库的初始化，有很多方式可供选择。
+
+0. 不在安装过程中处理数据。而是在程序运行时，检测是否是首次运行，是否设置了数据库信息，是否初始化了数据库的数据等等，并提供设置的操作界面。【极其推荐】
+
+**尽量不在安装的过程中操作数据库。**
+
+1. 仅更新数据库连接字符串。在(初次)运行网站或软件时，进行db的初始化和数据填充。db、table等在这个过程中创建，需要准备好SQL脚本，并确保执行不会出错（以及，出错后的处理方式）
+
+ASP.NET中 Identity 就是这种方式，在第一次注册使用时，初始化数据库。
+
+2. 更新数据库连接字符串，使用现有数据库文件，连接数据库后附加DB到SQL Server中使用。比如ASP.NET中 Identity 在开发中生成在`App_Data`下的数据库文件mdf、ldf。
+
+3. 更新数据库连接字符串，将现有数据库文件复制到SQL Server的默认数据路径中，再附加使用。考虑到将数据库文件放在程序目录内，在卸载时可能的删除。【复制文件时还要考虑是否存在】
+
+**用户数据或设置通常不应该放在程序目录中，并且可用于更新、重安装后的再次使用。**
+
+并且，对于数据库的数据，不应该轻易删除或丢失。
+
+4. 数据库的操作交由专门的DBA实现。
+
+## 复制并附加数据库的实现
+
+本篇介绍在安装时，复制并附加数据库。
+
+> **使用之前介绍的`SQLServerHelper`帮助类，具体内容不再介绍。**
+
+
+
 
 
 # C#创建IIS站点
 
+## 创建IIS站点
 
-
-# 判断IIS是否安装
+## 判断IIS是否安装
 
 
 ```C#
@@ -214,7 +247,46 @@ public static bool IisInstalled()
 }
 ```
    
-2. 如何检查 IIS 是否安装了 `ASP.NET` ？
+# 创建快捷方式（桌面、开始菜单）
+
+## 添加桌面、开始菜单快捷方式
+
+我们需要在开始菜单、桌面中，添加打开我们安装的网站url的快捷方式。通常情况下，为安装的程序的快捷方式。
+
+在 安装项目 的文件系统的`Application Folder`下，添加或复制`open.vbs`文件。【通过vs打开站点链接】
+
+右键`open.vbs`，选择创建快捷方式`Create Shortcut to xxx`：
+
+![](img/20230303164633.png)
+
+重命名刚刚创建的快捷方式，并且其剪切或复制到文件系统的`User's Desktop`、`User's Programs Menu`中。
+
+![](img/20230303165208.png)
+
+**在 快捷方式 的属性 `Icon` 中，可以指定快捷方式的图标。**
+
+## open.vbs 写入打开链接的脚本内容
+
+```C#
+File.WriteAllLines(Path.Combine(targetdir,"open.vbs"),new string[]
+{
+    "Set objShell = CreateObject(\"Wscript.Shell\")",
+    $"objShell.Run(\"http://localhost:{port}\")"
+});
+```
+
+## 创建 .url 快捷方式
+
+```C#
+var urlLinkFile = "快捷方式文件.url";
+
+File.WriteAllLines(urlLinkFile, new string[] {
+    "[InternetShortcut]",
+    $"URL=http://localhost:{port}",
+    "IconIndex=0",
+    $"IconFile="+Path.Combine(targetdir,"favicon.ico")
+});
+```
 
 # 卸载时的额外删除
 

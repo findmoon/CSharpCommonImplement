@@ -188,7 +188,7 @@ string SetupIIS()
 }           
 
 
-// 启用运行Process
+// ProcessEx 启用运行Process
 static string Run(string fileName, string arguments)
 {
     ProcessStartInfo pStartInfo = new ProcessStartInfo
@@ -215,6 +215,14 @@ static string Run(string fileName, string arguments)
 ## 使用 PowerShell Host 应用
 
 [Adding and invoking commands](https://learn.microsoft.com/en-us/powershell/scripting/developer/hosting/adding-and-invoking-commands?view=powershell-7.2)
+
+
+
+
+
+# 另：IIS的Windows服务名称 `iisadmin`
+
+# 另：iisreset 命令，直接运行或调用，重启IIS
 
 # 参考
 

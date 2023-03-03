@@ -44,6 +44,8 @@ Powershell中启用成功：
 
 > [Different ways for installing Windows features on the command line](https://peter.hahndorf.eu/blog/WindowsFeatureViaCmd.html)
 
+# 另：IIS的Windows服务名称 `iisadmin`
+
 # 可能 参考
 
 IIS will not install on Windows 10：https://answers.microsoft.com/en-us/windows/forum/all/iis-will-not-install-on-windows-10/251699ca-627a-49e8-800e-a8d038f4b6c3

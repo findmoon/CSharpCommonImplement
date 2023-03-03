@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DBSQLHelper, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CodeMissing.DBSQLHelper.1.0.0.1\lib\net45\DBSQLHelper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
@@ -63,6 +66,13 @@
       <Project>{2a882443-027e-4fa0-b73c-56b3ce33e881}</Project>
       <Name>SQLServerHelper</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\HelperCollections\HelperCollections.csproj">
+      <Project>{841aaaa8-67de-405c-a085-85e26f349f25}</Project>
+      <Name>HelperCollections</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

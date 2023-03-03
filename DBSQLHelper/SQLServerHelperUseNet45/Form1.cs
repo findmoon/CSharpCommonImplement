@@ -119,13 +119,12 @@ namespace SQLServerHelperUseNet45
 
                 //var resule = sqlHelper.ExecuteQuery("select * from t");
 
-
                 // 获取数据路径
                 var dbDir = await sqlHelper.DefaultDataPathAsync();
                 // 分离
-                var detach_reulst = await sqlHelper.DetachDBAsync("t");
+                 await sqlHelper.DetachDBAsync("t");
                 // 附加
-                var attach_reulst = await sqlHelper.AttachDBAsync("t", Path.Combine(dbDir, "t.mdf"), Path.Combine(dbDir, "t_log.ldf"));
+                 await sqlHelper.AttachDBAsync("t", Path.Combine(dbDir, "t.mdf"), Path.Combine(dbDir, "t_log.ldf"));
 
             }
             catch (Exception ex)
