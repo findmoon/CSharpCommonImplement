@@ -31,9 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DBSQLHelper, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CodeMissing.DBSQLHelper.1.0.0.1\lib\net45\DBSQLHelper.dll</HintPath>
-    </Reference>
+    <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
@@ -48,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IISSiteHelper_MWA.cs" />
     <Compile Include="Installer.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -55,24 +54,13 @@
       <DependentUpon>Installer.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQLInitModel.cs" />
+    <Compile Include="SQLServerHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Installer.resx">
       <DependentUpon>Installer.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\DBSQLHelper\SQLServerHelper\SQLServerHelper.csproj">
-      <Project>{2a882443-027e-4fa0-b73c-56b3ce33e881}</Project>
-      <Name>SQLServerHelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Utilities\HelperCollections\HelperCollections.csproj">
-      <Project>{841aaaa8-67de-405c-a085-85e26f349f25}</Project>
-      <Name>HelperCollections</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

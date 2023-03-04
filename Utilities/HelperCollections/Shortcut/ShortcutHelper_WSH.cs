@@ -15,13 +15,13 @@ namespace HelperCollections
         /// </summary>
         public static string DesktopDir => Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         /// <summary>
-        /// 开始菜单文件夹路径
+        /// 开始菜单的程序文件夹路径
         /// </summary>
-        public static string StartMenuDir => Environment.GetFolderPath(Environment.SpecialFolder.StartMenu);
+        public static string StartMenuProgramsDir => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs");
         /// <summary>
-        /// 通用开始菜单文件夹路径
+        /// 通用开始菜单的程序文件夹路径
         /// </summary>
-        public static string CommonStartMenuDir => Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu);
+        public static string CommonStartMenuProgramsDir => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), "Programs");
         /// <summary>
         /// 自启动文件夹路径
         /// </summary>

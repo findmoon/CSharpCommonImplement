@@ -189,6 +189,8 @@ public partial class Installer : System.Configuration.Install.Installer
 }
 ```
 
+> `/sqlServerInstance="[SQLSERVERINSTANCE]"  /sqlServerUser="[SQLSERVERUSER]" /sqlServerPwd="[SQLSERVERPWD]" /sqlServerPort="[SQLSERVERPORT]" /siteHost="[SITEHOST]"  /siteIp="[SITEIP]" /sitePort="[SITEPORT]"  /iisSiteName="[IISSITENAME]" /useDefaultAppPool=[USEDEFAULTAPPPOOL_CHECKBOX] /targetdir="[TARGETDIR]\" /manufacturer="[Manufacturer]" /productName="[ProductName]"`
+
 # C#操作SQL Server
 
 ## 关于对SQL Server数据库的处理【不推荐安装时处理】
@@ -226,6 +228,8 @@ ASP.NET中 Identity 就是这种方式，在第一次注册使用时，初始化
 # C#创建IIS站点
 
 ## 创建IIS站点
+
+
 
 ## 判断IIS是否安装
 
@@ -271,7 +275,7 @@ public static bool IisInstalled()
 File.WriteAllLines(Path.Combine(targetdir,"open.vbs"),new string[]
 {
     "Set objShell = CreateObject(\"Wscript.Shell\")",
-    $"objShell.Run(\"http://localhost:{port}\")"
+    $"objShell.Run(\"http://localhost:{sitePort}\")"
 });
 ```
 
@@ -282,7 +286,7 @@ var urlLinkFile = "快捷方式文件.url";
 
 File.WriteAllLines(urlLinkFile, new string[] {
     "[InternetShortcut]",
-    $"URL=http://localhost:{port}",
+    $"URL=http://localhost:{sitePort}",
     "IconIndex=0",
     $"IconFile="+Path.Combine(targetdir,"favicon.ico")
 });

@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management.Instrumentation;
+using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -28,12 +29,10 @@ namespace Set_SQlServer_IIS_Lib
             InitializeComponent();
         }
 
-        public override async void Install(IDictionary stateSever)
+        public override void Install(IDictionary stateSever)
         {
             base.Install(stateSever);
-
-            MessageBox.Show("测试");
-
+            
             //接收 CustomActionData 传入的参数
 
             //数据库服务器地址
@@ -45,7 +44,8 @@ namespace Set_SQlServer_IIS_Lib
 
             string sqlServer_portTmp = Context.Parameters["sqlServerPort"];
             ushort? sqlServer_port = null;
-            if (ushort.TryParse(sqlServer_portTmp, out ushort sqlPort))
+
+            if (!string.IsNullOrWhiteSpace(sqlServer_portTmp) &&ushort.TryParse(sqlServer_portTmp, out ushort sqlPort))
             {
                 sqlServer_port = sqlPort;
             }
@@ -58,7 +58,7 @@ namespace Set_SQlServer_IIS_Lib
             //端口
             string sitePortTmp = this.Context.Parameters["sitePort"];
             ushort sitePort = 80;
-            if (ushort.TryParse(sitePortTmp,out ushort currSitePort))
+            if (!string.IsNullOrWhiteSpace(sitePortTmp) &&ushort.TryParse(sitePortTmp,out ushort currSitePort))
             {
                 sitePort= currSitePort;
             }
@@ -73,35 +73,43 @@ namespace Set_SQlServer_IIS_Lib
             // 制作商、产品名
             string manufacturer = Context.Parameters["manufacturer"];
             string productName = Context.Parameters["productName"];
-
+           
             #region 连接附加数据库
 
             // 连接附加数据库
-            var attDBName=await AttachDBHandle(targetdir,sqlServer_IPInstance, sqlServer_user, sqlServer_pwd, sqlServer_port);
+            var attDBName = AttachDBHandle(targetdir,sqlServer_IPInstance, sqlServer_user, sqlServer_pwd, sqlServer_port);
 
 
-            var dbName = attDBName ?? productName;
-            // 更新Web.config的连接字符串
-            string webconfigFile = Path.Combine(targetdir, "Web.config");
-            if (File.Exists(webconfigFile))
+            try
             {
-                MessageBox.Show("存在");
-            }
-            else
-            {
-                throw new Exception("不存在");
-            }
-            var xml = new XmlDocument();
-            xml.Load(webconfigFile);
-            var defaultConnNode = xml.SelectSingleNode("/configuration/connectionStrings/add[name=\"DefaultConnection\"]");
-            var port = "";
-            if (sqlServer_port != null)
-            {
-                port = "," + sqlServer_port;
-            }
-            defaultConnNode.Attributes["connectionString"].Value = $"Server={sqlServer_IPInstance}{port};Database={dbName};User Id={sqlServer_user};Password={sqlServer_pwd};";
+                var dbName = attDBName ?? productName;
+                // 更新Web.config的连接字符串
+                string webconfigFile = Path.Combine(targetdir, "Web.config");
+                if (File.Exists(webconfigFile))
+                {
+                }
+                else
+                {
+                    throw new Exception("安装出错，网站配置文件Web.config不存在");
+                }
+                var xml = new XmlDocument();
+                xml.Load(webconfigFile);
+                var defaultConnNode = xml.SelectSingleNode("/configuration/connectionStrings/add[@name=\"DefaultConnection\"]");
+                var currport = "";
+                if (sqlServer_port != null)
+                {
+                    currport = "," + sqlServer_port;
+                }
+                defaultConnNode.Attributes["connectionString"].Value = $"Server={sqlServer_IPInstance}{currport};Database={dbName};User Id={sqlServer_user};Password={sqlServer_pwd};";
 
-            xml.Save(webconfigFile);
+                xml.Save(webconfigFile);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace);
+                throw ex;
+            }
             #endregion
 
             #region 检测并安装IIS
@@ -110,14 +118,24 @@ namespace Set_SQlServer_IIS_Lib
 
             #region 创建IIS Web网站
             var iisHelper = new IISSiteHelper_MWA();
-            iisHelper.CreateUpdateWebSite(iisSiteName??productName, targetdir, siteIp, sitePort,siteHost, useDefaultAppPool?"": productName);
+            var siteName = iisSiteName ?? productName;
+            iisHelper.CreateUpdateWebSite(siteName, targetdir, siteIp, sitePort,siteHost, useDefaultAppPool?"": productName);
+            var webState = iisHelper.WebSiteState(siteName);
+            if (webState==null)
+            {
+                throw new Exception($"IIS中{siteName}站点未创建成功！通常为IIS相关问题导致无法创建web网站。");
+            }
+            if (webState!= Microsoft.Web.Administration.ObjectState.Started)
+            {
+                MessageBox.Show($"创建的IIS站点{siteName}未启动，请打开IIS管理器确认问题，通常是由于端口等绑定信息冲突导致无法启动！");
+            }
             #endregion
 
             #region vbs打开链接、文件脚本
             File.WriteAllLines(Path.Combine(targetdir,"open.vbs"),new string[]
             {
                 "Set objShell = CreateObject(\"Wscript.Shell\")",
-                $"objShell.Run(\"http://localhost:{port}\")"
+                $"objShell.Run(\"http://localhost:{sitePort}\")"
             });
             #endregion
 
@@ -126,10 +144,13 @@ namespace Set_SQlServer_IIS_Lib
 
             File.WriteAllLines(urlLinkFile, new string[] {
                 "[InternetShortcut]",
-                $"URL=http://localhost:{port}",
+                $"URL=http://localhost:{sitePort}",
                 "IconIndex=0",
                 $"IconFile="+Path.Combine(targetdir,"favicon.ico")
             });
+
+            // 刷新
+            //SHChangeNotify(0x8000000, 0, IntPtr.Zero, IntPtr.Zero);
             #endregion
         }
 
@@ -142,7 +163,7 @@ namespace Set_SQlServer_IIS_Lib
         /// <param name="sqlServer_port"></param>
         /// <param name="targetdir"></param>
         /// <returns>返回新附加的dbName</returns>
-        private static async Task<string> AttachDBHandle(string targetdir,string sqlServer_IPInstance, string sqlServer_user, string sqlServer_pwd, ushort? sqlServer_port=null)
+        private static string AttachDBHandle(string targetdir,string sqlServer_IPInstance, string sqlServer_user, string sqlServer_pwd, ushort? sqlServer_port=null)
         {
             #region 附加前设置文件权限是否必要？
             //给文件添加"Authenticated Users,Everyone,Users"用户组的完全控制权限 ，要附加的数据库文件必须加权限否则无法附加
@@ -166,6 +187,11 @@ namespace Set_SQlServer_IIS_Lib
             using (var sqlHelper = SQLServerHelper.Init(sqlServer_IPInstance, sqlServer_user, sqlServer_pwd, "master", sqlServer_port))
             {
                 var app_DataDir = Path.Combine(targetdir, "App_Data");
+                if (!File.Exists(app_DataDir))
+                {
+                    return null;
+                }
+                MessageBox.Show("1");
                 var mdf_Files = Directory.GetFiles(app_DataDir, "*.mdf");
                 var ldf_Files = Directory.GetFiles(app_DataDir, "*.ldf");
                 string mdf_File = null;
@@ -185,10 +211,10 @@ namespace Set_SQlServer_IIS_Lib
                 }
                 // 附加处理时的DbName
                 var dbName = Path.GetFileNameWithoutExtension(mdf_File);
-                var dbExists = await sqlHelper.ExistsDBOrTableOrColAsync(dbName, null);
+                var dbExists = sqlHelper.ExistsDBOrTableOrCol(dbName, null);
                 if (!dbExists)
                 {
-                    var dataPath = await sqlHelper.DefaultDataPathAsync();
+                    var dataPath = sqlHelper.DefaultDataPath();
 
                     // 复制文件 [存在将失败]
                     var last_mdf_File = Path.Combine(dataPath, Path.GetFileName(mdf_File));
@@ -196,8 +222,9 @@ namespace Set_SQlServer_IIS_Lib
                     File.Copy(mdf_File, last_mdf_File);
                     File.Copy(ldf_File, last_ldf_File);
 
-                    await sqlHelper.AttachDBAsync(dbName, last_mdf_File, last_ldf_File);
-                    await sqlHelper.ChangeOwnerAsync(dbName, sqlServer_user);
+                    sqlHelper.AttachDB(dbName, last_mdf_File, last_ldf_File);
+                    //sqlHelper.ChangeOwner(dbName, sqlServer_user);
+                    MessageBox.Show("11");
                 }
 
                 return dbName;
@@ -217,7 +244,8 @@ namespace Set_SQlServer_IIS_Lib
             //var manufacturer = Path.GetFileName(targetdir.Substring(0, targetdir.IndexOf(productName)).TrimEnd('\\'));
 
             // 开始菜单中创建url快捷方式
-            var urlPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), manufacturer);
+            //var urlPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu),"Programs" ,manufacturer);
+            var urlPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), "Programs", manufacturer);
 
             if (!Directory.Exists(urlPath))
             {
@@ -225,5 +253,6 @@ namespace Set_SQlServer_IIS_Lib
             }
             return Path.Combine(urlPath, productName + ".url");
         }
+    
     }
 }

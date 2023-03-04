@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 #endif
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Data.SqlClient;
 #if NET45_OR_GREATER
 using System.Data.SqlClient;
 #endif
@@ -13,7 +14,7 @@ namespace System.Data
     /// <summary>
     /// 推荐使用Init创建SQLHelper对象，若使用new单独创建，必须调用Initializer
     /// </summary>
-    public class SQLServerHelper : ISQLHelper, IDisposable
+    public class SQLServerHelper :  IDisposable
     {
         // 基本都是直接查询获取或更新、或执行sql，没必要维护一个全局变量
         //private SqlCommand cmd = null;
@@ -440,8 +441,7 @@ namespace System.Data
         /// <param name="mdfFileName"></param>
         /// <param name="otherLdfMdfFileNames"></param>
         /// <returns></returns>
-        public async Task AttachDBAsync(string dbName, string mdfFileName, params string[] otherLdfMdfFileNames)
-        {
+        public async Task AttachDBAsync(string dbName,string mdfFileName,params string[] otherLdfMdfFileNames) {
 
             var sqlParams = new List<SqlParameter>()
                 {
@@ -454,7 +454,7 @@ namespace System.Data
                 {
                     continue;
                 }
-                sqlParams.Add(new SqlParameter("@filename" + (2 + i), otherLdfMdfFileNames[i]));
+                sqlParams.Add(new SqlParameter("@filename"+(2+i), otherLdfMdfFileNames[i]));
             }
             // 执行存储过程
             // 如果有输出，注意 SqlParameter.Direction 的参数方向，输入、输出、返回 ParameterDirection.Output/ReturnValue/InputOutput/Input
@@ -468,8 +468,7 @@ namespace System.Data
         /// <param name="mdfFileName"></param>
         /// <param name="otherLdfMdfFileNames"></param>
         /// <returns></returns>
-        public void AttachDB(string dbName, string mdfFileName, params string[] otherLdfMdfFileNames)
-        {
+        public void AttachDB(string dbName,string mdfFileName,params string[] otherLdfMdfFileNames) {
 
             var sqlParams = new List<SqlParameter>()
                 {
@@ -482,7 +481,7 @@ namespace System.Data
                 {
                     continue;
                 }
-                sqlParams.Add(new SqlParameter("@filename" + (2 + i), otherLdfMdfFileNames[i]));
+                sqlParams.Add(new SqlParameter("@filename"+(2+i), otherLdfMdfFileNames[i]));
             }
             // 执行存储过程
             // 如果有输出，注意 SqlParameter.Direction 的参数方向，输入、输出、返回 ParameterDirection.Output/ReturnValue/InputOutput/Input
@@ -495,8 +494,7 @@ namespace System.Data
         /// </summary>
         /// <param name="dbName"></param>
         /// <returns></returns>
-        public async Task DetachDBAsync(string dbName)
-        {
+        public async Task DetachDBAsync(string dbName) {
             // 设置单用户模式后再分离
             // "USE master; ALTER DATABASE @dbname SET SINGLE_USER; EXEC sp_detach_db @dbname;"
             // EXEC 执行动态SQL
@@ -504,15 +502,14 @@ namespace System.Data
                 {
                     new SqlParameter("@dbname",dbName)
                 });
-
+   
         }
         /// <summary>
         /// 使用 sp_detach_db 分离数据库 执行sql语句
         /// </summary>
         /// <param name="dbName"></param>
         /// <returns></returns>
-        public void DetachDB(string dbName)
-        {
+        public void DetachDB(string dbName) {
             // 设置单用户模式后再分离
             // "USE master; ALTER DATABASE @dbname SET SINGLE_USER; EXEC sp_detach_db @dbname;"
             // EXEC 执行动态SQL
@@ -520,14 +517,13 @@ namespace System.Data
                 {
                     new SqlParameter("@dbname",dbName)
                 });
-
+   
         }
         /// <summary>
         /// 获取默认的数据库文件路径
         /// </summary>
         /// <returns></returns>
-        public async Task<string> DefaultDataPathAsync()
-        {
+        public async Task<string> DefaultDataPathAsync() {
             return await ExecuteScalarAsync("SELECT SERVERPROPERTY('InstanceDefaultDataPath');");
             // SERVERPROPERTY('InstanceDefaultLogPath')
         }
@@ -535,8 +531,7 @@ namespace System.Data
         /// 获取默认的数据库文件路径
         /// </summary>
         /// <returns></returns>
-        public string DefaultDataPath()
-        {
+        public string DefaultDataPath() {
             return ExecuteScalar("SELECT SERVERPROPERTY('InstanceDefaultDataPath');");
             // SERVERPROPERTY('InstanceDefaultLogPath')
         }
@@ -544,26 +539,24 @@ namespace System.Data
         /// 添加数据库的owner用户
         /// </summary>
         /// <returns></returns>
-        public async Task<bool> ChangeOwnerAsync(string dbName, string owner)
-        {
+        public async Task<bool> ChangeOwnerAsync(string dbName,string owner) {
             // EXEC dbo.sp_changedbowner @loginame = N'sa' 已过时
             var queryOwner = await ExecuteScalarAsync($"ALTER AUTHORIZATION ON DATABASE::{dbName} TO {owner};SELECT suser_sname(owner_sid) FROM master.sys.databases WHERE name = @dbName;",
                 new SqlParameter[] { new SqlParameter("@dbName", dbName) });
-            return queryOwner == owner;
+            return queryOwner==owner;
         }
-
+        
         /// <summary>
         /// 添加数据库的owner用户
         /// </summary>
         /// <returns></returns>
-        public bool ChangeOwner(string dbName, string owner)
-        {
+        public bool ChangeOwner(string dbName,string owner) {
             // EXEC dbo.sp_changedbowner @loginame = N'sa' 已过时
             var queryOwner = ExecuteScalar($"ALTER AUTHORIZATION ON DATABASE::{dbName} TO {owner};SELECT suser_sname(owner_sid) FROM master.sys.databases WHERE name = @dbName;",
                 new SqlParameter[] { new SqlParameter("@dbName", dbName) });
-            return queryOwner == owner;
+            return queryOwner==owner;
         }
-
+        
         #endregion
     }
 }

@@ -3,7 +3,10 @@ using System;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Linq;
 
 
 namespace MiscellaneousTest
@@ -93,6 +96,47 @@ namespace MiscellaneousTest
             }
 
             MessageBox.Show("结束");
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            var webconfigFile = @"D:\SoftWareDevelope\CSharp\csharp-common-implement\Web\ASPNETMVC_UserAutho\bin\ASPNETMVC_UserAutho_Web\Web.config";
+            var xml = new XmlDocument();
+            xml.Load(webconfigFile);
+            //var configurationNode = xml.SelectSingleNode("/configuration");
+            //var connectionStringsNode = xml.SelectSingleNode("/configuration/connectionStrings");
+            //var addNode = xml.SelectSingleNode("/configuration/connectionStrings/add");
+            var defaultConnNode = xml.SelectSingleNode("/configuration/connectionStrings/add[@name=\"DefaultConnection\"]");
+            if (defaultConnNode == null)
+            {
+                MessageBox.Show("A");
+            }
+            var port = "";
+
+            var k = defaultConnNode.Attributes["connectionString"].Value;// = $"test";
+             defaultConnNode.Attributes["connectionString"].Value = $"test";
+
+            xml.Save(webconfigFile);
+
+            
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            var t = Environment.GetFolderPath(Environment.SpecialFolder.StartMenu);
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            // 刷新
+            SHChangeNotify(0x8000000, 0, IntPtr.Zero, IntPtr.Zero);
+        }
+        [DllImport("shell32.dll")]
+        public static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu));
         }
     }
 }
