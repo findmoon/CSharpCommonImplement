@@ -20,13 +20,31 @@
 
 ![](img/20230303172033.png)
 
-## 如何设置安装包的icon图标？
+## 无法设置msi安装包的icon图标
 
-如何设置 .msi 安装文件的图标，目前似乎没法修改，只能是默认的图标。
+不能设置 .msi 安装文件的图标，它不像exe(`program file`)，因此没法修改，只能是默认的图标。
 
 ![](img/20230303181105.png)
 
-## 设置 添加、移除程序的对话框图标
+> **An MSI file is NOT an EXE.  As such, an MSI file cannot have an icon that is different than all the other MSI icons on the same system.**
+
+> To clarify briefly - the icon for an MSI-based install is NOT in the MSI file. It is in Windows itself and shows on the install windows when Windows constructs each dialog from the tables in the MSI file. That means that if you want a customized icon for your install you need to provide your own UI.
+> 
+> Note that you can customize your setup with bitmaps and so on that are actually in the MSI file, and how you do that depends on the tool being used to build your MSI file. In Visual Studio setups you can have your own banner bitmap on each dialog.
+>
+> [How to set Icon for MSI installer in VS2010 setup and deployment project](https://social.msdn.microsoft.com/Forums/windows/en-US/aa3019db-5764-4e0f-a4d9-7fe3c072b8ff/how-to-set-icon-for-msi-installer-in-vs2010-setup-and-deployment-project?forum=winformssetup)
+
+## 包装 msi安装包 到一个exe程序实现自定义安装包图标
+
+msi文件无法修改其文件图标，但是可以将其包装到一个exe程序中，作为 content 内容文件，而后设置该exe的图标。运行时将 msi内容文件 写入到一个临时文件夹，然后再使用 Process.Start 调用执行。
+
+> The solution I found for setting image to Msi file is ,
+> 
+> create a window application and add the msi file to that project as a content and write code in the windows application to write the msi file to a temp folder in the system and invoke it using the Process.Start method
+>
+> [Change Setup.exe icon in Setup Project](https://social.msdn.microsoft.com/Forums/windows/en-US/95963729-c3da-437d-a9ec-ebcd3011a22d/change-setupexe-icon-in-setup-project?forum=winformssetup)
+
+## 设置 添加、移除程序的对话框图标(`AddRemoveProgramsIcon`)
 
 可以设置 Windows系统的安装程序列表中的图标（添加、移除程序的对话框图标）。
 
@@ -60,25 +78,11 @@
 
 ## 设置安装时的banner
 
+可以为安装过程中的每个对话框界面，添加banner图标。
 
+在 用户界面 的 开始下，找到每个界面，右键“属性窗口”，通过设置`BannerBitmap`实现：
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+![](img/20230306093117.png)
 
 
 # 已经安装了该产品的另一个版本，无法继续安装此版本
@@ -91,7 +95,53 @@
 
 ![](img/20230303180813.png)
 
-# 生成一个网页快捷方式
+
+# 为安装的程序添加快捷方式
+
+## 桌面和开始菜单中的快捷方式
+
+在文件系统的`Application Folder`中，直接右键想要生成快捷方式的文件，选择`Create Shortcut to xxx...`，即可快速创建一个快捷方式。
+
+比如，为主输出文件创建Shortcut：
+
+![](img/20230306181708.png)
+
+之前为 vbs 文件创建shortcut：右键`open.vbs`，选择创建快捷方式`Create Shortcut to xxx`：
+
+![](img/20230303164633.png)
+
+通常会重命名创建的快捷方式，将其剪切或复制到`User's Desktop`、`User's Programs Menu`中，在安装后，就会在 桌面和开始菜单中 生成对应快捷方式。
+
+右键快捷方式的属性窗口，设置Icon图标：
+
+![](img/20230306182048.png)
+
+
+## 添加卸载程序（快捷方式）
+
+右键`Application Folder` -> Add -> 文件，选择 “C:\Windows\System32” 中的 `msiexec.exe` 文件。
+
+> **如果为32位应用程序**，应该从`C:\Windows\SysWOW64\`中查找 `msiexec.exe` 文件。
+
+右键`msiexec.exe`创建快捷方式，重命名为`Uninstall`。
+
+![](img/20230306184135.png)
+
+打开 安装项目 的 属性窗口，复制`ProductCode`
+
+![](img/20230306184333.png)
+
+将复制好的 ProductCode 内容，粘贴到创建好的快捷方式`Uninstall`的属性`Arguments`中，并在 ProductCode 前加入 `/X`：
+
+![](img/20230306184524.png)
+
+将`UnInstall`快捷方式移动到`User’sPrograms Menu`开始菜单中。
+
+> **注：修改安装包的版本Version时，会提示重新生成 ProductCode，ProductCode更新后，需要在卸载的`UnInstall`快捷方式属性的`Arguments`中，更新对应的版本号！！！**
+
+重新打包生成安装包。
+
+## Install安装类中 生成一个网页快捷方式
 
 ```C#
 var urlLinkFile = "快捷方式文件.url";

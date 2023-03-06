@@ -33,6 +33,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_543E29D56A4E47EAAB998980AF17E6A4"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_5F8F77E8CEDD0CA8E26BC2F50193A06A"
         "OwnerKey" = "8:_78F87B48EDAE48A792AEF5311827FEFD"
         "MsmSig" = "8:_UNDEFINED"
@@ -291,6 +297,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_543E29D56A4E47EAAB998980AF17E6A4"
+            {
+            "SourcePath" = "8:C:\\Windows\\System32\\msiexec.exe"
+            "TargetName" = "8:msiexec.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5F8F77E8CEDD0CA8E26BC2F50193A06A"
             {
             "AssemblyRegister" = "3:1"
@@ -460,15 +486,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:MyInstalledWeb"
-        "ProductCode" = "8:{2BD0E08B-2658-4313-BBFF-D21E27A15D4C}"
-        "PackageCode" = "8:{7C3B971C-75CE-41AD-9175-DF3E81262253}"
+        "ProductCode" = "8:{F929A188-FE65-463B-B362-7DBA0C19D619}"
+        "PackageCode" = "8:{993458C9-B372-45E2-BC6F-838CFDB10639}"
         "UpgradeCode" = "8:{A93FC3C0-31A6-4606-8BB9-1296AAAEE090}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.14"
+        "ProductVersion" = "8:1.0.15"
         "Manufacturer" = "8:CodeMissing"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -593,6 +619,20 @@
             "Folder" = "8:_AD305740ED414282AD8F419EC140A50C"
             "WorkingFolder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
             "Icon" = "8:_C9D7588DB75E40DBACA01EFDAF0D8796"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_93028F17CAF84DEDBFB638052FE87FD5"
+            {
+            "Name" = "8:Uninstall"
+            "Arguments" = "8:/X {F929A188-FE65-463B-B362-7DBA0C19D619}"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_543E29D56A4E47EAAB998980AF17E6A4"
+            "Folder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
+            "WorkingFolder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
+            "Icon" = "8:"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_F9FD5A3CD9B3470AA98B872D4F16BC10"
