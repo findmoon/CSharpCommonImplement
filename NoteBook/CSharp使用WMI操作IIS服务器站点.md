@@ -20,3 +20,6 @@ rootEntry.CommitChanges();
 
 
 [Get IIS Version using WMI "\\root\\webadministration"](https://social.msdn.microsoft.com/Forums/en-US/cff2848e-eff5-4160-b6fa-2013079eafb3/get-iis-version-using-wmi-quotrootwebadministrationquot?forum=iis56configurationscripting)
+
+
+> 另，[C#控制IIS动态添加删除网站](https://www.cnblogs.com/tuyile006/p/11857439.html)中介绍的方法，虽很多都在混用，但也用到了WMI，并且篇末的推荐文章页很有参考意义。

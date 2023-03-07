@@ -1343,6 +1343,22 @@ namespace HelperCollections
 
 ![](img/20230221163858.png)  
 
+# 重要：安装/启用 IIS 中的组件，比如 ASP.NET
+
+> 具体参见 [C#深入操作IIS技术(创建配置站点和设置IIS Web服务扩展)](https://blog.csdn.net/xukuilove/article/details/6285938)
+
+- DisableWebServiceExtension----表示禁用某一个Web服务扩展，参数就是Web服务扩展的名称
+
+- RemoveApplication-----------------删除应用程序
+
+```C#
+DirectoryEntry service = new DirectoryEntry("IIS://localhost/W3SVC");
+
+// ..........
+
+service.Invoke("EnableWebServiceExtension", "ASP.NET v2.0.50727");
+```
+
 # 其他
 
 ```C#
@@ -1372,3 +1388,5 @@ string ServerState = ppC["ServerState"][0].ToString();//运行状态
 - [C#操作IIS程序池及站点的创建配置](https://www.bbsmax.com/A/6pdDrgMkJw/)
 
 - [DirectoryEntry 类](https://learn.microsoft.com/zh-cn/dotnet/api/system.directoryservices.directoryentry?view=windowsdesktop-7.0)
+
+其他一些 [C# 操作IIS方法集合](https://blog.csdn.net/weixin_34341229/article/details/86127386)

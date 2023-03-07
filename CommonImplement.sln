@@ -377,9 +377,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SingleExeFile", "SingleExeF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmbedAssemblyAndAllResources", "SingleExeFile\EmbedAssemblyAndAllResources\EmbedAssemblyAndAllResources.csproj", "{775255C9-CAD2-4FAA-BC38-3E8275A5EFA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsResourceExtraToTempExec_Net6", "SingleExeFile\AsResourceExtraToTempExec_Net6\AsResourceExtraToTempExec_Net6.csproj", "{2D6093A7-3E30-4C81-9B73-3DA6290B7258}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsResourceExtraToTempExec_Net6", "SingleExeFile\AsResourceExtraToTempExec_Net6\AsResourceExtraToTempExec_Net6.csproj", "{2D6093A7-3E30-4C81-9B73-3DA6290B7258}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsResourceExtraToTempExec_Netfx", "SingleExeFile\AsResourceExtraToTempExec_Netfx\AsResourceExtraToTempExec_Netfx.csproj", "{37FA4DA5-4CA8-4E73-8441-1F6458E2CFCD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSIexecUninstall", "PublishExample\MSIexecUninstall\MSIexecUninstall.csproj", "{E66425C6-4EE3-4467-8D51-0936A4824A2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -3165,6 +3167,26 @@ Global
 		{37FA4DA5-4CA8-4E73-8441-1F6458E2CFCD}.Release|x64.Build.0 = Release|Any CPU
 		{37FA4DA5-4CA8-4E73-8441-1F6458E2CFCD}.Release|x86.ActiveCfg = Release|Any CPU
 		{37FA4DA5-4CA8-4E73-8441-1F6458E2CFCD}.Release|x86.Build.0 = Release|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Debug|ARM.Build.0 = Debug|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Debug|x64.Build.0 = Debug|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Debug|x86.Build.0 = Debug|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Release|ARM.Build.0 = Release|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Release|ARM64.Build.0 = Release|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Release|x64.ActiveCfg = Release|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Release|x64.Build.0 = Release|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Release|x86.ActiveCfg = Release|Any CPU
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -3301,6 +3323,7 @@ Global
 		{775255C9-CAD2-4FAA-BC38-3E8275A5EFA4} = {18C318C9-3E41-4054-8284-38421D15ED07}
 		{2D6093A7-3E30-4C81-9B73-3DA6290B7258} = {18C318C9-3E41-4054-8284-38421D15ED07}
 		{37FA4DA5-4CA8-4E73-8441-1F6458E2CFCD} = {18C318C9-3E41-4054-8284-38421D15ED07}
+		{E66425C6-4EE3-4467-8D51-0936A4824A2B} = {0CD5A246-2A9F-448B-8295-D63511AF68A2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7196056F-9EEC-4E68-9D5E-D7D197E35299}

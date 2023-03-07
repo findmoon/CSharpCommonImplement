@@ -221,15 +221,144 @@ ASP.NET中 Identity 就是这种方式，在第一次注册使用时，初始化
 
 > **使用之前介绍的`SQLServerHelper`帮助类，具体内容不再介绍。**
 
+```C#
+/// <summary>
+/// 连接附加数据库的 处理
+/// </summary>
+/// <param name="sqlServer_IPInstance"></param>
+/// <param name="sqlServer_user"></param>
+/// <param name="sqlServer_pwd"></param>
+/// <param name="sqlServer_port"></param>
+/// <param name="targetdir"></param>
+/// <returns>返回新附加的dbName</returns>
+private static string AttachDBHandle(string targetdir,string sqlServer_IPInstance, string sqlServer_user, string sqlServer_pwd, ushort? sqlServer_port=null)
+{
+   #region 实际测试附加数据库不需要对文件设置权限
+   //给文件添加"Authenticated Users,Everyone,Users"用户组的完全控制权限 ，要附加的数据库文件必须加权限否则无法附加
+   //if (File.Exists(Context.Parameters["targetdir"].ToString() + "App_Data\\ceshi.mdf"))
+   //{
+   //    FileInfo fi = new FileInfo(Context.Parameters["targetdir"].ToString() + "App_Data\\ceshi.mdf");
+   //    System.Security.AccessControl.FileSecurity fileSecurity = fi.GetAccessControl();
+   //    fileSecurity.AddAccessRule(new FileSystemAccessRule("Everyone", FileSystemRights.FullControl, AccessControlType.Allow));
+   //    fileSecurity.AddAccessRule(new FileSystemAccessRule("Authenticated Users", FileSystemRights.FullControl, AccessControlType.Allow));
+   //    fileSecurity.AddAccessRule(new FileSystemAccessRule("Users", FileSystemRights.FullControl, AccessControlType.Allow));
+   //    fi.SetAccessControl(fileSecurity);
+   //    FileInfo fi1 = new FileInfo(Context.Parameters["targetdir"].ToString() + "App_Data\\ceshi.ldf");
+   //    System.Security.AccessControl.FileSecurity fileSecurity1 = fi1.GetAccessControl();
+   //    fileSecurity1.AddAccessRule(new FileSystemAccessRule("Everyone", FileSystemRights.FullControl, AccessControlType.Allow));
+   //    fileSecurity1.AddAccessRule(new FileSystemAccessRule("Authenticated Users", FileSystemRights.FullControl, AccessControlType.Allow));
+   //    fileSecurity1.AddAccessRule(new FileSystemAccessRule("Users", FileSystemRights.FullControl, AccessControlType.Allow));
+   //    fi1.SetAccessControl(fileSecurity1);
+   //} 
+   #endregion
 
+   using (var sqlHelper = SQLServerHelper.Init(sqlServer_IPInstance, sqlServer_user, sqlServer_pwd, "master", sqlServer_port))
+   {
+       var app_DataDir = Path.Combine(targetdir, "App_Data");
+       if (!Directory.Exists(app_DataDir))
+       {
+           return null;
+       }
 
+       var mdf_Files = Directory.GetFiles(app_DataDir, "*.mdf");
+       var ldf_Files = Directory.GetFiles(app_DataDir, "*.ldf");
+       string mdf_File = null;
+       string ldf_File = null;
+       // 一个mdf
+       if (mdf_Files.Length > 0)
+       {
+           mdf_File = mdf_Files[0];
+       }
+       else
+       {
+           return null;
+       }
+       if (ldf_Files.Length > 0)
+       {
+           ldf_File = ldf_Files[0];
+       }
+       // 附加处理时的DbName
+       var dbName = Path.GetFileNameWithoutExtension(mdf_File);
+       var dbExists = sqlHelper.ExistsDBOrTableOrCol(dbName, null);
+       if (!dbExists)
+       {
+           var dataPath = sqlHelper.DefaultDataPath();
 
+           // 复制文件 [存在将失败]
+           var last_mdf_File = Path.Combine(dataPath, Path.GetFileName(mdf_File));
+           var last_ldf_File = Path.Combine(dataPath, Path.GetFileName(ldf_File));
+           File.Copy(mdf_File, last_mdf_File);
+           File.Copy(ldf_File, last_ldf_File);
+
+           sqlHelper.AttachDB(dbName, last_mdf_File, last_ldf_File);
+       }
+
+       return dbName;
+   }
+}
+```
+
+附加数据库后，保存连接字符串到网站目录的`Web.config`中：
+
+```C#
+#region 连接附加数据库
+var attDBName = AttachDBHandle(targetdir,sqlServer_IPInstance, sqlServer_user, sqlServer_pwd, sqlServer_port);
+
+try
+{
+    var dbName = attDBName ?? productName;
+    // 更新Web.config的连接字符串
+    string webconfigFile = Path.Combine(targetdir, "Web.config");
+    if (File.Exists(webconfigFile))
+    {
+    }
+    else
+    {
+        throw new Exception("安装出错，网站配置文件Web.config不存在");
+    }
+    var xml = new XmlDocument();
+    xml.Load(webconfigFile);
+    var defaultConnNode = xml.SelectSingleNode("/configuration/connectionStrings/add[@name=\"DefaultConnection\"]");
+    var currport = "";
+    if (sqlServer_port != null)
+    {
+        currport = "," + sqlServer_port;
+    }
+    defaultConnNode.Attributes["connectionString"].Value = $"Server={sqlServer_IPInstance}{currport};Database={dbName};User Id={sqlServer_user};Password={sqlServer_pwd};";
+
+    xml.Save(webconfigFile);
+
+}
+catch (Exception ex)
+{
+    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace);
+    throw ex;
+}
+#endregion
+```
 
 # C#创建IIS站点
 
 ## 创建IIS站点
 
+> 仍旧使用之前介绍的帮助类`IISSiteHelper_MWA`（基于Microsoft.Web.Administration）
 
+```C#
+#region 创建IIS Web网站
+var iisHelper = new IISSiteHelper_MWA();
+var siteName = iisSiteName ?? productName;
+iisHelper.CreateUpdateWebSite(siteName, targetdir, siteIp, sitePort,siteHost, useDefaultAppPool?"": productName);
+var webState = iisHelper.WebSiteState(siteName);
+if (webState==null)
+{
+    throw new Exception($"IIS中{siteName}站点未创建成功！通常为IIS相关问题导致无法创建web网站。");
+}
+if (webState!= Microsoft.Web.Administration.ObjectState.Started)
+{
+    MessageBox.Show($"创建的IIS站点{siteName}未启动，请打开IIS管理器确认问题，通常是由于端口等绑定信息冲突导致无法启动！");
+}
+#endregion
+```
 
 ## 判断IIS是否安装
 
@@ -294,7 +423,36 @@ File.WriteAllLines(urlLinkFile, new string[] {
 
 # 卸载时的额外删除
 
+在卸载类库中，`UnSet_SQlServer_IIS_Lib`处理卸载的操作，比如数据库（如果有）、IIS站点（如有必要），安装卸载时的一些临时文件，比如下面的`.tmp`、`.InstallState`文件的清理。
 
+![](img/20230307141632.png)
+
+```C#
+namespace UnSet_SQlServer_IIS_Lib
+{
+    [RunInstaller(true)]
+    public partial class UnInstaller : System.Configuration.Install.Installer
+    {
+        public UnInstaller()
+        {
+            InitializeComponent();
+        }
+
+        /// <summary>
+         /// 卸载处理
+         /// </summary>
+         /// <param name="savedState"></param>
+         public override void Uninstall(IDictionary savedState)
+         {
+             base.Uninstall(savedState);
+
+            // 卸载的额外处理
+            // 卸载中无法使用 Context.Parameters 等环境参数【未确认】
+            // .....
+        }
+    }
+}
+```
 
 # 安装项目 的 启动条件【非必须】
 
@@ -333,3 +491,9 @@ Windows家庭版等没有提供IIS功能，无法安装。
 # 附：关于通过 UI 或 命令行 安装IIS
 
 [Configuring Step 1: Install IIS and ASP.NET Modules](https://learn.microsoft.com/en-us/iis/application-frameworks/scenario-build-an-aspnet-website-on-iis/configuring-step-1-install-iis-and-asp-net-modules)
+
+# 参考
+
+- [C#ASP.NET打包安装部署文件一键安装网站，包括IIS站点创建、数据库附加。](https://www.cnblogs.com/budongjiuchaziliao/p/6866815.html)
+
+- [C# Web项目制作安装包](https://www.cnblogs.com/fish520/archive/2016/09/22/5882450.html)

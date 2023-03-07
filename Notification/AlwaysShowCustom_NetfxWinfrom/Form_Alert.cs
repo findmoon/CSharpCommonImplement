@@ -19,6 +19,9 @@ namespace NotificationCustom
         /// </summary>
         public int Interval { get=> execStateTimer.Interval; set=> execStateTimer.Interval=value; }
 
+        public Form_Alert() : this("", MsgType.Info)
+        {
+        }
         /// <summary>
         /// 创建通知窗体，默认为info消息
         /// </summary>
@@ -77,9 +80,7 @@ namespace NotificationCustom
 
         private void ClosePictureBox_Click(object sender, EventArgs e)
         {
-            execStateTimer.Stop();
-            execStateTimer.Dispose();
-            Close();
+            CloseForm();
         }
 
         /// <summary>
@@ -139,7 +140,18 @@ namespace NotificationCustom
             }
         }
 
-        
+
+        /// <summary>
+        /// 关闭自定义通知框
+        /// </summary>
+        public static void CloseNotice()
+        {
+            if (!(showOneForm == null || showOneForm.IsDisposed || showOneForm.Disposing))
+            {
+                showOneForm.CloseForm();
+            }
+        }
+
         /// <summary>
         /// 显示自定义通知框
         /// </summary>
@@ -161,6 +173,15 @@ namespace NotificationCustom
             Show();
             execStateTimer.Start();
             ShowInTaskbar = false;
+        }
+        /// <summary>
+        /// 关闭通知框
+        /// </summary>
+        private void CloseForm()
+        {
+            execStateTimer.Stop();
+            execStateTimer.Dispose();
+            Close();
         }
 
     }

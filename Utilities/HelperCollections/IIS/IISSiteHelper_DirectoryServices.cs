@@ -16,6 +16,8 @@ namespace HelperCollections
     /// 
     /// 引用 System.DirectoryServices.dll
     /// Windows功能 启用 - “IIS 元数据库和IIS 6 配置兼容性”
+    /// 
+    /// DirectoryEntry刷新缓存的方法 IISEntry.RefreshCache(); 目前未使用过
     /// </summary>
     public class IISSiteHelper_DirectoryServices
     {
@@ -34,7 +36,7 @@ namespace HelperCollections
 
             // FTP则应是”MSFTPSVC”
 
-            IISEntry = new DirectoryEntry($"IIS://{iisServer}/w3svc");
+            IISEntry = new DirectoryEntry($"IIS://{iisServer}/w3svc"); 
         }
 
         /// <summary>
@@ -831,7 +833,7 @@ namespace HelperCollections
             return list;
         }
         /// <summary>
-        /// 删除应用程序池
+        /// 删除应用程序池 删除指定程序池
         /// </summary>
         /// <param name="appPool"></param>
         /// <returns></returns>

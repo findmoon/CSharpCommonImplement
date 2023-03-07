@@ -165,7 +165,7 @@ namespace Set_SQlServer_IIS_Lib
         /// <returns>返回新附加的dbName</returns>
         private static string AttachDBHandle(string targetdir,string sqlServer_IPInstance, string sqlServer_user, string sqlServer_pwd, ushort? sqlServer_port=null)
         {
-            #region 附加前设置文件权限是否必要？
+            #region 实际测试附加数据库不需要对文件设置权限
             //给文件添加"Authenticated Users,Everyone,Users"用户组的完全控制权限 ，要附加的数据库文件必须加权限否则无法附加
             //if (File.Exists(Context.Parameters["targetdir"].ToString() + "App_Data\\ceshi.mdf"))
             //{
@@ -187,11 +187,11 @@ namespace Set_SQlServer_IIS_Lib
             using (var sqlHelper = SQLServerHelper.Init(sqlServer_IPInstance, sqlServer_user, sqlServer_pwd, "master", sqlServer_port))
             {
                 var app_DataDir = Path.Combine(targetdir, "App_Data");
-                if (!File.Exists(app_DataDir))
+                if (!Directory.Exists(app_DataDir))
                 {
                     return null;
                 }
-                MessageBox.Show("1");
+         
                 var mdf_Files = Directory.GetFiles(app_DataDir, "*.mdf");
                 var ldf_Files = Directory.GetFiles(app_DataDir, "*.ldf");
                 string mdf_File = null;
@@ -223,8 +223,6 @@ namespace Set_SQlServer_IIS_Lib
                     File.Copy(ldf_File, last_ldf_File);
 
                     sqlHelper.AttachDB(dbName, last_mdf_File, last_ldf_File);
-                    //sqlHelper.ChangeOwner(dbName, sqlServer_user);
-                    MessageBox.Show("11");
                 }
 
                 return dbName;

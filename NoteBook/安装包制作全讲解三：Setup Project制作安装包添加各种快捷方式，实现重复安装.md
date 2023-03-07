@@ -123,7 +123,7 @@ msi文件无法修改其文件图标，但是可以将其包装到一个exe程�
 
 > **如果为32位应用程序**，应该从`C:\Windows\SysWOW64\`中查找 `msiexec.exe` 文件。
 
-右键`msiexec.exe`创建快捷方式，重命名为`Uninstall`。
+右键`msiexec.exe`创建快捷方式，重命名为`Uninstall_xxx`。
 
 ![](img/20230306184135.png)
 
@@ -131,15 +131,23 @@ msi文件无法修改其文件图标，但是可以将其包装到一个exe程�
 
 ![](img/20230306184333.png)
 
-将复制好的 ProductCode 内容，粘贴到创建好的快捷方式`Uninstall`的属性`Arguments`中，并在 ProductCode 前加入 `/X`：
+将复制好的 ProductCode 内容，粘贴到创建好的快捷方式`Uninstall_xxx`的属性`Arguments`中，并在 `ProductCode` 前加入 `/X `：
 
 ![](img/20230306184524.png)
 
-将`UnInstall`快捷方式移动到`User’sPrograms Menu`开始菜单中。
+将`UnInstall_xxx`快捷方式移动到`User’sPrograms Menu`开始菜单中。
 
-> **注：修改安装包的版本Version时，会提示重新生成 ProductCode，ProductCode更新后，需要在卸载的`UnInstall`快捷方式属性的`Arguments`中，更新对应的版本号！！！**
+> **注：修改安装包的版本Version时，会提示重新生成 ProductCode，ProductCode更新后，需要在卸载的`UnInstall_xxx`快捷方式属性的`Arguments`中，更新对应的版本号！！！**
 
 重新打包生成安装包。
+
+> 也可以专门写`Uninstall.exe`卸载程序，而不是复制`msiexec.exe`完成调用卸载。
+
+## User’sPrograms Menu 开始菜单添加子文件夹
+
+右键 `User’sPrograms Menu` -> Add -> Folder 
+
+![](img/20230307083949.png)
 
 ## Install安装类中 生成一个网页快捷方式
 
@@ -163,13 +171,41 @@ File.WriteAllLines(urlLinkFile, new string[] {
 >
 > **如果刷新无效，则只能重启系统！**
 
-# 无法在生成后打开程序或打开一个文件【坑】
+# 无法实现的几项功能
+
+## 无法在生成后打开程序或打开一个文件【坑】
 
 该功能无法实现，坑死人了！！！
 
+尝试了很多，总是有问题！
+
+## 添加的用户界面对话框，无法实现必填项的效果
 
 
-# 添加的用户界面对话框，无法实现必填项的效果
+
+## 密码框无法以星号隐藏显示【借助orca解决】
+
+在安装界面中，添加的界面想要设置输入框密码内容隐藏，比如只能显示星号。正规方法无法实现。
+
+但是借助 数据库表编辑器（orca）可以做到！
+
+orca下载地址：https://pan.baidu.com/s/1bpDoia7
+
+使用orca打开打包后生成的`Setup.msi`文件，
+
+选择control，找到你要编辑的文本框，将`Attributes`改成`2097159`，保存。
+
+此处是是`CustomTextA`中`Edit3`：
+
+![](img/20230307145621.png)
+
+实现的效果：
+
+![](img/20230307145646.png)
+
+> 参见 [C# Web项目制作安装包](https://www.cnblogs.com/fish520/archive/2016/09/22/5882450.html)
+
+> 不知必填项借助类似工具能否实现？
 
 # 重点注意项
 
@@ -264,6 +300,8 @@ File.WriteAllLines(urlLinkFile, new string[] {
 但是，实际上无法创建单个 `setup.exe` 的安装文件
 
 参见 [Creating single setup.exe file for setup project](https://social.msdn.microsoft.com/Forums/windows/en-US/5bb12361-a387-4096-981b-7c578e95e534/creating-single-setupexe-file-for-setup-project?forum=winformssetup)
+
+> 不过可以取巧，将msi安装文件，作为一个exe文件的资源内容进行包装，运行时提取msi并运行。
 
 # 附：.NET Core / .NET6 + 项目的问题
 

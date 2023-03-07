@@ -15,7 +15,7 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_1448548E727A4CF8948E46A77B6AAD5C"
+        "MsmKey" = "8:_1E8C47049CCD49BB9CC27C686076C9A1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -33,14 +33,14 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_543E29D56A4E47EAAB998980AF17E6A4"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_5F8F77E8CEDD0CA8E26BC2F50193A06A"
+        "OwnerKey" = "8:_78F87B48EDAE48A792AEF5311827FEFD"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_5F8F77E8CEDD0CA8E26BC2F50193A06A"
-        "OwnerKey" = "8:_78F87B48EDAE48A792AEF5311827FEFD"
+        "OwnerKey" = "8:_1E8C47049CCD49BB9CC27C686076C9A1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -81,8 +81,20 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_F905CA1BC66E48A089569B0C0A551DEB"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_78F87B48EDAE48A792AEF5311827FEFD"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_1E8C47049CCD49BB9CC27C686076C9A1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -226,26 +238,6 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1448548E727A4CF8948E46A77B6AAD5C"
-            {
-            "SourcePath" = "8:..\\..\\..\\open.vbs"
-            "TargetName" = "8:open.vbs"
-            "Tag" = "8:"
-            "Folder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_22BA0291A0F425A0BF85ECCEB113D0C5"
             {
             "AssemblyRegister" = "3:1"
@@ -281,26 +273,6 @@
             {
             "SourcePath" = "8:License.rtf"
             "TargetName" = "8:License.rtf"
-            "Tag" = "8:"
-            "Folder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_543E29D56A4E47EAAB998980AF17E6A4"
-            {
-            "SourcePath" = "8:C:\\Windows\\System32\\msiexec.exe"
-            "TargetName" = "8:msiexec.exe"
             "Tag" = "8:"
             "Folder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
             "Condition" = "8:"
@@ -408,6 +380,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F905CA1BC66E48A089569B0C0A551DEB"
+            {
+            "SourcePath" = "8:..\\..\\assert\\vbs_operates\\open.vbs"
+            "TargetName" = "8:open.vbs"
+            "Tag" = "8:"
+            "Folder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
@@ -457,6 +449,17 @@
             "Property" = "8:ProgramMenuFolder"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_B3A4CA9121904B27969AB23E9BC8FB63"
+                    {
+                    "Name" = "8:CodeMissing"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_00A6897CB51C431EB8F86A8D7289D7D0"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_C0AB29F95E2244FC885021A4CD875060"
@@ -487,7 +490,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:MyInstalledWeb"
         "ProductCode" = "8:{F929A188-FE65-463B-B362-7DBA0C19D619}"
-        "PackageCode" = "8:{993458C9-B372-45E2-BC6F-838CFDB10639}"
+        "PackageCode" = "8:{59A0B7FB-60E2-4FA0-9118-73DBA756B09A}"
         "UpgradeCode" = "8:{A93FC3C0-31A6-4606-8BB9-1296AAAEE090}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -615,24 +618,24 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_1448548E727A4CF8948E46A77B6AAD5C"
-            "Folder" = "8:_AD305740ED414282AD8F419EC140A50C"
+            "Target" = "8:_F905CA1BC66E48A089569B0C0A551DEB"
+            "Folder" = "8:_B3A4CA9121904B27969AB23E9BC8FB63"
             "WorkingFolder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
             "Icon" = "8:_C9D7588DB75E40DBACA01EFDAF0D8796"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_93028F17CAF84DEDBFB638052FE87FD5"
             {
-            "Name" = "8:Uninstall"
-            "Arguments" = "8:/X {F929A188-FE65-463B-B362-7DBA0C19D619}"
+            "Name" = "8:Uninstall_MyInstalledWeb"
+            "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_543E29D56A4E47EAAB998980AF17E6A4"
-            "Folder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
+            "Target" = "8:_1E8C47049CCD49BB9CC27C686076C9A1"
+            "Folder" = "8:_B3A4CA9121904B27969AB23E9BC8FB63"
             "WorkingFolder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
-            "Icon" = "8:"
+            "Icon" = "8:_C9D7588DB75E40DBACA01EFDAF0D8796"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_F9FD5A3CD9B3470AA98B872D4F16BC10"
@@ -643,7 +646,7 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_1448548E727A4CF8948E46A77B6AAD5C"
+            "Target" = "8:_F905CA1BC66E48A089569B0C0A551DEB"
             "Folder" = "8:_C0AB29F95E2244FC885021A4CD875060"
             "WorkingFolder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
             "Icon" = "8:_C9D7588DB75E40DBACA01EFDAF0D8796"
@@ -1863,6 +1866,34 @@
         }
         "ProjectOutput"
         {
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_1E8C47049CCD49BB9CC27C686076C9A1"
+            {
+            "SourcePath" = "8:..\\MSIexecUninstall\\obj\\Debug\\Uninstall.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_5103F88F5B604A63AB45BAE329F8DD12"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{E66425C6-4EE3-4467-8D51-0936A4824A2B}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_78F87B48EDAE48A792AEF5311827FEFD"
             {
             "SourcePath" = "8:..\\UnSet_SQlServer_IIS_Lib\\obj\\Debug\\UnSet_SQlServer_IIS_Lib.dll"

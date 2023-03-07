@@ -434,7 +434,7 @@ namespace System.Data
 
         #region SQL Server的单独方法
         /// <summary>
-        /// 使用 sp_attach_db 存储过程执行SQL，附加数据库
+        /// 使用 sp_attach_db 存储过程执行SQL，附加数据库 【当前用户为owner】
         /// </summary>
         /// <param name="dbName"></param>
         /// <param name="mdfFileName"></param>

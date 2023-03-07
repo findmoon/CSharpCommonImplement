@@ -15,5 +15,17 @@ namespace UnSet_SQlServer_IIS_Lib
         {
             InitializeComponent();
         }
+
+        /// <summary>
+         /// 卸载处理
+         /// </summary>
+         /// <param name="savedState"></param>
+         public override void Uninstall(IDictionary savedState)
+         {
+             base.Uninstall(savedState);
+
+            // 卸载的额外处理
+            // 卸载中无法使用 Context.Parameters 等环境参数【未确认】
+        }
     }
 }
