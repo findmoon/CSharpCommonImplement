@@ -4,6 +4,8 @@
 
 > 原文 [30 Stylish CSS Background Gradient Examples](https://www.makeuseof.com/css-background-gradients/#background-gradients-using-css)
 
+> **原文只提供了19个。**
+
 ![](img/20230307180809.png)
 
 实色已经有很多年了，渐变也已经到来，但是，你如何在CSS中创建它们呢？
@@ -90,8 +92,157 @@ conic-gradient(
 background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
 ```
 
+## 2. Sand to Blue
 
+![](img/20230308090355.png)
 
+使用下面的CSS创建该渐变：
 
+```css
+background-image: linear-gradient(to right, #DECBA4, #3E5151);
+```
 
+## 3. Kye Meh
+
+![](img/20230308090456.png)
+
+使用下面的CSS创建该渐变背景：
+
+```css
+background-image: linear-gradient(to right, #8360c3, #2ebf91);
+```
+
+## 4. Amin
+
+![](img/20230308090545.png)
+
+```css
+background-image: linear-gradient(to right, #8e2de2, #4a00e0);
+```
+
+## 5. Relaxing Red
+
+![](img/20230308090633.png)
+
+With just a single line of CSS code, you can add a beautiful, eye-catching background gradient to your website:
+
+```css
+background-image: linear-gradient(to right, #fffbd5, #b20a2c);
+```
+
+## 6. Sublime Light
+
+![](img/20230308090749.png)
+
+```css
+background-image: linear-gradient(to right, #fc5c7d, #6a82fb);
+```
+
+## 7. Megatron
+
+![](img/20230308090840.png)
+
+使用下面的CSS创建该三色渐变：
+
+```css
+background-image: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d);
+```
+
+## 8. Blue Raspberry
+
+![](img/20230308090957.png)
+
+```css
+background-image: linear-gradient(to right, #00b4db, #0083b0);
+```
+
+## 9. Premium Dark
+
+![](img/20230308091016.png)
+
+```css
+background-image: linear-gradient(to right, #434343 0%, black 100%);
+```
+
+## 10. Crystalline
+
+![](img/20230308091050.png)
+
+```css
+background-image: linear-gradient(-20deg, #00cdac 0%, #8ddad5 100%);
+```
+
+## 11. Lawrencium
+
+![](img/20230308091120.png)
+
+```css
+background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+```
+
+## 12. Ohhappiness
+
+![](img/20230308091157.png)
+
+Add a touch of style to your site with this easy-to-use CSS gradient background:
+
+```css
+background-image: linear-gradient(to right, #00b09b, #96c93d);
+```
+
+## 13. The Strain
+
+![](img/20230308091244.png)
+
+```css
+background-image: linear-gradient(to right, #870000, #190a05);
+```
+
+## 14. Yellow Mango
+
+![](img/20230308091337.png)
+
+```css
+background-image: radial-gradient(circle farthest-side, #fceabb, #f8b500);
+```
+
+## 15. Juicy Grass
+
+![](img/20230308091449.png)
+
+```css
+background-image: radial-gradient( circle 759px at -6.7% 50%, rgba(80,131,73,1) 0%, rgba(140,209,131,1) 26.2%, rgba(178,231,170,1) 50.6%, rgba(144,213,135,1) 74.1%, rgba(75,118,69,1) 100.3% );
+```
+
+## 16. Pink Fish
+
+![](img/20230308091511.png)
+
+```css
+background-image: linear-gradient(to right, rgb(242, 112, 156), rgb(255, 148, 114));
+```
+
+## 17. Sea Lord
+
+![](img/20230308091542.png)
+
+```css
+background-image: linear-gradient( 109.6deg, rgba(156,252,248,1) 11.2%, rgba(110,123,251,1) 91.1% );
+```
+
+## 18. Cherry Blossom
+
+![](img/20230308091643.png)
+
+```css
+background-image: linear-gradient(25deg,#d64c7f,#ee4758 50%);
+```
+
+## 19. Fresh Air
+
+![](img/20230308091715.png)
+
+```css
+background-image: linear-gradient( 95.2deg, rgba(173,252,234,1) 26.8%, rgba(192,229,246,1) 64% );
+```
 
