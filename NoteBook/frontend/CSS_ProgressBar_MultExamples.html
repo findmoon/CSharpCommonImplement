@@ -12,7 +12,59 @@
         }
 
         
-        /* progress-discrete 开始 */
+        /* progress-discrete alternate 开始 */
+        /* .progress-discrete {
+            width: 100px;
+            padding-left: 2px;
+            padding-right: 2px;
+            height: 21px;
+            border-radius: 5px;
+            border: solid 3px #4e4e4e;
+            background-color: #1e1e1e;
+            position: absolute;
+            left: calc(50% - 53px);
+        }
+
+        .progress-discrete>.track {
+            position: relative;
+            width: 100%;
+            height: 21px;
+            overflow: hidden;
+            -webkit-animation: prgBar 5s linear 0s infinite alternate;
+            animation: prgBar 5s linear 0s infinite alternate;
+        }
+
+        .progress-discrete>.track>.bar {
+            position: relative;
+            height: 15px;
+            width: 6px;
+            background-color: #00ffff;
+            border-radius:2px;
+            box-shadow: 0px 0px 5px #00ffff;
+            margin-left: 2px;
+            margin-right: 2px;
+            margin-bottom: 100px;
+            top: 3px;
+            float: left;
+            clear: top;
+        }
+
+        @-webkit-keyframes prgBar {
+            0% { width: 0% }
+            9.99% { width: 0% }
+            10% { width: 10% }
+            95% { width: 100% }
+        }
+
+        @keyframes prgBar {
+            0% { width: 0% }
+            9.99% { width: 0% }
+            10% { width: 10% }
+            95% { width: 100% }
+        } */
+        /* progress-discrete alternate 结束 */
+
+        /* progress-discrete recycle 开始 */
         .progress-discrete {
             position: relative;
             width: 100px;
@@ -35,7 +87,7 @@
             height: 21px;
             overflow: hidden;
             /* -webkit-animation: prgBar 5s linear 0s infinite alternate; */
-            animation: prgBar 5s linear 0s infinite;
+            animation: prgBar 10s linear 0s infinite;
         }
 
         .progress-discrete>.track>.bar {
@@ -51,7 +103,7 @@
             top: 3px;
             float: left;
             clear: top;
-            animation: prgBarbar 5s linear 0s infinite;
+            animation: prgBarbar 10s linear 0s infinite;
         }
 
         /* @-webkit-keyframes prgBar {
@@ -61,7 +113,7 @@
             95% { width: 100% }
         } */
 
-        /* 使用 transfrom translateX 可以方便的是实现 */
+        /* 使用 transfrom translateX 也可以实现 */
         /* 此处使用 width 和 绝对定位 及 float
             最后一个平滑消失...
         */
@@ -80,7 +132,8 @@
             50.99999% { float: right; }
             100% { float: right;}
         }
-        /* progress-discrete 结束 */
+        /* progress-discrete recycle 结束 */
+
 
     </style>
 </head>
