@@ -14,7 +14,9 @@
 
 # Flutter SDK 中 切换阿里镜像源
 
-- 在 Flutter SDK 文件夹中，找到`packages\flutter_tools\gradle\flutter.gradle`文件。
+> 修改两个文件中、三个地方的镜像源
+
+- 1. 在 Flutter SDK 文件夹中，找到`packages\flutter_tools\gradle\flutter.gradle`文件。
 
 比如，我的路径是`C:\devsoft\flutter\packages\flutter_tools\gradle\flutter.gradle`，修改如下内容：
 
@@ -33,11 +35,12 @@
     class FlutterPlugin implements Plugin<Project> {
         // private static final String DEFAULT_MAVEN_HOST = "https://storage.googleapis.com";
         private static final String DEFAULT_MAVEN_HOST = "https://storage.flutter-io.cn";
+        
         // .....
     }
 ```
 
-- 同样，在 Flutter SDK 文件夹中，找到`packages\flutter_tools\gradle\resolve_dependencies.gradle`文件。
+- 2. 同样，在 Flutter SDK 文件夹中，找到`packages\flutter_tools\gradle\resolve_dependencies.gradle`文件。
 
 比如，我的路径是`C:\devsoft\flutter\packages\flutter_tools\gradle\resolve_dependencies.gradle`，修改如下内容：
 
