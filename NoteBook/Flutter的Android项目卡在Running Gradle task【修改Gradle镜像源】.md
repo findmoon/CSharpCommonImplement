@@ -58,7 +58,7 @@ repositories {
 }
 ```
 
-# 当前 # Flutter 项目中切换阿里源
+# 当前 Flutter 项目中切换阿里源
 
 项目中的 `android\build.gradle` 文件。
 
