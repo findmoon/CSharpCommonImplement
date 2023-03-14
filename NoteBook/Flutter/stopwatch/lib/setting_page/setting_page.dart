@@ -4,7 +4,7 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../app_config_bloc/app_config_bloc.dart';
+import '../app_state_bloc/app_state_bloc.dart';
 import 'language_select_dialog.dart';
 
 class SettingPage extends StatelessWidget {
@@ -12,13 +12,15 @@ class SettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String setting = AppLocalizations.of(context)!.setting;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: const BackButton(color: Colors.black), // 标题栏最左侧显示。BackButton-返回组件
-        title: const Text(
-          "设置",
+        title: Text(
+          setting,
           style: TextStyle(color: Colors.black, fontSize: 16),
         ),
       ),
@@ -33,10 +35,13 @@ class SettingPage extends StatelessWidget {
 
   // ColorItem
   Widget buildColorItem(BuildContext context){
+    String colorThemeTitle = AppLocalizations.of(context)!.colorThemeTitle;
+    String colorThemeSubTitle = AppLocalizations.of(context)!.colorThemeSubTitle;
+
     return ListTile(
       onTap: () => _selectColor(context),
-      title: const Text('选取主题色'),
-      subtitle: const Text('秒表界面的高亮颜色为主题色'),
+      title: Text(colorThemeTitle), // const Text('选取主题色'),
+      subtitle: Text(colorThemeSubTitle), // const Text('秒表界面的高亮颜色为主题色'),
       trailing: Container(
         width: 26,
         height: 26,
@@ -50,12 +55,13 @@ class SettingPage extends StatelessWidget {
 
   void _selectColor(BuildContext context) async {
     Color initColor = Theme.of(context).primaryColor;
+    String colorDialogTitle = AppLocalizations.of(context)!.colorDialogTitle;
 
     // 显示颜色选择
     final Color newColor = await showColorPickerDialog(
       context,
       initColor,
-      title: Text('选择颜色', style: Theme.of(context).textTheme.titleLarge),
+      title: Text(colorDialogTitle, style: Theme.of(context).textTheme.titleLarge),
       // width: 40,
       // height: 40,
       spacing: 0,
@@ -82,12 +88,13 @@ class SettingPage extends StatelessWidget {
     );
 
     // 设置新颜色
-    BlocProvider.of<AppConfigBloc>(context).switchThemeColor(newColor);
+    // 通过上下文获取 AppStateBloc 对象，执行 switchThemeColor 方法更新数据状态
+    BlocProvider.of<AppStateBloc>(context).switchThemeColor(newColor);
   }
 
   // LocalItem
   Widget buildLocalItem(BuildContext context){
-    String local = BlocProvider.of<AppConfigBloc>(context).state.locale.languageCode;
+    String local = BlocProvider.of<AppStateBloc>(context).state.locale.languageCode;
 
     String localTitle = AppLocalizations.of(context)!.localTitle;
     String localSubTitle = AppLocalizations.of(context)!.localSubTitle;
@@ -104,7 +111,12 @@ class SettingPage extends StatelessWidget {
               shape: BoxShape.circle,
               border: Border.all()
           ),
-          child: Text(local,style: TextStyle(height: 1),)),
+          child: Text(local,
+                    style: TextStyle(height: 1,
+                              color: Theme.of(context).primaryColor
+                    )
+          )
+      ),
     );
   }
 

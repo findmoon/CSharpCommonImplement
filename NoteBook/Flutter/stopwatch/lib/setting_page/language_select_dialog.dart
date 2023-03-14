@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../app_config_bloc/app_config.dart';
-import '../app_config_bloc/app_config_bloc.dart';
+import '../app_state_bloc/app_state.dart';
+import '../app_state_bloc/app_state_bloc.dart';
 
 void showLanguageSelectDialog(BuildContext context) {
-  List<String> data = AppConfig.languageSupports.keys.toList();
+  List<String> data = AppState.languageSupports.keys.toList();
   showCupertinoModalPopup(
       context: context,
       builder: (context) => LanguageSelectDialog(
@@ -53,8 +53,8 @@ class LanguageSelectDialog extends StatelessWidget {
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    Locale locale = AppConfig.languageSupports.values.toList()[index];
-    Locale? blocLocal = BlocProvider.of<AppConfigBloc>(context).state.locale;
+    Locale locale = AppState.languageSupports.values.toList()[index];
+    Locale? blocLocal = BlocProvider.of<AppStateBloc>(context).state.locale;
     bool checked = locale == blocLocal;
     Color color = Theme.of(context).primaryColor;
     return ListTile(
@@ -65,8 +65,8 @@ class LanguageSelectDialog extends StatelessWidget {
   }
 
   void _onSelect(BuildContext context, int index) {
-    Locale locale = AppConfig.languageSupports.values.toList()[index];
-    BlocProvider.of<AppConfigBloc>(context).switchLanguage(locale);
+    Locale locale = AppState.languageSupports.values.toList()[index];
+    BlocProvider.of<AppStateBloc>(context).switchLanguage(locale);
     Navigator.of(context).pop();
   }
 }
