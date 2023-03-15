@@ -1,5 +1,7 @@
 **使用HTML、JavaScript、CSS构建一个简单的计算器**
 
+[toc]
+
 > 基本翻译自原文 [How to Build a Simple Calculator Using HTML, CSS, and JavaScript](https://www.makeuseof.com/build-a-simple-calculator-using-html-css-javascript/)
 >
 > 由于原文使用的是“恶名昭著”的 eval 执行的数学计算代码，因此，后面进行优化调整，改为使用[window.Function](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function)。
@@ -230,7 +232,7 @@ function calculate() {
 }
 ```
 
-# 添加错误处理
+# 添加错误处理 （`dialog`）
 
 如果计算的公式不正确，给出相关提示。此处使用 HTML5 的 dialog 元素显示提示。
 
@@ -258,3 +260,5 @@ function calculate() {
     }
 }
 ```
+
+![](img/20230315174430.png)

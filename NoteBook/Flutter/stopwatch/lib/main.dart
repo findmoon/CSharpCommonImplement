@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'app_state_bloc/app_state.dart';
 import 'app_state_bloc/app_state_bloc.dart';
-import 'home_page/stopwatch_home_page.dart';
+import 'home_page/basic_home_page/stopwatch_home_page.dart';
 
 // void main() {
 //   runApp(const StopwatchApp());

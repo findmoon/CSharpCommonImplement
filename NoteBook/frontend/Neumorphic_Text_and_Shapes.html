@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Neumorphic Text and Shapes</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --nColor: #aaa;
+            --brShadow: -6px 6px 10px rgba(0, 0, 0, 0.5);
+            --tlShadow: 6px -6px 10px rgba(255, 255, 255, 0.5);
+        }
+
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            background: var(--nColor);
+        }
+
+        .n-outset,
+        .n-inset {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .n-circle {
+            background-color: var(--nColor);
+            box-shadow: var(--brShadow), var(--tlShadow);
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            margin: 10px;
+        }
+
+        .n-donut {
+            background-color: var(--nColor);
+            box-shadow: var(--brShadow), var(--tlShadow);
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            margin: 10px;
+        }
+
+        .n-donut .n-inset {
+            background-color: var(--nColor);
+            box-shadow: inset var(--brShadow), inset var(--tlShadow);
+            border-radius: 50%;
+            width: 50%;
+            height: 50%;
+            margin: 0;
+        }
+
+        .n-tumbler {
+            background-color: var(--nColor);
+            box-shadow: var(--brShadow), var(--tlShadow);
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            margin: 10px;
+        }
+
+        .n-tumbler .n-outset {
+            background-color: var(--nColor);
+            box-shadow: var(--brShadow), var(--tlShadow);
+            border-radius: 50%;
+            width: 80%;
+            height: 80%;
+            margin: 0;
+        }
+
+        .n-square {
+            background-color: var(--nColor);
+            box-shadow: var(--brShadow), var(--tlShadow);
+            border-radius: 0;
+            width: 200px;
+            height: 200px;
+            margin: 10px;
+        }
+
+        .n-smooth-sq {
+            background-color: var(--nColor);
+            box-shadow: var(--brShadow), var(--tlShadow);
+            border-radius: 10%;
+            width: 200px;
+            height: 200px;
+            margin: 10px;
+        }
+
+        .n-text {
+            color: var(--nColor);
+            text-shadow: var(--brShadow), var(--tlShadow);
+            font-size: 6em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="n-outset n-circle">Circle</div>
+    <div class="n-outset n-donut">
+        <div class="n-inset">Donut</div>
+    </div>
+    <div class="n-outset n-square">Square</div>
+    <div class="n-outset n-smooth-sq">Smooth Square</div>
+    <div class="n-outset n-tumbler">
+        <div class="n-outset">Tumbler</div>
+    </div>
+    <div class="n-text">Neumorphic Text</div>
+    <div class="n-text">Welcome to MUO</div>
+    </script>
+</body>
+
+</html>

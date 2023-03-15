@@ -63,3 +63,17 @@ distributionUrl=file:///C:/Users/{UserName}/.gradle/wrapper/dists/gradle-7.5-all
 ```
 
 重新运行，构建成功！
+
+
+# Flutter 做本地化和国际化时，指定的 intl 依赖的问题
+
+目前最新的 直接指定 `intl: ^0.18.0` 即可。
+
+```yaml
+  # 本地化和国际化
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.18.0
+```
+
+`intl: ^0.17.0` 由于空安全的问题，需要指定 `intl 0.17.0-nullsafety.2`，但目前如果有相关报错，一般使用的都是`0.18.0`，不会有问题。

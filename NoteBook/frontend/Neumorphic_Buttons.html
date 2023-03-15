@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Neumorphic Buttons</title>
+    <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+        body {
+            background-color: #6ec7ff;
+        }
+
+        .btn-holder {
+            display: block;
+            margin: 0 auto;
+            margin-top: 64px;
+            text-align: center;
+        }
+
+        .intro-text {
+            margin-bottom: 48px;
+            font-family: 'Quicksand', sans-serif;
+            color: white;
+            font-size: 18px;
+        }
+
+        .btn {
+            width: 110px;
+            height: 110px;
+            font-size: 30px;
+            border-radius: 30px;
+            border: none;
+            color: white;
+            vertical-align: top;
+            -webkit-transition: .6s ease-in-out;
+            transition: .6s ease-in-out;
+        }
+
+        .btn:hover {
+            cursor: pointer;
+        }
+
+        .btn:focus {
+            outline: none;
+        }
+
+
+        .btn:first-of-type {
+            margin-right: 30px;
+        }
+
+
+        .neumorphic {
+            background: linear-gradient(145deg, #76d5ff, #63b3e6);
+
+            box-shadow: 30px 30px 40px #1e7689,
+                -30px -30px 40px #7fe5ff;
+            border: 3px solid rgba(255, 255, 255, .4);
+        }
+
+        .neumorphic-pressed {
+            background: linear-gradient(145deg, #63b3e6, #76d5ff);
+            -webkit-box-shadow: inset 15px 15px 20px -20px rgba(0, 0, 0, .5);
+            -moz-box-shadow: inset 15px 15px 20px -20px rgba(0, 0, 0, .5);
+            box-shadow: inset 15px 15px 20px -20px rgba(0, 0, 0, .5);
+        }
+
+        .neumorphic:focus,
+        .neumorphic:hover,
+        .neumorphic:focus,
+        .neumorphic:hover,
+        .neumorphic-pressed:focus,
+        .neumorphic-pressed:hover {
+            border: 3px solid rgba(46, 74, 112, .75);
+        }
+
+
+        .material-icon {
+            font-family: 'Material Icons';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 32px;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            -moz-osx-font-smoothing: grayscale;
+            font-feature-settings: 'liga';
+        }
+
+        #pause {
+            color: #143664;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="btn-holder">
+        <p class="intro-text">Press the buttons</p>
+        <button id="play-pause" onclick="changeStyle('play-pause')" aria-label="Play/Pause Button."
+            class="btn neumorphic">
+            <span class="icon">
+                <i id="play" class="material-icon">
+                    play_arrow
+                </i>
+
+                <i id="pause" class="material-icon">
+                    pause
+                </i>
+            </span>
+        </button>
+
+        <button id="shuffle-btn" onclick="changeStyle('shuffle-btn')" aria-label="Shuffle Button."
+            class="btn neumorphic">
+            <i id="shuffle" class="material-icon">
+                shuffle
+            </i>
+        </button>
+    </div>
+    <script type="text/javascript">
+        function changeStyle(btnPressed) {
+            var btn = document.getElementById(btnPressed);
+            btn.classList.toggle("neumorphic");
+            btn.classList.toggle("neumorphic-pressed");
+
+            if (btnPressed === 'play-pause') {
+                play();
+            } else if (btnPressed === 'shuffle-btn') {
+                shuffle();
+            }
+        }
+
+        function play() {
+            var playBtn = document.getElementById('play');
+            var pauseBtn = document.getElementById('pause');
+
+            if (playBtn.style.display === 'none') {
+                playBtn.style.display = 'block';
+                pauseBtn.style.display = 'none';
+            } else {
+                playBtn.style.display = 'none';
+                pauseBtn.style.display = 'block';
+            }
+        }
+
+        function shuffle() {
+            var shuffleBtn = document.getElementById('shuffle-btn');
+
+            if (shuffleBtn.style.color == 'white' || shuffleBtn.style.color == '') {
+                shuffleBtn.style.color = '#143664';
+            } else {
+                shuffleBtn.style.color = 'white';
+            }
+        }
+    </script>
+</body>
+
+</html>

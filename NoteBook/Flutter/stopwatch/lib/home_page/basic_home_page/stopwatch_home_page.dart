@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // AppLocalizations.of(context)!
 
-import 'widgets/stopwatch_widget.dart';
-import 'widgets/button_tools.dart';
-import 'widgets/record_panel.dart';
-import '../routes/rtl_route.dart';
-import '../setting_page/setting_page.dart';
-import 'models/stopwatch_type.dart';
-import 'models/time_record.dart';
+import '../widgets/stopwatch_widget.dart';
+import '../widgets/button_tools.dart';
+import '../widgets/record_panel.dart';
+import '../../routes/rtl_route.dart';
+import '../../setting_page/setting_page.dart';
+import '../models/stopwatch_type.dart';
+import '../models/time_record.dart';
 
 class StopWatchHomePage extends StatefulWidget {
   const StopWatchHomePage({super.key});
@@ -104,6 +104,7 @@ class _StopWatchHomePageState extends State<StopWatchHomePage> {
     double radius = MediaQuery.of(context).size.width/2*0.75;
 
     //region ValueListenableBuilder组件 对 ValueListenable 可监听对象的监听，回调触发局部更新 只构建该组件，
+    // 局部构建
     return ValueListenableBuilder<Duration>(
         valueListenable: _duration,
         builder: (_, value, __) => StopwatchWidget(
