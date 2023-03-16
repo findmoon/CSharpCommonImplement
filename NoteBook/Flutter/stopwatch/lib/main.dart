@@ -7,6 +7,7 @@ import 'app_state_bloc/app_state.dart';
 import 'app_state_bloc/app_state_bloc.dart';
 import 'home_page/basic_home_page/stopwatch_home_page.dart';
 
+//region 无状态管理的默认 主程序
 // void main() {
 //   runApp(const StopwatchApp());
 // }
@@ -23,7 +24,10 @@ import 'home_page/basic_home_page/stopwatch_home_page.dart';
 //     );
 //   }
 // }
+//endregion
 
+/// ......................  ///
+// 使用 flutter_bloc 状态管理
 void main() {
   runApp(
     BlocProvider<AppStateBloc>(

@@ -1,6 +1,6 @@
 **使用HTML、JavaScript、CSS构建一个数字时钟**
 
-> [How to Create a Digital Clock Using HTML, CSS, and JavaScript](https://www.makeuseof.com/create-a-digital-clock-html-css-javascript/)
+> 基于 [How to Create a Digital Clock Using HTML, CSS, and JavaScript](https://www.makeuseof.com/create-a-digital-clock-html-css-javascript/)，后续进行添加了显示日期、是否24小时制或12小时制、数字翻页、是否显示毫秒、数字翻页显示、requestAnimationFrame 更新时间、以倒计时形式显示时间等，设置保存到 LocalStorage 中...
 
 你会一直编码直到叽叽喳喳的鸟儿告诉你现在是早上吗？使用自己创建的自定义时钟追踪你的时间！
 
