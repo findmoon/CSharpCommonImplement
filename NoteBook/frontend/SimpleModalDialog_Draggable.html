@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>JS 可拖拽模态框Modal、弹窗/弹框，登陆注册弹窗-Draggable</title>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<style>
+            *{
+                padding: 0;
+                margin: 0;
+                user-select: none;
+                box-sizing: border-box;
+            }
+            body{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+            button{
+                /* 取消按钮自带的轮廓  或 outline: 0; */
+                outline: none;
+                width: 100px;
+                height: 40px;
+                color: #409eff;
+                border-radius: 6px;
+                border: 1px solid #b3d8ff;
+                background-color: #ecf5ff;
+                cursor: pointer;
+                /* 过渡 */
+                transition: all 0.3s;
+            }
+            button:hover{
+                color: #fff;
+                border-color: #409eff;
+                background-color: #409eff;
+            }
+
+            /* 模态框 start */
+            .modal-box{
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background-color: rgba(0, 0, 0, 0.32);
+            }
+            .modal-box .content{
+                width: 410px;
+                height: 350px;
+                border-radius: 6px;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+                background-color: #fff;
+            }
+            .modal-box .content .title{
+                
+            }
+            /* 模态框 end */
+        </style>
+	</head>
+
+	<body>
+		<button>登录</button>
+		<div class="modal-box">
+			<div class="content">
+				<div class="title"><span>登录</span><i>x</i></div>
+				<form action="#">
+					<div class="from-input">
+						<label for="username">用户名：</label>
+						<input id="username" name="username" type="text" />
+					</div>
+					<div class="from-input">
+						<label for="password">密码：</label>
+						<input id="password" name="pwd" type="password" />
+					</div>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

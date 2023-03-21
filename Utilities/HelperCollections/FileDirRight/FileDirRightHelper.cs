@@ -7,7 +7,7 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HelperCollections.FileDirRight
+namespace HelperCollections
 {
     /// <summary>
     /// 文件文件夹权限设置帮助类

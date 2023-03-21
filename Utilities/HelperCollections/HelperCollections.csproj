@@ -39,6 +39,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,6 +51,14 @@
     <Compile Include="ArgumentGuardHandle\ArgumentGuard.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="FileDirRight\FileDirRightHelper.cs" />
+    <Compile Include="GetFileIcon_ThumbnailImage\FileDirIconHelper.cs" />
+    <Compile Include="GetFileIcon_ThumbnailImage\FileDirIconHelper_ImageList.cs" />
+    <Compile Include="GetFileIcon_ThumbnailImage\FileIconHelper.cs" />
+    <Compile Include="GetFileIcon_ThumbnailImage\IImageList.cs" />
+    <Compile Include="GetFileIcon_ThumbnailImage\IMAGELIST_SIZE_FLAG.cs" />
+    <Compile Include="GetFileIcon_ThumbnailImage\SHFILEINFO.cs" />
+    <Compile Include="GetFileIcon_ThumbnailImage\SHGFIEmun.cs" />
+    <Compile Include="GetFileIcon_ThumbnailImage\Win32Extern.cs" />
     <Compile Include="IIS\IISSiteHelper_MWA.cs" />
     <Compile Include="IIS\Model\SiteInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

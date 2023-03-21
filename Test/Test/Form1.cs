@@ -1,4 +1,4 @@
-﻿using HelperCollections.FileDirRight;
+﻿using HelperCollections;
 using System;
 using System.Data;
 using System.Diagnostics;
@@ -6,7 +6,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Xml;
-using System.Xml.Linq;
 
 
 namespace MiscellaneousTest
@@ -137,6 +136,11 @@ namespace MiscellaneousTest
         private void button11_Click(object sender, EventArgs e)
         {
             MessageBox.Show(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu));
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            new FileDirIconTest().Show();
         }
     }
 }

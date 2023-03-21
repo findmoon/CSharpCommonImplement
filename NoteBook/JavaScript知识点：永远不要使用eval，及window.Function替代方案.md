@@ -2,9 +2,13 @@
 
 [toc]
 
+**在任何情况下我们都应该避免使用 eval 函数。99.9% 使用 eval 的场景都有不使用 eval 的解决方案。**
+
 # eval() 介绍
 
 **`eval()`** 函数会在 **当前作用域中** 执行传入的JavaScript代码字符串，返回字符串中代码的返回值。
+
+>
 
 ```js
 console.log(eval('2 + 2'));
@@ -71,10 +75,64 @@ console.log(looseJsonParse(
 
 # Function() 内部如何调用局部变量
 
+利用函数嵌套，以参数传递的形式，将 局部变量/对象(函数) 等传入 Function() 内执行。
+
+```js
+function Date(n){
+    return ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"][n%7 || 0];
+}
+function runCodeWithDateFunction(obj){
+    return Function('"use strict";return (' + obj + ')')()(
+        Date
+    );
+}
+console.log(runCodeWithDateFunction(
+   "function(Date){ return Date(5) }"
+))
+```
+
+虽然使用了 三重嵌套函数，函数调用开销很小，使得代码尺寸小得多，值得获益；代码不使用 eval()，使其比其他方式快几个数量级。
 
 
-✖️
+# 附：属性访问器 []
 
+```js
+var obj = { a: 20, b: 30 }
+var propName = getPropName(); // 返回 "a" 或 "b"
+var result = obj[ propName ]; // obj[ "a" ] 与 obj.a 等价
+```
 
+```js
+function getDescendantProp(obj, desc) {
+  var arr = desc.split('.');
+  while (arr.length) {
+    obj = obj[arr.shift()];
+  }
+  return obj;
+}
 
-纯HTML和CSS实现一个简单通用的模态框
+var obj = {a: {b: {c: 0}}};
+var propPath = getPropPath(); // 例如返回 "a.b.c"
+var result = getDescendantProp(obj, propPath);
+```
+
+```js
+function setDescendantProp(obj, desc, value) {
+  var arr = desc.split('.');
+  while (arr.length > 1) {
+    obj = obj[arr.shift()];
+  }
+  return obj[arr[0]] = value;
+}
+
+var obj = {a: {b: {c: 0}}};
+var propPath = getPropPath();  // 例如，返回 "a.b.c"
+var result = setDescendantProp(obj, propPath, 1);  // a.b.c 值为 1
+```
+
+# 参考
+
+- [MDN eval()](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/eval)
+- [JS中eval()解析和为什么不要使用eval](https://www.jianshu.com/p/d1afad1c76a9)
+
+其他 [JavaScript 为什么不推荐使用 eval？](https://www.zhihu.com/question/20591877)

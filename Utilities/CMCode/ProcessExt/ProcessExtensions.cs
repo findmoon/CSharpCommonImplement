@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 
 namespace CMCode.ProcessExt
 {
+    /// <summary>
+    /// 获取处理进程的扩展方法，获取父子进程
+    /// </summary>
     public static class ProcessUtilities
     {
         #region 获取父进程
