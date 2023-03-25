@@ -11,7 +11,11 @@
 > IIS includes Microsoft.Web.Administration, which is a new a management API for the web server that enables editing configuration through complete manipulation of the XML configuration 
 files. It also provides convenience objects to manage the server, its properties and state.
 
-# IIS操作的帮助类
+> 总配置文件 `%WINDIR%\System32\inetsrv\config\applicationHost.config`。
+
+# IISSiteHelper_MWA - IIS操作帮助类
+
+## IIS操作的帮助类
 
 ```C#
 using Microsoft.Web.Administration;
@@ -411,6 +415,34 @@ private static void CreateAppPool(string poolname,bool enable32bitOn64, ManagedP
     }  
 }  
 ```
+
+## Microsoft.Web.Administration 设置 Application 和 AppPool 高级属性【管理员权限】
+
+以 **应用程序池中高级设置** 中的 启动模式(`startMode`) 为例。如下，设置为 "AlwaysRunning"：
+
+```C#
+apppool.SetAttributeValue("startMode", "AlwaysRunning");
+```
+
+以 **网站的应用程序高级设置**  中的 预加载已启用(`preloadEnabled`) 为例。如下，设置为 true 启用：
+
+```C#
+mySite.Applications[0].Attributes["preloadEnabled"].Value = true;
+```
+
+> 注：IIS管理器 中，直接右键网站->管理网站->高级设置，实际修改的是网站默认的第一个应用程序的设置。
+> 
+> 对于预加载等高级设置，对应网站下每个 **应用程序** 都有自己单独的设置项。
+> 
+> ![](img/20230324142249.png)
+
+> 另，由于这些高级属性都是修改的 `%WINDIR%\System32\inetsrv\config\applicationHost.config` 文件，因此，需要管理员权限才能设置成功。
+> 
+> 如果不修改高级属性，普通运行程序操作即可。
+
+## IISSiteHelper_MWA 测试使用
+
+
 
 # 创建站点、AppPool、获取DNS信息、IIS服务管理
 

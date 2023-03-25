@@ -74,10 +74,13 @@ namespace HelperCollections
         /// <param name="ip">ip</param>  
         /// <param name="port">端口，不能为空，1024~65534；如果是更新，将会新增绑定</param>  
         /// <param name="hostName">主机名，即 域名</param> 
+        /// <param name="sitePreloadEnabled">网站是否启用预加载，默认false</param> 
         /// <param name="appPoolName">应用程序池，如果为空将使用默认DefaultAppPool</param>
-        /// <param name="enable32BitAppOnWin64">默认启用32位应用程序，如果为64位网站则不需要启用</param>
+        /// <param name="enable32BitAppOnWin64">应用程序池 默认启用32位应用程序，如果为64位网站则不需要启用</param>
+        /// <param name="startMode">应用程序池 启动模式，默认 OnDemand</param>
         /// <returns></returns>  
-        public void CreateUpdateWebSite(string webSiteName, string physicalPath, string ip = "", ushort port = 80, string hostName = "", string appPoolName = "", bool enable32BitAppOnWin64 = true)
+        public void CreateUpdateWebSite(string webSiteName, string physicalPath, string ip = "", ushort port = 80, string hostName = "", bool? sitePreloadEnabled=false,
+            string appPoolName = "", bool enable32BitAppOnWin64 = true, AppPollStartMode? startMode=null)
         {
             //SetFileRole();
 
@@ -125,10 +128,25 @@ namespace HelperCollections
                 //apppool.ManagedRuntimeVersion = "v4.0";
                 apppool.Enable32BitAppOnWin64 = enable32BitAppOnWin64;
 
+                if (startMode!=null)
+                {
+                    //apppool.SetAttributeValue("startMode", "AlwaysRunning"); 
+                    apppool.SetAttributeValue("startMode", startMode.Value.ToString());
+                }
+
                 mySite.Applications[0].ApplicationPoolName = appPoolName;
 
             }
             #endregion
+
+            // System.Runtime.InteropServices.COMException (0x80070585): 无效索引。 (异常来自 HRESULT:0x80070585)
+            //mySite.SetAttributeValue("preloadEnabled", true);
+
+            //mySite.SetMetadata("preloadEnabled", true);
+            if (sitePreloadEnabled!=null)
+            {
+                mySite.Applications[0].Attributes["preloadEnabled"].Value = sitePreloadEnabled.Value;
+            }
 
             mySite.ServerAutoStart = true;
 
@@ -195,9 +213,12 @@ namespace HelperCollections
         /// <param name="physicalPath">物理路径</param>
         /// <param name="isApplication">是否创建更新应用程序</param>
         /// <param name="parentAppName">webSiteName下的应用程序名称，实际为`path路径，如'/a/b'`。当创建更新虚拟目录时如果不指定，将在默认App下操作</param>
+        /// <param name="appPreloadEnabled">应用程序 是否启用预加载，默认false 【仅创建应用程序池时有效】</param> 
         /// <param name="appPoolName">应用程序池，如果为空将使用默认的DefaultAppPool;当创建、更新应用程序时，可指定应用程序池；虚拟目录指定AppPool无效</param>
-        /// <param name="enable32BitAppOnWin64">默认启用32位应用程序，如果为64位网站则不需要启用</param>
-        public void CreateUpdateVDirApplication(string webSiteName, string app_vDir_Name, string physicalPath, bool isApplication = true, string parentAppName = "", string appPoolName = "", bool enable32BitAppOnWin64 = true)
+        /// <param name="enable32BitAppOnWin64">应用程序池 默认启用32位应用程序，如果为64位网站则不需要启用</param>
+        /// <param name="startMode">应用程序池 启动模式，默认 OnDemand</param>
+        public void CreateUpdateVDirApplication(string webSiteName, string app_vDir_Name, string physicalPath, bool isApplication = true, string parentAppName = "", bool? appPreloadEnabled = false,
+            string appPoolName = "", bool enable32BitAppOnWin64 = true, AppPollStartMode? startMode = null)
         {
             var site = serverManager.Sites[webSiteName];
             if (site == null)
@@ -242,9 +263,18 @@ namespace HelperCollections
                     //apppool.ManagedRuntimeVersion = "v4.0";
                     apppool.Enable32BitAppOnWin64 = enable32BitAppOnWin64;
 
+                    if (startMode != null)
+                    {
+                        apppool.SetAttributeValue("startMode", startMode.Value.ToString());
+                    }
                     app.ApplicationPoolName = appPoolName;
                 }
                 #endregion
+
+                if (appPreloadEnabled != null)
+                {
+                    app.Attributes["preloadEnabled"].Value = appPreloadEnabled.Value;
+                }
 
                 site.ServerAutoStart = true;
 
@@ -492,5 +522,11 @@ namespace HelperCollections
         }
 
         #endregion
+    }
+
+    public enum AppPollStartMode
+    {
+        OnDemand,
+        AlwaysRunning
     }
 }

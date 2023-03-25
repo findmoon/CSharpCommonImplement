@@ -157,9 +157,10 @@ namespace IISManipulate
         private void button9_Click(object sender, EventArgs e)
         {
             var iisHelper = new IISSiteHelper_MWA();
-            iisHelper.CreateUpdateWebSite("MySiteTest3", "C:\\inetpub\\Test\\MySiteTest1", port: 1931);
+            //iisHelper.CreateUpdateWebSite("MySiteTest3", "C:\\inetpub\\Test\\MySiteTest1", port: 1931);
 
-            iisHelper.CreateUpdateWebSite("MySiteTest2", "C:\\inetpub\\Test\\MySiteTest1", port: 1933,appPoolName:"anotherAppPool");
+            iisHelper.CreateUpdateWebSite("MySiteTest2", "C:\\inetpub\\Test\\MySiteTest1", port: 1933,sitePreloadEnabled:true,
+                appPoolName:"anotherAppPool", startMode: AppPollStartMode.AlwaysRunning);
 
             MessageBox.Show("结束更新创建站点");
         }
