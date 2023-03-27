@@ -100,10 +100,55 @@ msi文件无法修改其文件图标，但是可以将其包装到一个exe程�
 
 ## 实现覆盖安装的终极总结
 
-> 此部分主要参考自 [VS自带的打包工具，实现覆盖安装终极总结](https://www.cnblogs.com/dachuang/p/14026847.html)，很不错的总结。
+> 此部分出自 [VS自带的打包工具，实现覆盖安装终极总结](https://www.cnblogs.com/dachuang/p/14026847.html)，很不错的总结。
 >
 > 真想说，VS Setup Projects 太坑了！！！
 
+> 要实现覆盖安装，最重要的一点是 **修改要安装的程序集的版本**。在 .NET 项目下的 `Properties/AssemblyInfo.cs` 中，修改如下两项（应该只修改文件版本`AssemblyFileVersion`即可）：
+> 
+> ```C#
+> [assembly: AssemblyVersion("1.0.0.0")]
+> [assembly: AssemblyFileVersion("1.0.0.0")]
+> ```
+
+归纳下最全的如下：
+
+1. 两个版本的属性RemovePreviousVersion和DetectNewerInstalledVersion都设为True;
+
+（DetectNewerInstalledVersion这个属性意思自己百度了下，是指定在目标计算机上安装时是否检查有无应用程序的更新版本。 如果此属性设置为 True，并且在安装时检测到了更高的版本号，则结束安装），其实就是防止“安装了高版本，再安装低版本”问题的
+
+
+2. 两个版本的ProductCode不能相同，这个不用自己手动修改，下面会说;
+
+
+3. 两个版本的UpgradeCode必须相同;
+
+
+4. 部署(安装)项目属性中的Version必须大于旧版本; 
+
+这个就是打包项目，属性-Version必须大于上个打包的版本号，同时修改这个的时候，上面的ProductCode会自动修改，所以上面不用手动修改，如果你没修改这个，安装包开始是不提示那个已经有版本的错误了，但下一步后会提示已经有个最新版本，还是不能覆盖安装。
+
+
+5. **新版本的程序集版本号要大于旧版本**; 要安装的程序集版本要大于之前的版本。【重点】
+
+这个是我纠结最长时间的，因为好多作者解答中就没有这个，但这个是最关键的，不改这个，你看着安装包是正常覆盖安装了，结果项目生产的那些dll和exe根本就没覆盖，还是老的，日了狗了，没这个前面再好，也是白折腾。这个就是修改每个项目下 Properties-AssemblyInfo 文件最下面那个版本号，（有两个，我也没试是哪个，都改了），改了这个版本号后安装就会覆盖老的。
+
+
+6. 配置信息Config.Xml文件保留的方法（部署项目中找到Config.Xml文件，然后在属性中将Permanent属性设置为True）【程序卸载时文件是否被移除】
+
+注释：Permanent指定卸载应用程序时是否移除文件，这个我没设置也可以用
+
+7. 需要注意的是app.config或自定义的文件，一旦被程序修改后，就无法再被新版本覆盖了，这个很无奈，没有找到其他的简单方法，目前知道的只能在Install类里，安装前把这些文件自己删除了；
+
+8. 关于dll注册问题，有些dll需要注册，安装的时候会提示让注册，这时可以dll右键属性--Register,注册属性：我们一般只用三种，vsdrfDoNotRegister：从不注册，vsdrfCOMRelativePath：注册需要注册的dll文件，vsdrfCOMSelfReg：注册ocx组件。
+
+**Permanent** 与 **Register**：
+
+![](img/20230327091712.png)
+
+以上就是总结的覆盖安装的东西。
+
+注意： **个人还遇到了个问题就是，在win10打包的，win7上不能卸载，win7打包的，两者都可以正常卸载。**
 
 
 # 为安装的程序添加快捷方式

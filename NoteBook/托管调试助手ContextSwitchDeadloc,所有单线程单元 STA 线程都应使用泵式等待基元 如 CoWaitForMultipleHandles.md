@@ -179,7 +179,31 @@ WPF 元素处理大数据量时，可以考虑开启虚拟化，这对于性能�
 
 # 方法三：pumping wait primitives - CoWaitForMultipleHandles 的使用
 
+[How to use "CoWaitForMultipleHandles" ?](https://social.msdn.microsoft.com/Forums/vstudio/en-US/3a28f658-a047-4e52-9f53-9c1a4dad0014/how-to-use-quotcowaitformultiplehandlesquot-?forum=wpf)
 
+[Pumping Windows Messages During Long Operation?](https://stackoverflow.com/questions/4806742/pumping-windows-messages-during-long-operation)
+
+
+[MicrosoftSoftwareHardwareNetwork  Question : how to use CoWaitForMultipleHandles in  long running loops ?](https://microsoft.wmlcloud.com/forums/t/96488.aspx)
+
+https://www.appsloveworld.com/csharp/100/108/cowaitformultiplehandles-api-doesnt-behave-as-documented
+
+[CoWaitForMultipleHandles (ole32)](https://www.pinvoke.net/default.aspx/ole32/CoWaitForMultipleHandles.html)
+
+[AF Element creation via C#.NET very slow](https://pisquare.osisoft.com/s/question/0D51I00004UHe69SAD/af-element-creation-via-cnet-very-slow)
+
+[Help! pumping wait primitives - what is that?](https://microsoft.public.dotnet.languages.vb.narkive.com/WTwLk7Ss/help-pumping-wait-primitives-what-is-that)
+
+https://www.ranorex.info/context-switch-deadlock-in-visual-studio-t11336.html
+
+http://dotnetdud.blogspot.com/2009/01/clr-has-been-unable-to-transition-from.html
+
+https://groups.google.com/g/microsoft.public.dotnet.framework.clr/c/Vw3LlQkls5g
+
+
+
+
+[Error in windows application: long running operation without pumping Windows messages](https://www.codeproject.com/Questions/667027/long-running-operation-without-pumping-Windows-mes)  Release下不会显示。
 
 # 附：UIElement.CacheMode
 

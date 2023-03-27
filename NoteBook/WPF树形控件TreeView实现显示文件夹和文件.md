@@ -6,7 +6,7 @@
 
 # 附：DataGrid 根据选择的元素内容的数据自动生成列和数据绑定
 
-[WPF-TreeView获取文件夹目录、DataGrid获取目录下文件信息](https://www.cnblogs.com/amourjun/p/6534161.html) 中给出的示例是自动生成 DataGrid 列，感觉很不错，在此记录下来。
+[WPF-TreeView获取文件夹目录、DataGrid获取目录下文件信息](https://www.cnblogs.com/amourjun/p/6534161.html) 或 [WPF 4 目录树型显示](https://www.cnblogs.com/gnielee/archive/2010/06/04/wpf4-directory-treeview.html) 中给出的示例是自动生成 DataGrid 列，感觉很不错，在此记录下来。
 
 - WAML 结构
 

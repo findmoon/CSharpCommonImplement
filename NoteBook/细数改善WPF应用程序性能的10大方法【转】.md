@@ -164,3 +164,36 @@ int displayTier = (System.Windows.Media.RenderCapability.Tier > 16)
 - [详解WPF扩展玻璃效果（Aero Glass）](http://tech.it168.com/a2010/1008/1111/000001111226.shtml "详解WPF扩展玻璃效果（Aero Glass）")
 - [超赞的四款WPF辅助开发免费工具](http://tech.it168.com/a2010/1013/1113/000001113030.shtml "超赞的四款WPF辅助开发免费工具 ")
 - [WPF学习之路:从HelloWorld到WPF World](http://tech.it168.com/a2010/1019/1115/000001115519.shtml "WPF学习之路:从HelloWorld到WPF World")
+
+# 另：11、关于 CacheMode 属性
+
+缓存模式的具体使用和作用？
+
+```xml
+<Image CacheMode="BitmapCache" Source="MyImage.png"></Image>
+```
+
+或
+
+```C#
+image.CacheMode = new BitmapCache();
+```
+
+或
+
+```xml
+<Style TargetType="ListBoxItem" x:Key="ContainerStyle">
+    <Setter Property="CacheMode" Value="BitmapCache"/>
+</Style>
+
+
+<Style TargetType="ListBoxItem" x:Key="ContainerStyle">
+    <Setter Property="CacheMode">
+        <Setter.Value>
+            <BitmapCache EnableClearType="True" SnapsToDevicePixels="True"/>
+        </Setter.Value>
+    </Setter>
+</Style>
+```
+
+[2010: CacheMode for ListViewItem? ](https://social.msdn.microsoft.com/Forums/vstudio/en-US/9a2b6a78-d287-4e50-b672-799ecbb012ef/2010-cachemode-for-listviewitem?forum=wpf)
