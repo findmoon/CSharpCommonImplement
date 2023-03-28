@@ -2,7 +2,160 @@
 
 [toc]
 
+# 简要介绍
 
+> 位于 `WPF\CommonEffect_Elements` 下 `TreeViewEffect` 文件夹， `DirFileDisplayWindow.xaml`。
+
+- DirFileRecord - 文件/文件夹信息记录类
+
+```C#
+    /// <summary>
+    /// 文件/文件夹信息记录类
+    /// 通过指定路径递归加载子路径和子文件，如果遇到目录较深可能会耗时和卡顿
+    /// </summary>
+    public class DirFileRecord
+    {
+        /// <summary>
+        /// 目录深度，默认从原始初始化时指定的路径开始，目录深度为3
+        /// 如需加载更深的目录，则可以增加 DirDepth 的大小，并调用 ChildDirFiles 方法？【暂未实现】
+        /// </summary>
+        public static int DirDepth { get; set; } = 3;
+
+        /// <summary>
+        /// 还需要维护当前的目录深度 【暂时未实现】
+        /// </summary>
+        static int CurrDirDepth { get; set; }
+
+        /// <summary>
+        /// 文件或文件夹路径
+        /// </summary>
+        public string dirOrFilePath { get; }
+        /// <summary>
+        /// 文件或文件夹名称
+        /// </summary>
+        public string Name { get;  }
+
+        /// <summary>
+        /// 是否为 文件 【不存在为 null】
+        /// </summary>
+        public bool? isFile { get; set; }
+        /// <summary>
+        /// 文件或文件夹的图标路径
+        /// </summary>
+        public string IconPath { get; set; }
+
+        public DirFileRecord(string path)
+        {
+            dirOrFilePath = path;
+            Name= System.IO.Path.GetFileName(path);
+            if (Directory.Exists(path))
+            {
+                isFile = false;
+            }
+            else if (File.Exists(path))
+            {
+                isFile=true;
+            }
+        }
+
+
+        public IEnumerable<DirFileRecord> ChildDirFiles
+        {
+            get
+            {
+                if (isFile==false)
+                {
+                    var Info = new DirectoryInfo(dirOrFilePath);
+                    // Info.GetDirectories("*", SearchOption.TopDirectoryOnly)
+                    var dirs = from di in Info.GetDirectories()
+                           select new DirFileRecord(di.FullName);
+                    return dirs.Concat(from di in Info.GetFiles()
+                                       select new DirFileRecord(di.FullName));
+                }
+
+                //return new DirFileRecord[0];
+                return null;
+            }
+        }
+    }
+```
+
+- DirFileDisplayWindow 窗体处理
+
+```xml
+        <TreeView x:Name="directoryTreeView">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type local:DirFileRecord}"
+                        ItemsSource="{Binding ChildDirFiles}" >
+                    <StackPanel Orientation="Horizontal">
+                        <!--<Image Source="Images/folder.png" Width="16" Height="16"/>-->
+                        <TextBlock Text="{Binding Name}"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </TreeView>
+```
+
+```C#
+       /// <summary>
+        /// 要显示的文件夹路径
+        /// </summary>
+        private string displayFolderPath;
+
+        public DirFileDisplayWindow()
+        {
+            InitializeComponent();
+
+            // 设置初始化显示的路径
+            displayFolderPath=Environment.GetFolderPath(Environment.SpecialFolder.System);
+
+            Loaded += MainWindow_Loaded;
+
+            // 选择TreeView菜单项
+            directoryTreeView.SelectedItemChanged += DirectoryTreeView_SelectedItemChanged;
+        }
+
+        private async void DirectoryTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (e.NewValue is DirFileRecord record)
+            {
+                // 处理读取选择的文件/文件夹。比如读取文件内容
+                // Encoding.UTF7 似乎更好
+                var text = await EncoderAndDecoder.ReadStringFromFileAsync(record.dirOrFilePath, Encoding.UTF7);
+
+               // ..........
+            }
+        }
+
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            SetDirTreeViewDatas(displayFolderPath);
+        }
+
+        /// <summary>
+        /// 设置 directoryTreeView.ItemsSource
+        /// </summary>
+        /// <param name="folderPath">文件夹路径</param>
+        private void SetDirTreeViewDatas(string folderPath)
+        {
+            if (string.IsNullOrWhiteSpace(folderPath))
+            {
+                return;
+            }
+            var directory = new ObservableCollection<DirFileRecord>
+            {
+                new DirFileRecord(folderPath)
+            };
+            directoryTreeView.ItemsSource = directory;
+        }
+```
+
+- 基本效果
+
+未实现显示图标（文件夹、不同文件类型图标）
+
+![](img/20230328163523.png)
 
 # 附：DataGrid 根据选择的元素内容的数据自动生成列和数据绑定
 

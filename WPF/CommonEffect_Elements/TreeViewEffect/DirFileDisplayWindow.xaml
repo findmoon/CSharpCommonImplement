@@ -1,0 +1,27 @@
+﻿<Window x:Class="CommonEffect_Elements.TreeViewEffect.DirFileDisplayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CommonEffect_Elements.TreeViewEffect"
+        mc:Ignorable="d"
+        Title="树形菜单显示文件/文件夹 - DirFileDisplay" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="203*"/>
+            <ColumnDefinition Width="597*"/>
+        </Grid.ColumnDefinitions>
+        <TreeView x:Name="directoryTreeView">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type local:DirFileRecord}"
+                        ItemsSource="{Binding ChildDirFiles}" >
+                    <StackPanel Orientation="Horizontal">
+                        <!--<Image Source="Images/folder.png" Width="16" Height="16"/>-->
+                        <!--<Image Source="{Binding IconPath}" Width="16" Height="16"/>-->
+                        <TextBlock Text="{Binding Name}"/>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </TreeView>
+    </Grid>
+</Window>

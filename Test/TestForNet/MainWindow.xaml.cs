@@ -223,6 +223,18 @@ namespace MiscellaneousTestForNet
 
             Debug.WriteLine("随机文件名： " + System.IO.Path.GetRandomFileName()); 
         }
+
+        private void ValueTaskUse_TestUse1_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            ValueTaskUse.TestUse1();
+        }
+
+        private async void TaskThreadId_Button_Click(object sender, RoutedEventArgs e)
+        {
+            await ValueTaskUse.TestTaskThreadIdAsync();
+
+            await ValueTaskUse.TestTaskThreadIdAsync_ConfigureAwaitTrue();
+        }
     }
     class MyTest { }
 

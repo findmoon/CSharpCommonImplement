@@ -13,5 +13,9 @@
         <Button Content="指针类型转换" HorizontalAlignment="Left" Margin="94,292,0,0" VerticalAlignment="Top" Height="35" Width="138" Click="Button_Click4"/>
         <Button Content="临时文件夹" HorizontalAlignment="Left" Margin="94,348,0,0" VerticalAlignment="Top" Height="35" Width="138" Click="Button_Click5"/>
 
+        <Button Content="测试 异步任务 的线程Id (是否切换线程)" HorizontalAlignment="Left" Margin="10,26,0,0" VerticalAlignment="Top" Height="35" Width="231" Click="TaskThreadId_Button_Click" />
+
+        <Button Content="测试ValueTaskUse.TestUse1" HorizontalAlignment="Left" Margin="272,26,0,0" VerticalAlignment="Top" Height="35" Width="190" Click="ValueTaskUse_TestUse1_Btn_Click" />
+
     </Grid>
 </Window>
