@@ -1,4 +1,4 @@
-﻿namespace SingletonApp_Winform
+﻿namespace SingletonApp_Mutex_Winform
 {
     partial class Form1
     {
@@ -34,11 +34,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(233, 142);
+            this.label1.Location = new System.Drawing.Point(186, 175);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(347, 36);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Singleton Application 单个应用程序的实现。参见 Program.cs\r\n\r\n通过遍历进程";
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Singleton Application 单个应用程序的实现。参见 Program.cs\r\n\r\n通过 System.Threading.Mutex";
             // 
             // Form1
             // 

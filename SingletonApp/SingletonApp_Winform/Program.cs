@@ -37,8 +37,14 @@ namespace SingletonApp_Winform
             }
             else
             {
+                #region 方式一： win32 API 遍历并置前
                 CallBack myCallBack = new CallBack(FindAppWindow);
                 EnumWindows(myCallBack, 0);
+                #endregion
+
+                #region 方式二：直接使用现有获取到的进程 myProcess 【不推荐，简单程序下可这么使用】
+                //HandleRunningInstanceWhnd(myProcess);
+                #endregion
             }
         }
 
