@@ -45,6 +45,21 @@ static void Main()
 public static extern int SetForegroundWindow(IntPtr hwnd);
 ```
 
+- `判断进程，只能启动一个实例` 部分还可以小小的精简下：
+
+```C#
+    // 判断进程，只能启动一个实例
+    Process cur = Process.GetCurrentProcess();
+    foreach (Process p in Process.GetProcessesByName(cur.ProcessName))
+    {
+        if (p.Id != cur.Id)
+        {
+            SetForegroundWindow(p.MainWindowHandle);
+            return;
+        }
+    }
+```
+
 # 标准通用方法【直接复制使用，根据需要最小修改】
 
 对应的实现只启动一个程序的代码放于 `Program.cs` 入口文件处，其全部代码如后面所示。具体可以直接复制，或者单独复制 `region` 部分的单体有关的代码。
