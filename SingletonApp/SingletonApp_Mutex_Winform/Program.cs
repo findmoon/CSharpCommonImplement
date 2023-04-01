@@ -33,8 +33,9 @@ namespace SingletonApp_Mutex_Winform
                 Application.Run(new Form1());
                 #endregion
 
-                //   Main 为你程序的主窗体，如果是控制台程序不用这句   
+                // 释放全局互斥体  
                 mutex.ReleaseMutex();
+                mutex.Dispose();
             }
             else
             {
