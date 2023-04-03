@@ -17,6 +17,7 @@ namespace SingletonApp_Mutex_WPF
         {
             this.Startup += new StartupEventHandler(App_Startup);
             Exit += App_Exit;
+
         }
 
         private void App_Startup(object sender, StartupEventArgs e)
@@ -25,7 +26,7 @@ namespace SingletonApp_Mutex_WPF
             // 注意 自定义编译符号 GlobalSingleton 实现 全局单体应用 或 文件夹内单体应用，可根据  注释#define GlobalSingleton
 #if GlobalSingleton
             // 全局单个应用，当前系统内单个应用
-            mutex = new System.Threading.Mutex(true, Assembly.GetExecutingAssembly().FullName, out ret);
+            mutex = new System.Threading.Mutex(true, Assembly.GetExecutingAssembly().FullName, out mutex_ret);
 #else
             // 当前文件夹内单个应用。不同文件夹，可以打开，相同文件夹只打开一个
             mutex = new System.Threading.Mutex(true, Assembly.GetExecutingAssembly().Location.Replace("\\", ""), out mutex_ret);
@@ -49,5 +50,8 @@ namespace SingletonApp_Mutex_WPF
                 mutex.Dispose();
             }
         }
+
+
+
     }
 }

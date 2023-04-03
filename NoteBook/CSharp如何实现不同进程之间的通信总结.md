@@ -10,7 +10,10 @@ C#中实现进程通信的方式有很多种，比如：
 2. (本地)文件保存传递数据
 3. COM；
 4. 内存映射文件；
-5. WCF、Socket、TCP/UDP、Http等各种网络通信方式
+5. Windows消息的发送和接收处理
+6. WCF、Socket、TCP/UDP、Http等各种网络通信方式
+
+> CSharp下创建项目 IPCWinform_Net46 和 IPCWPF_Net6 进行测试
 
 # 方式一：剪切板Clipboard在进程间传送对象
 

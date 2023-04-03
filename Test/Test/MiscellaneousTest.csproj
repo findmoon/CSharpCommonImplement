@@ -51,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExecutablePath_Winform.cs" />
+    <Compile Include="ExecutablePath.cs" />
     <Compile Include="FileDirIconTest.cs">
       <SubType>Form</SubType>
     </Compile>

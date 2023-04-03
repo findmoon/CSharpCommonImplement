@@ -52,6 +52,8 @@
 
             ToLowerInvariantAndToLower.StringCompare();
 
+            new ExecutablePath();
+
             Console.ReadLine();
         }
     }
