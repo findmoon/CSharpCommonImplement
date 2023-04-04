@@ -10,7 +10,9 @@
 
 原文如下。
 
-**WPF Single Instance Application**
+标题：**WPF Single Instance Application**
+
+> 示例项目已经下载，位于 SingletonApp 下，项目名`WpfSingleInstance`。
 
 # 问题
 

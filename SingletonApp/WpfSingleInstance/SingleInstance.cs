@@ -190,7 +190,7 @@ namespace Microsoft.Shell
             }
         }
 
-    } 
+    }
 
     public interface ISingleInstanceApp 
     { 
