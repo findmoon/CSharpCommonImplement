@@ -18,9 +18,9 @@ Assembly.GetExecutingAssembly().Location;
 
 # App.xaml.cs 文件内实现只启用一个进程的逻辑
 
-新建WPF项目`SingletonApp_Mutex_WPF`。
+> 新建WPF项目`SingletonApp_Mutex_WPF`。
 
-如下所示，App.xaml.cs 中，通过 Startup 和 Exit 事件处理全局互斥体的获取和释放：
+如下所示，`App.xaml.cs` 中，通过 Startup 和 Exit 事件处理全局互斥体的获取和释放：
 
 ```C#
 #define GlobalSingleton
@@ -50,7 +50,7 @@ namespace SingletonApp_Mutex_WPF
             // 注意 自定义编译符号 GlobalSingleton 实现 全局单体应用 或 文件夹内单体应用，可根据  注释#define GlobalSingleton
 #if GlobalSingleton
             // 全局单个应用，当前系统内单个应用
-            mutex = new System.Threading.Mutex(true, Assembly.GetExecutingAssembly().FullName, out ret);
+            mutex = new System.Threading.Mutex(true, Assembly.GetExecutingAssembly().FullName, out mutex_ret);
 #else
             // 当前文件夹内单个应用。不同文件夹，可以打开，相同文件夹只打开一个
             mutex = new System.Threading.Mutex(true, Assembly.GetExecutingAssembly().Location.Replace("\\", ""), out mutex_ret);

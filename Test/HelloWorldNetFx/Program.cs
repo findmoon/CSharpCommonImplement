@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HelloWorld;
+using System;
 
 namespace HelloWorldNetFx
 {
@@ -9,7 +10,6 @@ namespace HelloWorldNetFx
             int a = 10;
             new MyTest();
             Console.WriteLine("Hello, World");
-            Console.Read();
 
             var m = 0b101;
 
@@ -22,6 +22,12 @@ namespace HelloWorldNetFx
 
             decimal myMoney1 = 1_000.5m;
             var myMoney2 = 200.75M;
+
+            new ExecutablePath();
+
+
+
+            Console.Read();
         }
 
         void Main()

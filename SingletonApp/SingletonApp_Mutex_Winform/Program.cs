@@ -39,11 +39,24 @@ namespace SingletonApp_Mutex_Winform
             }
             else
             {
-                // 提示信息。
+                #region // 提示信息。
                 // 可根据需要修改为 复制 SingletonApp_Winform\Program.cs 文件内的进程获取代码 myProcess = GetRunningInstance();
                 // - 并设置窗体前置激活 CallBack myCallBack = new CallBack(FindAppWindow);EnumWindows(myCallBack, 0); 或 HandleRunningInstanceWhnd(myProcess);
-                MessageBox.Show(null, "有一个和本程序相同的应用程序已经在运行，请不要同时运行多个程序。", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                   
+                // MessageBox.Show(null, "有一个和本程序相同的应用程序已经在运行，请不要同时运行多个程序。", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                #endregion
+
+                #region 通过注册发送Windows消息实现消息处理前置窗体
+                // send our Win32 message to make the currently running instance
+                // jump on top of all the other windows
+                NativeMethods.PostMessage(
+                    (IntPtr)NativeMethods.HWND_BROADCAST,
+                    NativeMethods.WM_SHOWME,
+                    IntPtr.Zero,
+                    IntPtr.Zero);
+                #endregion
+
+
                 Application.Exit();//退出程序
                 return;
             }
