@@ -50,6 +50,7 @@
     <Compile Include="ExecApplications\ExecApp.cs" />
     <Compile Include="ExecApplications\ExecCMD.cs" />
     <Compile Include="ExecApplications\ExecResult.cs" />
+    <Compile Include="ImgFileType\CheckImgFormat.cs" />
     <Compile Include="LongPathWinAPI\LongDirectory.cs" />
     <Compile Include="LongPathWinAPI\LongFile.cs" />
     <Compile Include="LongPathWinAPI\NativeMethods.cs" />

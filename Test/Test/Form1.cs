@@ -142,5 +142,14 @@ namespace MiscellaneousTest
         {
             new FileDirIconTest().Show();
         }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            var imgPath = @"..\..\..\..\NoteBook\img\20221012101308.png";
+
+            MessageBox.Show("是否为图片：" + CheckImgFormat.IsImage(imgPath));
+
+            CheckImgFormat.IsImgFormat(imgPath, ImgFormat.PNG, ImgFormat.JPG);
+        }
     }
 }
