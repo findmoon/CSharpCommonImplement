@@ -153,7 +153,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.splitContainer1);
             this.Name = "FileDirIconTest";
-            this.Text = "FileDirIconTest";
+            this.Text = "FileDirIconTest - 紫铜或文件图标的设置和获取";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);

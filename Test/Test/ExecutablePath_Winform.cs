@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace HelloWorld
 {
+    /// <summary>
+    /// 可执行程序的路径
+    /// </summary>
     internal class ExecutablePath_Winform
     {
         public ExecutablePath_Winform() {

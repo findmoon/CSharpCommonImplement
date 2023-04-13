@@ -1,6 +1,6 @@
 ﻿namespace MiscellaneousTest
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -43,6 +43,7 @@
             this.button11 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
             this.button13 = new System.Windows.Forms.Button();
+            this.button14 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -161,12 +162,13 @@
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(342, 12);
+            this.button12.BackColor = System.Drawing.Color.LightSalmon;
+            this.button12.Location = new System.Drawing.Point(824, 12);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(194, 48);
             this.button12.TabIndex = 11;
-            this.button12.Text = "获取文件、文件夹图标的测试";
-            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Text = "获取文件、文件夹图标的窗体";
+            this.button12.UseVisualStyleBackColor = false;
             this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
             // button13
@@ -179,11 +181,26 @@
             this.button13.UseVisualStyleBackColor = true;
             this.button13.Click += new System.EventHandler(this.button13_Click);
             // 
-            // Form1
+            // button14
+            // 
+            this.button14.BackColor = System.Drawing.Color.LightSalmon;
+            this.button14.FlatAppearance.BorderColor = System.Drawing.Color.DarkTurquoise;
+            this.button14.FlatAppearance.BorderSize = 5;
+            this.button14.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button14.Location = new System.Drawing.Point(824, 66);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(194, 48);
+            this.button14.TabIndex = 13;
+            this.button14.Text = "硬件信息的窗体";
+            this.button14.UseVisualStyleBackColor = false;
+            this.button14.Click += new System.EventHandler(this.button14_Click);
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1030, 450);
+            this.Controls.Add(this.button14);
             this.Controls.Add(this.button13);
             this.Controls.Add(this.button12);
             this.Controls.Add(this.button11);
@@ -197,7 +214,7 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Form1";
             this.ResumeLayout(false);
 
@@ -219,6 +236,7 @@
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Button button14;
     }
 }
 

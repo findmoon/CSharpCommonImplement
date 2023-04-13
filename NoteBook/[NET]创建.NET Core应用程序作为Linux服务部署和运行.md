@@ -108,7 +108,7 @@ protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 - `Target Runtime`选择 `linux-x64`
 - Target Location 选择发布的位置
 
-File Publish Options 可以设置是否生成单个文件或剪裁未使用的代码（在使用自包含部署时可以启用的设置）。
+File Publish Options 可以设置 是否生成单个文件 或 剪裁未使用的代码（在使用自包含部署时可以启用的设置）。
 
 保存后，点击发布按钮，生成目标程序。
 
@@ -119,8 +119,14 @@ File Publish Options 可以设置是否生成单个文件或剪裁未使用的�
 直接下项目目录下打开 powershell 或 cmd 命令行工具。
 
 ```sh
-dotnet publish --runtime linux-x64 -c Release --self-contained true -o ./bin/Release/net6.0/linux-x64/publish
+dotnet publish -p:PublishSingleFile=true --runtime linux-x64 -c Release --self-contained true -o ./bin/Release/net6.0/linux-x64/publish
 ```
+
+> **启用单文件压缩，可以压缩生成的单文件大小 `-p:EnableCompressionInSingleFile=true`**
+> 
+> 压缩单个文件应用程序会产生启动成本，应用程序的加载速度可能会变慢。
+
+> 指定 `-p:PublishTrimmed=true` 修剪代码。`IL Trimming`
 
 > 关于 `PublishSingleFile`、`PublishTrimmed`，官方推荐在项目文件中指定，而不是命令行中。
 
@@ -170,3 +176,9 @@ sudo systemctl daemon-reload
 
 这样，我们创建的服务就启动并运行了。
 
+LimitCORE=infinity
+LimitNOFILE=65536
+LimitNPROC=65536
+ExecReload=/bin/kill -HUP $MAINPID
+killMode=process
+Restart=always

@@ -10,9 +10,9 @@ using System.Xml;
 
 namespace MiscellaneousTest
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
 
@@ -150,6 +150,11 @@ namespace MiscellaneousTest
             MessageBox.Show("是否为图片：" + CheckImgFormat.IsImage(imgPath));
 
             CheckImgFormat.IsImgFormat(imgPath, ImgFormat.PNG, ImgFormat.JPG);
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            new HardwareInfo().Show();
         }
     }
 }

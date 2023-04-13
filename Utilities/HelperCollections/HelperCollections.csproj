@@ -40,6 +40,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,6 +60,8 @@
     <Compile Include="GetFileIcon_ThumbnailImage\SHFILEINFO.cs" />
     <Compile Include="GetFileIcon_ThumbnailImage\SHGFIEmun.cs" />
     <Compile Include="GetFileIcon_ThumbnailImage\Win32Extern.cs" />
+    <Compile Include="HardwareInfo\ComputerInfo.cs" />
+    <Compile Include="HardwareInfo\CPUInfo.cs" />
     <Compile Include="IIS\IISSiteHelper_MWA.cs" />
     <Compile Include="IIS\Model\SiteInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
