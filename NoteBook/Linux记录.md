@@ -44,3 +44,24 @@ drwxr-sr-x 2 www www 4096 Apr 22 11:58
 # [How to Install vsftpd (ftp server) on CentOS 8 / RHEL 8](https://www.linuxtechi.com/install-vsftpd-server-centos-8-rhel-8/)
 
 # [linux如何mount挂载磁盘并设置开机自动mount](https://blog.csdn.net/mochou111/article/details/81298613) 格式化并挂载
+
+
+# [硬件设计---认识时钟篇](https://blog.csdn.net/weixin_43813325/article/details/106924618)
+
+[系统时钟在电子设备关机后如何持续记录时间？](https://www.zhihu.com/question/279200764)
+
+[Linux时间系统之RTC时间](https://blog.csdn.net/u013686019/article/details/57126940)
+
+[时间篇之linux系统时间和RTC时间](https://www.cnblogs.com/aozhejin/p/15978539.html)
+
+
+[【STM32】RTC实时时钟，步骤超细详解，一文看懂RTC](https://blog.csdn.net/as480133937/article/details/105026033)
+
+
+[UTC、RTC、UNIX时间戳、localtime 理解](https://blog.csdn.net/qq_37698947/article/details/115772329)
+
+RTC基本上由晶体振荡器和振荡器电路组成。这种晶体单元是石英，具有在施加电压时高速振动的特性。
+
+这个频率越高，手表的精度就越高，但由于RTC不需要达到那个级别的规格，所以大约是32.768kHz，月差（一个月偏差多少）在1分钟之内。这种振动被振荡电路转换成时钟信号，时间显示在显示器上。该RTC可以安装在CPU的主板上，也可以安装在外部IC上。
+
+# [如何正确设计实时时钟RTC？](https://zhuanlan.zhihu.com/p/37226700)
