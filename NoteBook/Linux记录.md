@@ -65,3 +65,32 @@ RTC基本上由晶体振荡器和振荡器电路组成。这种晶体单元是�
 这个频率越高，手表的精度就越高，但由于RTC不需要达到那个级别的规格，所以大约是32.768kHz，月差（一个月偏差多少）在1分钟之内。这种振动被振荡电路转换成时钟信号，时间显示在显示器上。该RTC可以安装在CPU的主板上，也可以安装在外部IC上。
 
 # [如何正确设计实时时钟RTC？](https://zhuanlan.zhihu.com/p/37226700)
+
+
+---------------------------------------------------
+--------------------------------------------------------------
+-------------------------------------------------------------------------
+
+# [Linux 软链接——ln命令详解](https://blog.csdn.net/annita2019/article/details/105481449)
+
+https://www.runoob.com/linux/linux-comm-ln.html
+
+https://www.cnblogs.com/my-show-time/p/14658895.html
+
+https://blog.csdn.net/wangjie72270/article/details/122196213
+
+
+https://cn.bing.com/search?q=crontab&aqs=edge..69i57&FORM=ANCMS9&PC=CNNDDB
+
+
+https://blog.csdn.net/asmartkiller/article/details/109529391?ydreferer=aHR0cHM6Ly9jbi5iaW5nLmNvbS8%3D
+
+
+https://blog.csdn.net/asmartkiller/article/details/109529391
+
+https://zhuanlan.zhihu.com/p/575449787
+
+
+https://cloud.tencent.com/developer/article/1546322
+
+

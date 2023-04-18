@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace ASPNETWebInstall
+namespace ASPNETWebMVCBasic
 {
     public class BundleConfig
     {

@@ -1,10 +1,10 @@
-﻿using ASPNETWebInstall.ViewModels;
+﻿using ASPNETWebMVCBasic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ASPNETWebInstall.BLL
+namespace ASPNETWebMVCBasic.BLL
 {
     public class UserHandler
     {
