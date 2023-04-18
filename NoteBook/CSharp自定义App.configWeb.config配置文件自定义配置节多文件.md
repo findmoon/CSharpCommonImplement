@@ -21,7 +21,7 @@
 [C#配置文件configSections详解](https://www.cnblogs.com/lxshwyan/p/10828305.html)
 
 
-如果你的程序是对其它程序的配置文件进行操作,代码如下：
+如果你的程序是对其它程序的配置文件进行操作，或者，加载自定义的配置文件,代码如下：
 ExeConfigurationFileMap filemap = new ExeConfigurationFileMap();
 filemap.ExeConfigFilename = filePath;//配置文件路径
 config = ConfigurationManager.OpenMappedExeConfiguration(filemap, ConfigurationUserLevel.None);
@@ -55,6 +55,10 @@ config.Save(ConfigurationSaveMode.Full);
 ————————————————
 版权声明：本文为CSDN博主「wzk456」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
 原文链接：https://blog.csdn.net/wzk456/article/details/49001391
+
+ExeConfigurationFileMap 实现加载自定义配置文件、指定路径下的配置文件：
+
+![](img/20230418093507.png)
 
 [Add Custom Configuration Elements In .NET](https://www.c-sharpcorner.com/article/add-custom-configuration-elements-in-net/)
 

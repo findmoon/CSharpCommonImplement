@@ -80,6 +80,38 @@ core dump 对于编程人员诊断和调试程序是非常有帮助的，因为�
 
 现代操作系统中，用 **Core Dump 表示当程序异常终止或崩溃时，将进程此时的内存中的内容拷贝到磁盘文件中存储，以方便编程人员调试。**
 
+
+https://www.cnblogs.com/Anker/p/6079580.html
+
+https://www.cnblogs.com/hazir/p/linxu_core_dump.html
+
+https://man7.org/linux/man-pages/man5/core.5.html
+
+
+https://man7.org/linux/man-pages/man1/systemd.1.html
+
+https://www.cnblogs.com/hustquan/archive/2012/04/01/2428128.html
+
+https://blog.51cto.com/baidutech/904419
+
+
+https://blog.csdn.net/iamfrankjie/article/details/105020929
+
+https://www.cnblogs.com/TeemoHQ/p/15710523.html
+
+
+https://blog.csdn.net/qq_43740943/article/details/105476108
+
+
+https://learn.microsoft.com/en-us/dotnet/core/diagnostics/debug-linux-dumps
+
+
+https://learn.microsoft.com/zh-cn/troubleshoot/developer/webapps/aspnetcore/practice-troubleshoot-linux/lab-3-troubleshoot-crash-gc-issues-dotnet-dump
+
+
+
+
+
 # 参考
 
 - 重点参考自 

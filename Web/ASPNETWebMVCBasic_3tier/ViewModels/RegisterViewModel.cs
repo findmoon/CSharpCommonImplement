@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace ASPNETWebInstall.ViewModels
+namespace ASPNETWebMVCBasic.ViewModels
 {
     /// <summary>
     /// 注册

@@ -1,9 +1,9 @@
-﻿using ASPNETWebInstall.BLL;
-using ASPNETWebInstall.ViewModels;
+﻿using ASPNETWebMVCBasic.BLL;
+using ASPNETWebMVCBasic.ViewModels;
 using System.Web.Mvc;
 using System.Web.Security;
 
-namespace ASPNETWebInstall.Controllers
+namespace ASPNETWebMVCBasic.Controllers
 {
     public class HomeController : Controller
     {

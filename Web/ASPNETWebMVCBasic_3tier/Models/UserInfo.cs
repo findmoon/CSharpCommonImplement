@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace ASPNETWebInstall.Models
+namespace ASPNETWebMVCBasic.Models
 {
     public class UserInfo
     {
