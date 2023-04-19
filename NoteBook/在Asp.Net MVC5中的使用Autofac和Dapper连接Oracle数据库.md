@@ -1,6 +1,14 @@
-**在Asp.Net MVC5中的使用Autofac和Dapper连接Oracle数据库、管理用户机密、自定义配置文件路径**
+**在 Asp.Net MVC5中的使用Autofac和Dapper连接Oracle数据库、IOC/DI、管理用户机密、自定义配置文件路径**
 
 [toc]
+
+> - IOC - Inversion of Control：控制反转。
+> 
+> - DI - Dependency Injection：依赖注入。
+> 
+> 同一实现或同一概念不同角度的描述。
+> 
+> 将对象的创建交由IOC容器实现；而实现对象创建的方式通过注入（构造函数注入、方法注入、属性注入等），也就是依赖注入使用对象。
 
 > ASPNETWebMVCBasic 项目下。
 
