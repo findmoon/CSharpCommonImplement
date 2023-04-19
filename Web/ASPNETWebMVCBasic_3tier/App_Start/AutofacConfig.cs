@@ -55,8 +55,18 @@ namespace ASPNETWebMVCBasic.App_Start
 
             //创建一个Autofac的容器
             var container = builder.Build();
-            //将MVC的控制器对象实例 交由autofac来创建
+            //将注册的类型对象实例 交由autofac来创建
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+
+
+            // 测试
+            DataContext.Test();
+
+            // 只有在使用时，才会创建相应对象
+            var dataCtx = container.Resolve<DataContext>();//通过IOC容器创建对象
+
+            // 执行一些必要的初始化
+            dataCtx.Init().Wait();
         }
         /* MVC和API不同的注入方式：
          * 

@@ -31,11 +31,17 @@ namespace System.Data
         /// </summary>
         public bool ConnStatusOk
         {
-            get
-            {
-                return Conn != null && Conn.State != ConnectionState.Closed && Conn.State != ConnectionState.Broken;
-            }
+            get=> Conn != null && Conn.State != ConnectionState.Closed && Conn.State != ConnectionState.Broken;
         }
+        /// <summary>
+        /// Oracle 服务器版本
+        /// </summary>
+        public string ServerVersion
+        {
+            get => Conn.ServerVersion;
+        }
+
+
 
         /* 非接口属性 */
 
@@ -297,6 +303,16 @@ namespace System.Data
             }
 
             return sql;
+        }
+        /// <summary>
+        /// 判断用户是否存在
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<bool> ExistsUserAsync(string user)
+        {
+            var result = await ExecuteScalarAsync($"select count(*) from all_users where username=@user", new OracleParameter[] { new OracleParameter(user, user.ToUpper()) });
+            return result.ToString() == "1";
         }
 
         /// <summary>

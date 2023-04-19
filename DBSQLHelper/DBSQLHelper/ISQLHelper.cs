@@ -34,6 +34,14 @@ namespace System.Data
         {
             get;
         }
+        
+        /// <summary>
+        /// 服务器版本
+        /// </summary>
+        string ServerVersion
+        {
+            get;
+        }
 
 
         /// <summary>
@@ -98,6 +106,12 @@ namespace System.Data
         /// <param name="schema"></param>
         /// <returns></returns>
         Task<bool> ExistsDBOrTableOrColAsync(string dbName, string tableName, string columnName, string schema);
+        /// <summary>
+        /// 用户是否存在
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<bool> ExistsUserAsync(string user);
 
         /// <summary>
         /// 执行非查询SQL操作，返回受影响的行数 ddl语句似乎返回 -1

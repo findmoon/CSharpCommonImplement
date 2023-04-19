@@ -32,7 +32,7 @@ Web.config或App.config中使用
 <?xml version="1.0" encoding="utf-8"?>
 <root>
   <secrets ver="1.0" >
-    <secret name="SendGridApiKey" value="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" />
+    <secret name="SendGridApiKey" value="SG.ELZxxxxxxxxx3iVZREA" />
   </secrets>
 </root>
 ```
@@ -42,6 +42,38 @@ Web.config或App.config中使用
 ```C#
 var password = WebConfigurationManager.AppSettings["password"];
 ```
+
+
+
+官方介绍了自定义处理及ConnectionString的用法 [how we can create custom handler](https://github.com/aspnet/MicrosoftConfigurationBuilders/blob/main/docs/SectionHandlers.md)
+
+`connectionStrings` 连接字符串配置节使用用户机密处理，同样添加 `configBuilders="Secrets"` 属性。如下 `用户机密管理的说明 secrets.xml 文件中仍旧为 name/value 的形式取值，属性通过name中:实现，如'strict-cs:providerName'`：
+
+```xml
+  <connectionStrings configBuilders="Secrets">
+    <!-- 用户机密管理的说明 secrets.xml 文件中仍旧为 name/value 的形式取值，属性通过name中:实现，如'strict-cs:providerName' -->
+    <!--<add name="strict-cs" connectionString="Will get the value of 'strict-cs' or 'strict-cs:connectionString'"
+                              providerName="Will only get the value of 'strict-cs:providerName'" />
+
+    --><!-- Easy to imagine pulling these from a structured json file. --><!--
+    <add name="token-cs1" connectionString="${tokenCS:connectionString}"
+                          providerName="${tokenCS:providerName}" />
+    --><!-- But token mode can be messy. --><!--
+    <add name="token-cs2" connectionString="${token-names-not-important}"
+                          providerName="${they-can-even-be-tagged-wrong:connectionString}" />-->
+    
+    <add name="SampleConnString" connectionString="User Id=用户名;Password=密码;Data Source=SampleDataSource" providerName="property name need exists in strict model？ :providerName in secret xml not work" />
+    <!-- 推荐 -->
+    <add name="SampleConnString2" connectionString="User Id=用户名;Password=密码;Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=DBServer_IP)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=ORCL)))" providerName="Oracle.ManagedDataAccess.Client.OracleConnection, Oracle.ManagedDataAccess" />
+    <!-- 不推荐使用 ADDRESS_LIST ，没必要-->
+    <add name="SampleConnString3" connectionString="User Id=用户名;Password=密码;Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=DBServer_IP)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=ORCL)))" providerName="Oracle.ManagedDataAccess.Client.OracleConnection, Oracle.ManagedDataAccess" />
+  </connectionStrings>
+```
+
+> 实际测试，设置 `:providerName` 无效，也可能设置不正确。
+
+--------------------------------------------
+---------------------------------------------------
 
 [How to safely manage passwords in .Net applications](https://medium.com/@hammadarif/how-to-safely-manage-passwords-in-net-applications-a546a481c41c)
 
