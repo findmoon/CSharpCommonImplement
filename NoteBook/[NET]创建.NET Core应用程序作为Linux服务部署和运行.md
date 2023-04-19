@@ -182,3 +182,29 @@ LimitNPROC=65536
 ExecReload=/bin/kill -HUP $MAINPID
 killMode=process
 Restart=always
+
+
+
+
+# 参考
+
+https://www.hanselman.com/blog/dotnet-new-worker-windows-services-or-linux-systemd-services-in-net-core
+
+https://devblogs.microsoft.com/dotnet/net-core-and-systemd/
+
+https://www.telerik.com/blogs/dotnet-worker-service-working-hard-so-you-dont-have-to
+
+
+https://askubuntu.com/questions/1357607/mongodb-failed-result-core-dump
+
+https://bbs.archlinux.org/viewtopic.php?id=236562
+
+https://jira.mongodb.org/browse/SERVER-37419
+
+https://forums.centos.org/viewtopic.php?t=70366&p=296102
+
+https://unix.stackexchange.com/questions/415712/samba-smb-daemon-fails-to-start-installation-incomplete
+
+https://unix.stackexchange.com/questions/303293/ubuntu-service-samba-is-masked-and-cant-start
+
+
