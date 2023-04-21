@@ -8,7 +8,7 @@ using WebAPI_CURD.Services;
 
 namespace WebAPI_CURD.Controllers
 {
-    [Route("[controller]")]
+    [Route("[controller]")] 
     public class UsersController : Controller
     {
         private IUserService _userService;
@@ -22,15 +22,16 @@ namespace WebAPI_CURD.Controllers
         public async Task<ActionResult> GetAll()
         {
             var users = await _userService.GetAll();
-            return Json(users);
+            return Json(users,JsonRequestBehavior.AllowGet);
         }
 
-        [Route("{id}")]
+        //[Route("{id}")] // 无法匹配
+        //[Route("[controller]/{id}")] // 无法匹配
         [HttpGet]
         public async Task<ActionResult> GetById(int id)
         {
             var user = await _userService.GetById(id);
-            return Json(user);
+            return Json(user, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -40,14 +41,14 @@ namespace WebAPI_CURD.Controllers
             return Json(new ResponseModel<User> { message = "User created", Data = await _userService.GetByEmail(model.Email) });
         }
 
-        [Route("{id}")]
+        [HttpPut]
         public async Task<ActionResult> Update( UpdateRequest model)
         {
             await _userService.Update(model);
             return Json(new ResponseModel<User> { message = "User updated", Data = await _userService.GetByEmail(model.Email) });
         }
 
-        [Route("{id}")]
+
         [HttpDelete]
         public async Task<ActionResult> Delete(int id)
         {

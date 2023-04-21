@@ -13,6 +13,13 @@ namespace ASPNETWebMVCBasic
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+
+            routes.MapRoute(
+                name: "Users",
+                url: "Users/{id}",
+                defaults: new { controller = "Users", action = "GetAll", id = UrlParameter.Optional }
+            );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
