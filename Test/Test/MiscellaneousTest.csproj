@@ -71,6 +71,7 @@
     <Compile Include="HardwareInfo.Designer.cs">
       <DependentUpon>HardwareInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="PowerShellExecCSharp\Calculator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FileDirIconTest.resx">
