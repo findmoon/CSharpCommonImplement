@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using WebAPI_CURD.Services;
 using WebAPI_CURD.Repositories;
 using System.Reflection;
+using Dapper;
+using System.Diagnostics;
 
 namespace ASPNETWebMVCBasic.App_Start
 {
@@ -49,9 +51,14 @@ namespace ASPNETWebMVCBasic.App_Start
 
             #endregion
 
+            #region 其他类
+            builder.RegisterType<OracleDynamicParameters>();
+            #endregion
+
             //注册控制控制器
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
-
+            //// ASPNETWebMVCBasic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+            //Debug.WriteLine(typeof(MvcApplication).Assembly, "Assembly");
 
             //创建一个Autofac的容器
             var container = builder.Build();
@@ -60,7 +67,7 @@ namespace ASPNETWebMVCBasic.App_Start
 
 
             // 测试
-            DataContext.Test();
+            // DataContext.Test();
 
             // 只有在使用时，才会创建相应对象
             var dataCtx = container.Resolve<DataContext>();//通过IOC容器创建对象

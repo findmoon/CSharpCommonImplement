@@ -93,7 +93,7 @@ namespace WebAPI_CURD.Services
         /// <param name="DBServer"></param>
         /// <param name="port"></param>
         /// <returns></returns>
-        public async Task UpdateConnStr(string userName, string pwd, string dbName, string DBServer, int port = 1521)
+        public void UpdateConnStr(string userName, string pwd, string dbName, string DBServer, int port = 1521)
         {
             WebConfigurationManager.ConnectionStrings[_connectionStringName].ConnectionString =
                 $"User Id={userName};Password={pwd};Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={DBServer})(PORT={port}))(CONNECT_DATA=(SERVICE_NAME={dbName})))";
@@ -161,10 +161,10 @@ namespace WebAPI_CURD.Services
                         var UsersTableNmae = "Users".ToUpper();
                         dynParams.Add(":UsersTableNmae", OracleDbType.Varchar2, ParameterDirection.Input, UsersTableNmae);
                         var tableExists = await DbConnection.ExecuteScalarAsync<string>("select count(*) from user_tables where table_name = :UsersTableNmae", dynParams);
-                    if (tableExists == "0") // 不存在
-                    {
-                        // Oracle 不支持 Text 类型
-                        var createSql = $"CREATE TABLE {UsersTableNmae}" + @" (
+                        if (tableExists == "0") // 不存在
+                        {
+                            // Oracle 不支持 Text 类型
+                            var createSql = $"CREATE TABLE {UsersTableNmae}" + @" (
                     Id INTEGER NOT NULL PRIMARY KEY,
                     UserName VARCHAR2(255) NOT NULL UNIQUE,
                     Title VARCHAR2(255),
@@ -174,41 +174,41 @@ namespace WebAPI_CURD.Services
                     Role INT DEFAULT 0,
                     PasswordHash VARCHAR2(1000)
                 )";
-                        await DbConnection.ExecuteAsync(createSql);
-                    }
+                            await DbConnection.ExecuteAsync(createSql);
+                        }
 
-                    // 2, 判断存在 sequence SEQ_USERS_ID 
-                    var sequenceName = "SEQ_USERS_ID";
-                    var querySequenceSql = "select count(0) from user_sequences where sequence_name = upper(:sequenceName)";
+                        // 2, 判断存在 sequence SEQ_USERS_ID 
+                        var sequenceName = "SEQ_USERS_ID";
+                        var querySequenceSql = "select count(0) from user_sequences where sequence_name = upper(:sequenceName)";
                         dynParams.Add(":sequenceName", OracleDbType.Varchar2, ParameterDirection.Input, sequenceName);
                         var querySequence = await DbConnection.ExecuteScalarAsync<string>(querySequenceSql, dynParams);
-                    var seqExists = querySequence != "0";
-                    if (!seqExists)
-                    {
-                        var createSql = $"create sequence {sequenceName}" + @"
+                        var seqExists = querySequence != "0";
+                        if (!seqExists)
+                        {
+                            var createSql = $"create sequence {sequenceName}" + @"
     minvalue 1
     nomaxvalue
     increment by 1
     start with 1
     nocache";
-                        await DbConnection.ExecuteAsync(createSql);
-                    }
+                            await DbConnection.ExecuteAsync(createSql);
+                        }
 
-                    // 3, 判断存在 trigger TRI_USERS_INSERTID 
-                    var triggerName = "TRI_USERS_INSERTID";
+                        // 3, 判断存在 trigger TRI_USERS_INSERTID 
+                        var triggerName = "TRI_USERS_INSERTID";
                         dynParams.Add(":triggerName", OracleDbType.Varchar2, ParameterDirection.Input, triggerName);
                         var queryTriggerSql = "select count(0) from user_triggers where trigger_name = upper(:triggerName)";
-                    var queryTrigger = await DbConnection.ExecuteScalarAsync<string>(queryTriggerSql, dynParams);
-                    var triggerExists = queryTrigger != "0";
-                    if (!triggerExists)
-                    {
-                        var createSql = $@"create or replace trigger {triggerName} 
+                        var queryTrigger = await DbConnection.ExecuteScalarAsync<string>(queryTriggerSql, dynParams);
+                        var triggerExists = queryTrigger != "0";
+                        if (!triggerExists)
+                        {
+                            var createSql = $@"create or replace trigger {triggerName} 
     before insert on {UsersTableNmae} for each row 
     begin
         select {sequenceName}.Nextval into:new.Id from dual;
     end;";
-                        await DbConnection.ExecuteAsync(createSql);
-                    }
+                            await DbConnection.ExecuteAsync(createSql);
+                        }
                     }
                     #endregion
 
@@ -217,7 +217,7 @@ namespace WebAPI_CURD.Services
                     {
                         OracleDynamicParameters dynParams = new OracleDynamicParameters();
 
-                        // 1. 查询是否存在 table Users  
+                        // 1. 查询是否存在 table T_LOADCOMPONENT  
                         var tableNmae = "T_LINECONFIG";
                         dynParams.Add(":tableNmae", OracleDbType.Varchar2, ParameterDirection.Input, tableNmae);
                         var tableExists = await DbConnection.ExecuteScalarAsync<string>("select count(*) from user_tables where table_name = :tableNmae", dynParams);
@@ -277,7 +277,7 @@ namespace WebAPI_CURD.Services
                         {
                             var createSql = $"CREATE UNIQUE INDEX {indexName} on T_LINECONFIG(LineName,MachineName)";
                             await DbConnection.ExecuteAsync(createSql);
-                        }                        
+                        }
                     }
                     #endregion
 
@@ -285,7 +285,7 @@ namespace WebAPI_CURD.Services
                     {
                         OracleDynamicParameters dynParams = new OracleDynamicParameters();
 
-                        // 1. 查询是否存在 table Users  
+                        // 1. 查询是否存在 table T_LOADCOMPONENT  
                         var tableNmae = "T_LOADCOMP";
                         dynParams.Add(":tableNmae", OracleDbType.Varchar2, ParameterDirection.Input, tableNmae);
                         var tableExists = await DbConnection.ExecuteScalarAsync<string>("select count(*) from user_tables where table_name = :tableNmae", dynParams);
@@ -346,7 +346,7 @@ namespace WebAPI_CURD.Services
                         {
                             var createSql = $"CREATE UNIQUE INDEX IDX_UNI_T_LOADCOMP_LMM on T_LOADCOMP(T_LINECONFIGID,ModuleNo)";
                             await DbConnection.ExecuteAsync(createSql);
-                        }                        
+                        }
                     }
                     #endregion
 
@@ -355,7 +355,7 @@ namespace WebAPI_CURD.Services
                     {
                         OracleDynamicParameters dynParams = new OracleDynamicParameters();
 
-                        // 1. 查询是否存在 table Users  
+                        // 1. 查询是否存在 table T_LOADCOMPONENT  
                         var tableNmae = "T_LOADCOMPONENT";
                         dynParams.Add(":tableNmae", OracleDbType.Varchar2, ParameterDirection.Input, tableNmae);
                         var tableExists = await DbConnection.ExecuteScalarAsync<string>("select count(*) from user_tables where table_name = :tableNmae", dynParams);
@@ -420,7 +420,7 @@ namespace WebAPI_CURD.Services
                         {
                             var createSql = $"CREATE UNIQUE INDEX IDX_UNI_T_LOADCOMPONENT_LS on T_LOADCOMPONENT(T_LOADCOMPID,SlotNo)";
                             await DbConnection.ExecuteAsync(createSql);
-                        }                        
+                        }
                     }
                     #endregion
 
@@ -428,7 +428,7 @@ namespace WebAPI_CURD.Services
                     {
                         OracleDynamicParameters dynParams = new OracleDynamicParameters();
 
-                        // 1. 查询是否存在 table Users  
+                        // 1. 查询是否存在 table T_UserInformation  
                         var tableNmae = "T_UserInformation".ToUpper();
                         dynParams.Add(":tableNmae", OracleDbType.Varchar2, ParameterDirection.Input, tableNmae);
                         var tableExists = await DbConnection.ExecuteScalarAsync<string>("select count(*) from user_tables where table_name = :tableNmae", dynParams);

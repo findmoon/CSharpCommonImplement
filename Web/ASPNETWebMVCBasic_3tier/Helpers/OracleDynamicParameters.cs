@@ -9,6 +9,7 @@ namespace Dapper
     /// Dapper 使用 Oracle.ManagedDataAccess 访问 Oracle 的 参数处理帮助类
     /// 出自 https://stackoverflow.com/questions/18772781/using-dapper-querymultiple-in-oracle
     /// 使用示例 参见后面的注释
+    /// 似乎将 List<OracleParameter> 改为 Dictionary 更好写，防止重复参数
     /// </summary>
     public class OracleDynamicParameters : SqlMapper.IDynamicParameters
     {
@@ -21,7 +22,7 @@ namespace Dapper
         /// </summary>
         /// <param name="name"></param>
         /// <param name="oracleDbType"></param>
-        /// <param name="direction">ParameterDirection.Input 时，应该指定传入的value值</param>
+        /// <param name="direction">参数方向。ParameterDirection.Input 时，应该指定传入的value值</param>
         /// <param name="value">默认null</param>
         /// <param name="size"></param>
         public void Add(string name, OracleDbType oracleDbType, ParameterDirection direction, object value = null, int? size = null)

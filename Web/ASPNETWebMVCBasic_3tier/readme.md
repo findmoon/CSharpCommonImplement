@@ -8,8 +8,12 @@ Asp.NET MVC 5 基础的Web功能实现：
 
 4. Autofac 依赖注入和控制反转 的使用
 
-5. Dapper 的使用，连接Oracle
+5. Dapper 的使用，连接Oracle [由于参数变量问题，借助 OracleDynamicParameters.cs 实现]
 
 6. .Net Framework 管理用户机密
 
-7. mailSettings 邮件发送配置 和 实现 【未实现】
+7. MVC中[HttpGet]没有路由参数的构造函数可以使用。[Route("{id}")]、[Route("[controller]/{id}")] 均无法匹配到Action的id参数(public async Task<ActionResult> GetById(int id))
+
+添加 Web API 包 Microsoft.AspNet.WebApi 【暂未配置】
+
+8. mailSettings 邮件发送配置 和 实现 【未实现】
