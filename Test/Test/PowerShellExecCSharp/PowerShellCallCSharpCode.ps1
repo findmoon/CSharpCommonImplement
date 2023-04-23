@@ -1,5 +1,5 @@
 $source = Get-Content -Raw -Path ".\Calculator.cs"
-Add-Type -TypeDefinition "$source"
+Add-Type -TypeDefinition "$source"  -Language CSharp
 
 # Call a static method
 [Calculator]::Add(4, 3)
