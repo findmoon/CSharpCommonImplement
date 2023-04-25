@@ -241,6 +241,115 @@ Long Polling和Polling有类似的地方, 客户端都是发送请求到服务�
 
 #### fetch 请求的超时时间及设置
 
+> 默认情况下，`fetch()` 请求的超时时间，在Chrome中为300秒，而在Firefox中为90秒。
+>
+> 300秒、甚至90秒都远远超过了用户对完成一个简单网络请求的期望。
+
+`fetch()` API本身不允许以编程方式取消一个请求，通过也没有设置超时时间的参数。
+
+> 终止`fetch()`请求的实现，本质是通过一个 终止控制器(`AbortController`)，将其`signal`属性(`AbortSignal`对象) 传递给 fetch 方法，fetch会监听`signal`的状态，一旦状态改变且请求未结束，就会终止 fetch 方法的请求。
+
+
+`fetchWithTimeout()` 是 `fetch()` 的改进版，可创建具有可配置超时的请求。
+
+```js
+async function fetchWithTimeout(resource, options = {}) {
+  const { timeout = 10000 } = options;
+  
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  const response = await fetch(resource, {
+    ...options,
+    signal: controller.signal  
+  });
+  clearTimeout(id);
+  return response;
+}
+```
+
+- `const { timeout = 10000 } = options` 从 options 对象中提取以毫秒为单位的超时参数（默认为10秒）。
+
+- `const controller = new AbortController()` 创建一个[中止控制器](https://developer.mozilla.org/en-US/docs/Web/API/AbortController)实例。这个控制器用于停止 fetch 的请求。
+
+注意，每一个请求都必须创建一个新的中止控制器。换句话说，控制器是不可重复使用的。
+
+- `const id = setTimeout(() => controller.abort(), timeout)` 启动一个计时功能。在 `timeout` 时间之后，如果计时函数没有被清除，执行 `controller.abort()` 中止（或取消）获取请求。 
+
+- `await fetch(resource, { ...option, signal: controller.signal })` 执行获取请求。
+
+注意分配给 signal 属性的特殊 `controller.signal` 值：它将`fetch()` 与中止控制器连接起来。
+
+- 最后`clearTimeout(id)`，如果请求完成的速度比 `timeout` 的时间快，则清除终止的计时功能。
+
+`fetchWithTimeout`超时终止请求的实际示例：
+
+```js
+async function loadGames() {
+  try {
+    const response = await fetchWithTimeout('/games', {
+      timeout: 6000
+    });
+    const games = await response.json();
+    return games;
+  } catch (error) {
+    // Timeouts if the request takes longer than 6 seconds
+    console.log(error.name === 'AbortError');
+  }
+}
+```
+
+#### XMLHttpRequest 对象指定超时时间 (ajax) 
+
+`XMLHttpRequest`对象有指定超时时间的API，可以直接指定超时时间和超时处理。
+
+> 显式调用 `XMLHttpRequest.abort()` 可以终止请求；`abort`终止请求事件。
+
+```js
+// 具有超时的ajax请求
+function send(url,options) {
+  const {
+    method='GET' // GET、POST、PUT、DELETE
+    success=res=>console.log(res),
+    error=res=>console.error(res),
+    timeout=10000, // 超时时间
+    timeoutFunc=e=>console.error("Timeout!!"),
+    async=true, // 是否异步执行操作，默认true
+    user=null,  // 可选的用户名用于认证用途；默认为 null
+    password=null, // 可选的密码用于认证用途；默认为 null
+} = options;
+
+ // 创建对象
+  let xhr = new XMLHttpRequest()
+  // 初始化请求
+  xhr.open(method, url, async,user,password)
+  xhr.timeout = timeout // 超时时间，单位是毫秒
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4) {
+      if (xhr.status == 200) {
+        //如果返回成功
+      }
+
+      const res = {
+        response:xhr.response,
+        status:xhr.status,
+        responseType:xhr.responseType
+      }
+      if(xhr.status>=400) error(res);
+      else success(res);
+    }
+  }
+  xhr.ontimeout = timeoutFunc;
+  // 发送请求
+  xhr.send()
+}
+
+
+send()
+
+
+send() //不管成功还是失败都会发下一次请求
+```
+
 ### Long Polling 代码测试实现
 
 在 DemoTestController 控制器中，新增一个名称为`LongPollingTest` 的 Action：
