@@ -12,6 +12,7 @@ namespace CMCode.RunPowerShell
 {
     /// <summary>
     /// 引用本地 System.Management.Automation.dll 执行PowerShell命令 【没有Async异步方法】
+    /// C:\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Management.Automation\v4.0_3.0.0.0__31bf3856ad364e35
     /// C:\Windows\assembly\GAC_MSIL\System.Management.Automation\1.0.0.0__31bf3856ad364e35\
     /// </summary>
     public class UseAutomation

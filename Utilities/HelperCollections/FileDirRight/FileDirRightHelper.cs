@@ -18,7 +18,7 @@ namespace HelperCollections
         /// 设置文件夹权限 处理给EVERONE赋予所有权限
         /// </summary>
         /// <param name="dirPath">文件夹路径</param>
-        /// <param name="role">角色，默认Users。常用的有Everyone、IIS_IUSRS、Administrators</param>
+        /// <param name="role">角色[用户或用户组]，默认Users。常用的有Everyone、IIS_IUSRS、Administrators</param>
         /// <param name="rights">权限，默认 FileSystemRights.Modify</param>
         /// <param name="access">设置权限还是禁止权限</param>
         public static void SetDirRights(string dirPath, string role = "Users", FileSystemRights rights= FileSystemRights.Modify, AccessControlType access= AccessControlType.Allow)
@@ -34,7 +34,7 @@ namespace HelperCollections
         /// 设置文件夹权限 处理给EVERONE赋予所有权限
         /// </summary>
         /// <param name="filePath">文件路径</param>
-        /// <param name="role">角色，默认Users。常用的有Everyone、IIS_IUSRS、Administrators</param>
+        /// <param name="role">角色[用户或用户组]，默认Users。常用的有Everyone、IIS_IUSRS、Administrators</param>
         /// <param name="rights">权限，默认 FileSystemRights.Modify</param>
         /// <param name="access">设置权限还是禁止权限</param>
         public static void SetFileRights(string filePath, string role = "Users", FileSystemRights rights = FileSystemRights.Modify, AccessControlType access = AccessControlType.Allow)

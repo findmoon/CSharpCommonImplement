@@ -9,7 +9,7 @@ using System.Security.Permissions;
 /* 
  * using Microsoft.Web.Administration  [IIS 7.0 + 管理的托管API]------ 引用： Microsoft.Web.Administration.dll
  */
-namespace HelperCollections
+namespace HelperCollections.IIS
 {
     /// <summary>
     /// IIS站点配置信息帮助类，使用Microsoft.Web.Administration 【IIS 7+】。严格来说只是操作IIS中的Web
@@ -65,9 +65,40 @@ namespace HelperCollections
                 return false;
             }
         }
+        
+        /// <summary>
+        /// 获取站点的信息 【仅获取路径和物理路径，其它暂未处理】
+        /// </summary>
+        /// <param name="siteName"></param>
+        /// <returns></returns>
+        public SiteInfo GetWebSiteInfo(string siteName)
+        {
+            try
+            {
+                var site = serverManager.Sites[siteName];
+                if (site!=null)
+                {
+                    return new SiteInfo()
+                    {
+                         PhysicalPath= site.Applications[0].VirtualDirectories[0].PhysicalPath,
+                          Path = site.Applications[0].Path,
+                          //ServerBindingDatas= site.Bindings.Select(b=>new ServerBindingData()
+                          //{
+                          //    HostName=b.Host,
+                               
+                          //})
+                    };
+                }
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
         /// <summary>  
-        /// 创建或更新 IIS网站 【IIS7+】
+        /// 创建或更新 IIS网站 【IIS7+】 注意一些文件夹权限-IISFileRole
         /// </summary>  
         /// <param name="webSiteName">网站名称</param>  
         /// <param name="physicalPath">物理路径</param>  
@@ -206,7 +237,7 @@ namespace HelperCollections
         }
 
         /// <summary>
-        /// 创建虚拟路径/应用程序 【创建或更新，可重复执行】
+        /// 创建虚拟路径/应用程序 【创建或更新，可重复执行】 注意一些文件夹权限-IISFileRole
         /// </summary>
         /// <param name="webSiteName">站点名称，在该站点下创建</param>
         /// <param name="app_vDir_Name">虚拟路径/应用程序名称。实际为`path路径，如'/a/b'`</param>
@@ -507,19 +538,19 @@ namespace HelperCollections
         }
         #endregion
 
-        #region 设置文件/文件夹权限
-        /// <summary>
-        /// 设置文件夹权限 处理给EVERONE赋予所有权限
-        /// </summary>
-        /// <param name="targetDirOrFile">文件夹/文件路径</param>
-        public void SetFileRole(string targetDirOrFile)
-        {
-            string FileAdd = targetDirOrFile;
-            FileAdd = FileAdd.Remove(FileAdd.LastIndexOf('\\'), 1);
-            DirectorySecurity fSec = new DirectorySecurity();
-            fSec.AddAccessRule(new FileSystemAccessRule("Everyone", FileSystemRights.FullControl, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Allow));
-            System.IO.Directory.SetAccessControl(FileAdd, fSec);
-        }
+        #region 设置文件/文件夹权限  使用 IISFileRole 的静态方法
+        ///// <summary>
+        ///// 设置文件夹权限 处理给EVERONE赋予所有权限
+        ///// </summary>
+        ///// <param name="targetDirOrFile">文件夹/文件路径</param>
+        //public void SetFileRole(string targetDirOrFile)
+        //{
+        //    string FileAdd = targetDirOrFile;
+        //    FileAdd = FileAdd.Remove(FileAdd.LastIndexOf('\\'), 1);
+        //    DirectorySecurity fSec = new DirectorySecurity();
+        //    fSec.AddAccessRule(new FileSystemAccessRule("Everyone", FileSystemRights.FullControl, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Allow));
+        //    System.IO.Directory.SetAccessControl(FileAdd, fSec);
+        //}
 
         #endregion
     }

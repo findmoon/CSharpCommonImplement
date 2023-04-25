@@ -1,6 +1,4 @@
-﻿using HelperCollections;
-using HelperCollections.IIS.Model;
-
+﻿using HelperCollections.IIS;
 using System;
 using System.Data;
 using System.Linq;
@@ -201,6 +199,21 @@ namespace IISManipulate
 
             iisHelper.StopWebSite("MySiteTest3");
             iisHelper.StartWebSite("MySiteTest3");
+
+            MessageBox.Show("结束");
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            //PSInstallIIS.Test();
+            var restartNeeded=PSInstallIIS.Instll();
+            if (restartNeeded)
+            {
+                if (MessageBox.Show("需要重启系统才能完全生效，现在重启吗？","提示！",MessageBoxButtons.YesNo)== DialogResult.Yes)
+                {
+                    // 重启处理
+                }
+            }
 
             MessageBox.Show("结束");
         }

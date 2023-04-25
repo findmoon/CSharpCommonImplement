@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <button id="btnStart" type="button">开始Polling</button>
+    <span id="result" style="color:red;font-weight:bolder;"></span>
+    <br>
+    <br>
+    <br><br>
+    <button id="btnReset" type="button">重置</button>
+    <script>
+        
+        // Example POST method implementation:
+        async function postData(url = '', data = {}) {
+            // Default options are marked with *
+            const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify(data) // body data type must match "Content-Type" header
+            });
+            return response.json(); // parses JSON response into native JavaScript objects
+        }
+
+        // postData('https://example.com/answer', { answer: 42 })
+        // .then(data => {
+        //     console.log(data); // JSON data parsed by `data.json()` call
+        // });
+        
+        window.onload=()=>{
+            const resultDiv = document.getElementById("result");
+            let intervalId = -1;
+
+            function poll(id) {
+                fetch('/api/DemoTest/PollingTest_GetCount/'+id)
+                    .then(function (response) {
+                        if (response.status === 200) {
+                            return response.json().then(j => {
+                                let txt=`id(${j.id})-count(${j.count})`
+                                resultDiv.innerHTML = txt;
+                                if (j.finished) {
+                                    clearInterval(intervalId);
+                                    resultDiv.innerHTML = txt + ",已结束";
+                                }
+                            })
+                        }
+                    });
+            }
+
+            document.getElementById('btnStart').addEventListener('click', () => {
+                intervalId = setInterval(() => {
+                    poll(parseInt(1 + 20 * Math.random()))
+                }, 1000)
+            });
+
+            // 重置
+            document.getElementById('btnReset').addEventListener('click', () => {
+                fetch('/api/DemoTest/ResetCount', {
+                    method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+                    })
+                    .then(res=>{
+                        console.log(res);
+                        // return res.json();
+                        return res.text();
+                    })
+                    .then(obj=>console.log(`重置结束 ${obj}.`));
+            });
+        }
+</script>
+</body>
+</html>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HelperCollections.IIS.Model
+namespace HelperCollections.IIS
 {
     /// <summary>
     /// 站点信息

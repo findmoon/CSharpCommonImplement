@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <button id="btnStart" type="button">开始Polling</button>
+    <span id="result" style="color:red;font-weight:bolder;"></span>
+    <br>
+    <br>
+    <br><br>
+    <button id="btnReset" type="button">重置</button>
+    <script>        
+        window.onload=()=>{
+            const resultDiv = document.getElementById("result");
+            let intervalId = -1;
+
+            function poll(id) {
+                fetch('/api/DemoTest/PollingTest_GetCount/'+id)
+                    .then(function (response) {
+                        if (response.status === 200) {
+                            return response.json().then(j => {
+                                let txt=`id(${j.id})-count(${j.count})`
+                                resultDiv.innerHTML = txt;
+                                if (j.finished) {
+                                    clearInterval(intervalId);
+                                    resultDiv.innerHTML = txt + ",已结束";
+                                }
+                            })
+                        }
+                    });
+            }
+
+            document.getElementById('btnStart').addEventListener('click', () => {
+                intervalId = setInterval(() => {
+                    poll(parseInt(1 + 20 * Math.random()))
+                }, 1000)
+            });
+
+            // 重置
+            document.getElementById('btnReset').addEventListener('click', () => {
+                fetch('/api/DemoTest/ResetCount', {
+                    method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+                    })
+                    .then(res=>{
+                        console.log(res);
+                        // return res.json();
+                        return res.text();
+                    })
+                    .then(obj=>console.log(`重置结束 ${obj}.`));
+            });
+        }
+</script>
+</body>
+</html>

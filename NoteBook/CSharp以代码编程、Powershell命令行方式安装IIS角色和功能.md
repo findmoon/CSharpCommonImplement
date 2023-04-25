@@ -92,6 +92,10 @@ Enable-WindowsOptionalFeature -Online -FeatureName IIS-ASPNET45
 
 ```sh
 PS C:\windows> Enable-WindowsOptionalFeature -Online -FeatureName IIS-WebSockets
+
+Path          :
+Online        : True
+RestartNeeded : False
 ```
 
 **Disable-WindowsOptionalFeature 命令用于禁用卸载Windows功能。**

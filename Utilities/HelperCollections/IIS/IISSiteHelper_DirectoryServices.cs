@@ -1,12 +1,11 @@
-﻿using HelperCollections.IIS.Model;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.DirectoryServices;
 using System.Linq;
 
-namespace HelperCollections
+namespace HelperCollections.IIS
 {
     /// <summary>
     /// 主要用于 IIS6 的配置操作。严格来说只是操作IIS中的Web
