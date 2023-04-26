@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <button id="btnStart" type="button">开始WebSocket</button>
+    <span id="result" style="color:red;font-weight:bolder;"></span>
+    <br>
+    <button id="btnSend" type="button">向WebSocket发送数据</button>
+    <button id="btnClose" type="button">关闭WebSocket</button>
+    <br>
+    <br><br>
+    <button id="btnReset" type="button">重置</button>
+    <script>
+        window.onload=()=>{
+            const resultDiv = document.getElementById("result");
+
+            let socket;
+
+            const  CreateWSHandler = () => {
+                let ws_uri='';
+                if (window.location.protocol === "https:") {
+                    ws_uri = "wss:";
+                } else {
+                    ws_uri = "ws:";
+                }
+                ws_uri += "//" + window.location.host + "/api/DemoTest/WebSocketTest_GetCount";
+                // ws_uri += "//" + window.location.host + "/ws/WebSocketTest_GetCount";
+                
+                // Create WebSocket connection.
+                // const socket = new WebSocket('ws://localhost:8080');
+                socket = new WebSocket(ws_uri);
+
+                // Connection opened
+                socket.addEventListener('open', function (event) {
+                    socket.send('Hello Server!');
+                });
+
+                // Listen for messages
+                socket.addEventListener('message', function (event) {
+                    console.log('Message from server ', event.data);
+                    try {
+                        let res=JSON.parse(event.data);
+                        let txt = `id(${result.received})-count(${result.count})`
+                        if (result.finished) {
+                            resultDiv.innerHTML = txt + ",已结束";
+                        }
+                        else {
+                            resultDiv.innerHTML = txt;
+                        }
+                    } catch (error) {
+                        
+                    }
+                });
+
+                // error occur
+                socket.addEventListener('error', function (event) {
+                    console.log("ws连接发生错误", event)
+                    socket=null;
+                });
+
+                // close
+                socket.addEventListener('close', function (event) {
+                    console.log("ws已关闭", event)
+                    socket=null;
+                });
+
+                // 按钮处理
+                document.getElementById("btnSend").onclick=e=>{
+                    socket && socket.send(parseInt(1 + 20 * Math.random()));
+                }
+                document.getElementById("btnClose").onclick = e => {
+                    socket && socket.close();
+                }
+            };
+        
+
+            document.getElementById('btnStart').addEventListener('click', () => {
+                CreateWSHandler();
+            });
+
+            // 重置
+            document.getElementById('btnReset').addEventListener('click', () => {
+                fetch('/api/DemoTest/ResetCount', {
+                    method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+                    })
+                    .then(res=>{
+                        console.log(res);
+                        // return res.json();
+                        return res.text();
+                    })
+                    .then(obj=>console.log(`重置结束 ${obj}.`));
+            });
+        }
+</script>
+</body>
+</html>

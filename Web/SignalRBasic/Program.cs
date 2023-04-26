@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Options;
+using SignalRBasic.HostedServices;
+using SignalRBasic.Middlewares;
 using System.Net;
 using System.Text.RegularExpressions;
 
@@ -11,7 +13,7 @@ namespace SignalRBasic
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            #region 显式配置 Kestrel 服务器 【否则总是会尝试启动docker】
+            #region 配置 Kestrel 服务器 
             builder.WebHost.UseKestrel(options =>
             {
                 //// 设置超时时间，默认130秒
@@ -40,6 +42,9 @@ namespace SignalRBasic
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            // 添加webSocket后台服务 如何注入MapGet等端点注册？
+            //builder.Services.AddHostedService<WebSocketBackService>();
 
             var app = builder.Build();
 
@@ -104,6 +109,38 @@ namespace SignalRBasic
 
             #endregion
 
+            #region WebSocket 相关
+            //app.UseWebSockets(new WebSocketOptions()
+            //{
+            //    // 默认2分钟
+            //    KeepAliveInterval=TimeSpan.FromSeconds(120),                
+            //    //ReceiveBufferSize=4*1024 // 默认4kb,已过时
+            //});
+            app.UseWebSockets();
+
+            // 处理WebSocket的中间件
+            //app.UseWebSocketHandle(); 
+            //// 相当于直接 Use
+            //app.Use(async (context, next) =>
+            //{
+            //    if (context.Request.Path == "/ws")
+            //    {
+            //        if (context.WebSockets.IsWebSocketRequest)
+            //        {
+            //            using var webSocket = await context.WebSockets.AcceptWebSocketAsync();
+            //            await Echo(webSocket);
+            //        }
+            //        else
+            //        {
+            //            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        await next(context);
+            //    }
+            //});
+            #endregion
 
             app.UseAuthorization();
 

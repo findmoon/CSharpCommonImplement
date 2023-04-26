@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <button id="btnStart" type="button">开始SSE</button>
+    <span id="result" style="color:red;font-weight:bolder;"></span>
+    <br>
+    <br>
+    <br><br>
+    <button id="btnReset" type="button">重置</button>
+    <script>
+        window.onload=()=>{
+            const resultDiv = document.getElementById("result");
+
+            const  SSEListen = id => {
+                const eventSource = new EventSource('/api/DemoTest/SSETest_GetCount/' + id);
+                eventSource.addEventListener("open", function (e) {
+                    console.log("EventSource started", e);
+                }, false);
+                eventSource.onmessage = (event) => {
+                    // const resultDiv = document.getElementById("result");
+                    console.log(event.data);
+                    const result=JSON.parse(event.data);
+                    let txt = `id(${result.id})-count(${result.count})`
+                    if (result.finished) {
+                        resultDiv.innerHTML = txt + ",已结束";
+                    }
+                    else {
+                        resultDiv.innerHTML = txt;
+                    }
+                };
+                eventSource.onerror = function (e) {
+                    console.log("EventSource failed", e);
+                    if (e.eventPhase == EventSource.CLOSED) {                        
+                        console.log("Connection closed", e);
+                        eventSource.close();
+                    }
+                }
+                eventSource.onclose = function (e) {
+                    console.log("EventSource closed", e);
+                }
+
+                // js主动关闭
+                // eventSource.close();
+            };
+        
+
+            document.getElementById('btnStart').addEventListener('click', () => {
+                SSEListen((parseInt(1 + 20 * Math.random())));
+            });
+
+            // 重置
+            document.getElementById('btnReset').addEventListener('click', () => {
+                fetch('/api/DemoTest/ResetCount', {
+                    method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+                    })
+                    .then(res=>{
+                        console.log(res);
+                        // return res.json();
+                        return res.text();
+                    })
+                    .then(obj=>console.log(`重置结束 ${obj}.`));
+            });
+        }
+</script>
+</body>
+</html>
