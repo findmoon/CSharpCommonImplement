@@ -2,7 +2,12 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Options;
 using SignalRBasic.HostedServices;
 using SignalRBasic.Middlewares;
+using System.Diagnostics;
 using System.Net;
+using System.Net.WebSockets;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace SignalRBasic
@@ -93,7 +98,8 @@ namespace SignalRBasic
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            // 取消http自动重定向跳转到https
+            //app.UseHttpsRedirection();
 
             #region 静态文件 html 服务
             DefaultFilesOptions defaultFilesOptions = new DefaultFilesOptions();
@@ -118,28 +124,32 @@ namespace SignalRBasic
             //});
             app.UseWebSockets();
 
+            // 几乎无法在Action中使用WebSocket，总是自动断开，基本只有一次通信就断开了
+            // 报错 the remote party closed the WebSocket connection without completing the close handshake ； The Socket transport's send loop completed gracefully. 等信息
+            // 正确处理基本只能是，将其放到中间件中执行，或者保持后台运行，放到BackgroundService中处理
+            
             // 处理WebSocket的中间件
             //app.UseWebSocketHandle(); 
             //// 相当于直接 Use
-            //app.Use(async (context, next) =>
-            //{
-            //    if (context.Request.Path == "/ws")
-            //    {
-            //        if (context.WebSockets.IsWebSocketRequest)
-            //        {
-            //            using var webSocket = await context.WebSockets.AcceptWebSocketAsync();
-            //            await Echo(webSocket);
-            //        }
-            //        else
-            //        {
-            //            context.Response.StatusCode = StatusCodes.Status400BadRequest;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        await next(context);
-            //    }
-            //});
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path == "/ws/DemoTest/WebSocketTest_GetCount")
+                {
+                    if (context.WebSockets.IsWebSocketRequest)
+                    {
+                        using var webSocket = await context.WebSockets.AcceptWebSocketAsync();
+                        await WebSocketHandle_Echo(webSocket);
+                    }
+                    else
+                    {
+                        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                    }
+                }
+                else
+                {
+                    await next(context);
+                }
+            });
             #endregion
 
             app.UseAuthorization();
@@ -214,6 +224,88 @@ namespace SignalRBasic
             #endregion
 
             app.Run();
+        }
+
+        /// <summary>
+        /// 处理WebSocket，接收和发送数据
+        /// Echo实现将接收的数据返回客户端
+        /// </summary>
+        /// <param name="webSocket"></param>
+        /// <returns></returns>
+        private static async Task WebSocketHandle_Echo(WebSocket webSocket)
+        {
+            var jsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web)
+            {
+                //PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            };
+            try
+            {
+                var buffer = new byte[1024 * 4];
+                var receiveResult = await webSocket.ReceiveAsync(
+                    new ArraySegment<byte>(buffer), CancellationToken.None);
+                // 正确状态才获取
+                //if (webSocket.State != WebSocketState.Closed && webSocket.State != WebSocketState.Aborted)
+                //{
+                //    receiveResult = await webSocket.ReceiveAsync(
+                //        new ArraySegment<byte>(buffer), CancellationToken.None);
+                //}
+
+                while (!receiveResult.CloseStatus.HasValue)
+                {
+                    await webSocket.SendAsync(
+                        new ArraySegment<byte>(buffer, 0, receiveResult.Count),
+                        receiveResult.MessageType,
+                        receiveResult.EndOfMessage,
+                        CancellationToken.None);
+
+                    var received = System.Text.Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
+
+                    #region echo的基础上额外发送一些数据
+                    int count;
+                    do
+                    {
+                        Thread.Sleep(1000 * new Random().Next(1, 3) / 2);
+
+                        count = Random.Shared.Next(1,25);
+                        if (count % 2 == 0)
+                        {
+                            var jsonStr = JsonSerializer.Serialize(new { received, count, finished = count > 15 }, jsonOptions);
+                            await webSocket.SendAsync(
+                                    buffer: new ArraySegment<byte>(array: Encoding.UTF8.GetBytes(jsonStr), offset: 0, count: jsonStr.Length),
+                                    messageType: WebSocketMessageType.Text,
+                                    endOfMessage: true,
+                                    cancellationToken: CancellationToken.None
+                                );
+                        }
+
+                    } while (count <= 21);
+                    #endregion
+
+                    receiveResult = await webSocket.ReceiveAsync(
+                        new ArraySegment<byte>(buffer), CancellationToken.None);
+                }
+
+                await webSocket.CloseAsync(
+                    receiveResult.CloseStatus.Value,
+                    receiveResult.CloseStatusDescription,
+                    CancellationToken.None);
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    if (webSocket.State == WebSocketState.Open || webSocket.State == WebSocketState.CloseReceived || webSocket.State == WebSocketState.CloseSent)
+                    {
+                        //await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Done", CancellationToken.None);
+                        await webSocket.CloseAsync(WebSocketCloseStatus.InternalServerError, ex.Message, CancellationToken.None);
+                    }
+                }
+                catch (Exception ex2)
+                {
+                    Debug.WriteLine(ex2.Message);
+                }
+            }
         }
     }
 }

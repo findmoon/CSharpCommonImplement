@@ -27,6 +27,7 @@
                     ws_uri = "ws:";
                 }
                 ws_uri += "//" + window.location.host + "/api/DemoTest/WebSocketTest_GetCount";
+                // ws_uri += "//" + window.location.host + "/ws/DemoTest/WebSocketTest_GetCount";
                 // ws_uri += "//" + window.location.host + "/ws/WebSocketTest_GetCount";
                 
                 // Create WebSocket connection.
@@ -42,7 +43,8 @@
                 socket.addEventListener('message', function (event) {
                     console.log('Message from server ', event.data);
                     try {
-                        let res=JSON.parse(event.data);
+                        let result =JSON.parse(event.data);
+                        if(!result.received) return;
                         let txt = `id(${result.received})-count(${result.count})`
                         if (result.finished) {
                             resultDiv.innerHTML = txt + ",已结束";
@@ -77,8 +79,47 @@
             };
         
 
+            function WebSocketTest() {
+                if ("WebSocket" in window) {
+                    let ws_uri = '';
+                    if (window.location.protocol === "https:") {
+                        ws_uri = "wss:";
+                    } else {
+                        ws_uri = "ws:";
+                    }
+                    ws_uri += "//" + window.location.host + "/api/DemoTest/WebSocketTest_GetCount";
+                    
+                    // 打开一个 web socket
+                    var ws = new WebSocket(ws_uri);
+                    // var ws = new WebSocket("wss://localhost:7226/Examples/WebSocketTest");
+
+                    ws.onopen = function () {
+                        // Web Socket 已连接上，使用 send() 方法发送数据
+                        setInterval(() => {
+                            ws.send("发送数据");
+                        }, 1000);
+                    };
+
+                    ws.onmessage = function (evt) {
+                        var received_msg = evt.data;
+                        console.log(received_msg);
+                    };
+
+                    ws.onclose = function () {
+                        // 关闭 websocket
+                        alert("连接已关闭...");
+                    };
+                }
+
+                else {
+                    // 浏览器不支持 WebSocket
+                    alert("您的浏览器不支持 WebSocket!");
+                }
+            }
+
             document.getElementById('btnStart').addEventListener('click', () => {
                 CreateWSHandler();
+                // WebSocketTest();
             });
 
             // 重置

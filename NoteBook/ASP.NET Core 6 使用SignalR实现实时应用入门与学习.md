@@ -502,7 +502,7 @@ EventSource要比Polling和Long Polling好很多.
 /// </summary>
 /// <param name="id"></param>
 [HttpGet("[action]/{id}")]
-public async void SSETest_GetCount(int id)
+public async Task SSETest_GetCount(int id)
 {
     var jsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web)
     {
