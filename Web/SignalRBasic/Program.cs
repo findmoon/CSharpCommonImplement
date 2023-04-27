@@ -124,10 +124,11 @@ namespace SignalRBasic
             //});
             app.UseWebSockets();
 
-            // 几乎无法在Action中使用WebSocket，总是自动断开，基本只有一次通信就断开了
-            // 报错 the remote party closed the WebSocket connection without completing the close handshake ； The Socket transport's send loop completed gracefully. 等信息
-            // 正确处理基本只能是，将其放到中间件中执行，或者保持后台运行，放到BackgroundService中处理
-            
+            // Action中如果使用await，其返回值类型必须为async Task。
+            // 自己测试时，由于使用了async void，导致不会等待异步，直接执行完返回（不会管内部的异步执行，退出管道断开连接），导致内部的await处理WebSocket无法正确进行，总是自动断开，基本只有一次通信就断开了
+            // 断开时报错 the remote party closed the WebSocket connection without completing the close handshake ； The Socket transport's send loop completed gracefully. 等信息
+            // 任何异步Action中，都必须使用async Task，记住
+
             // 处理WebSocket的中间件
             //app.UseWebSocketHandle(); 
             //// 相当于直接 Use

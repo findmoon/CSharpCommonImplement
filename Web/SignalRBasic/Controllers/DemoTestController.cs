@@ -179,7 +179,7 @@ namespace SignalRBasic.Controllers
                     int count;
                     do
                     {
-                        //Thread.Sleep(1000 * new Random().Next(1, 10) / 2);
+                        Thread.Sleep(1000 * new Random().Next(1, 10) / 2);
 
                         count = GetLastedCount();
                         if (count % 3 == 0)

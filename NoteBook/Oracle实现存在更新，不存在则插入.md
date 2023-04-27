@@ -11,6 +11,20 @@ select count(1) from table_name where ****;
 如果>=1则update table_name
 如果==0则insert table_name
 
+比如，更新 或 插入 T_table 表，LN 和 MN 字段唯一确定一行数据：
+
+```sql
+declare  exist_count number;
+begin
+    select count(1) into exist_count from T_table t where t.LN = 'T_LO'  and t.MN = 'WO';
+    if exist_count = 0 then
+        insert into T_table(LN,MN,WO,PN) values('T_LO', 'WO','W','P');
+    else
+        update T_table SET WO='W',PN='P' WHERE LN = 'T_LO'  and MN = 'WO';
+    end if;
+end;
+```
+
 # MERGE INTO 语法
 
 使用 MERGE INTO 实现 存在更新，不存在则插入 表数据。需要借助 dual 获取要比较的变量值：
