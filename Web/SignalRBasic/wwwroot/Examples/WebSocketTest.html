@@ -90,8 +90,8 @@
                     ws_uri += "//" + window.location.host + "/api/DemoTest/WebSocketTest_GetCount";
                     
                     // 打开一个 web socket
-                    var ws = new WebSocket(ws_uri);
-                    // var ws = new WebSocket("wss://localhost:7226/Examples/WebSocketTest");
+                    let ws = new WebSocket(ws_uri);
+                    // let ws = new WebSocket("wss://localhost:7226/Examples/WebSocketTest");
 
                     ws.onopen = function () {
                         // Web Socket 已连接上，使用 send() 方法发送数据
@@ -101,7 +101,7 @@
                     };
 
                     ws.onmessage = function (evt) {
-                        var received_msg = evt.data;
+                        const received_msg = evt.data;
                         console.log(received_msg);
                     };
 
@@ -113,7 +113,8 @@
 
                 else {
                     // 浏览器不支持 WebSocket
-                    alert("您的浏览器不支持 WebSocket!");
+                    alert("您的浏览器不支持 WebSocket!"); 
+                    location.reload();
                 }
             }
 
