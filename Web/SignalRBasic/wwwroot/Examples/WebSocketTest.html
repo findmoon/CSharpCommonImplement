@@ -59,7 +59,7 @@
 
                 // error occur
                 socket.addEventListener('error', function (event) {
-                    console.log("ws连接发生错误", event)
+                    console.log("ws连接发生错误", event,"原因",event.reason)
                     socket=null;
                 });
 

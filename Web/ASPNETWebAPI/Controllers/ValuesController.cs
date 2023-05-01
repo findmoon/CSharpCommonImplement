@@ -9,6 +9,22 @@ namespace ASPNETWebAPI.Controllers
 {
     public class ValuesController : ApiController
     {
+        // GET api/values/Test
+        [Route("api/[controller]/[action]")]
+        [HttpGet]
+        public IEnumerable<string> Test()
+        {
+            return new string[] { "test1", "test1" };
+        }
+        
+        // GET api/values/Test/5
+        [Route("api/[controller]/[action]/{id}")]
+        [HttpGet]
+        public string Test(int id)
+        {
+            return "test1";
+        }
+
         // GET api/values
         public IEnumerable<string> Get()
         {
