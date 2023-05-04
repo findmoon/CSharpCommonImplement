@@ -133,6 +133,75 @@ spfile                               string
 SQL>
 ```
 
+spfile 值为空，表示数据库以pfile启动。
+
+- 要动态修改一定要用spfile启动。如果现在是用pfile启动，通过创建spfile并重新启动：
+
+```sql
+create spfile from pfile;
+shutdown immediate;
+startup;
+```
+
+- 过程如下：
+
+```sql
+SQL> create spfile from pfile;
+
+File created.
+
+SQL> shutdown immediate;
+Database closed.
+Database dismounted.
+ORACLE instance shut down.
+SQL> startup;
+ORACLE instance started.
+
+Total System Global Area 1920831488 bytes
+Fixed Size                  2282376 bytes
+Variable Size             855641208 bytes
+Database Buffers         1056964608 bytes
+Redo Buffers                5943296 bytes
+Database mounted.
+Database opened.
+SQL>
+```
+
+- 修改数据库版本兼容性为`11.2.0`：
+
+```sql
+SQL> alter system set compatible = '11.2.0' scope = spfile;
+
+System altered.
+
+SQL> SHUTDOWN IMMEDIATE;
+Database closed.
+Database dismounted.
+ORACLE instance shut down.
+SQL> STARTUP;
+ORACLE instance started.
+
+Total System Global Area 1920831488 bytes
+Fixed Size                  2282376 bytes
+Variable Size             855641208 bytes
+Database Buffers         1056964608 bytes
+Redo Buffers                5943296 bytes
+Database mounted.
+Database opened.
+SQL>
+```
+
+- 查看修改后的兼容性版本
+
+```sql
+SQL> show parameter COMPATIBLE;
+
+NAME                                 TYPE                   VALUE
+------------------------------------ ---------------------- ------------------------------
+compatible                           string                 11.2.0
+```
+
+
 # 参考
 
 - [What Is Oracle Database Compatibility?](https://docs.oracle.com/en/database/oracle/oracle-database/19/upgrd/what-is-oracle-database-compatibility.html#GUID-4711E0D1-9FCF-4F35-85B5-52EBB437C00E)
