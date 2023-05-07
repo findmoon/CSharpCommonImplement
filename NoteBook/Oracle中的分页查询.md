@@ -38,7 +38,7 @@ SELECT * FROM
 WHERE RN >(2-1)*5;
 ```
 
-实在无法知道 Oracle中如何通过变量使用select语句，并把结果显示出来。如下，无法使用result接受查询的变量，会报错 ORA-00932: 数据类型不一致。
+实在 **无法知道 Oracle中如何通过变量使用select语句**，并把结果显示出来。如下，无法使用result接受查询的变量，会报错 ORA-00932: 数据类型不一致。
 
 也就是，如何接受查询出来的表结构的数据？
 
@@ -173,3 +173,6 @@ WHERE ROWNUM <=end (page*pagesize)
 )  
 WHERE RN >start (page-1)*pagesize
 ```
+
+
+
